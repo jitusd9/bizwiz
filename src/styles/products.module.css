@@ -1,0 +1,155 @@
+/* hero page style  */
+
+.dynamic-banner{
+    margin: 10px auto;
+    padding: 10px 10px;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    /* border-radius: 2px; */
+    box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0.1);
+    border: 5px solid var(--red);
+}
+
+.dynamic-banner img{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 10px 20px rgba(255, 166, 0, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+
+/* card css  */
+.error-block{
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    color: #f51616;
+    background: #ffdcdc;
+    padding: 5px;
+    border: 1px dashed red;
+}
+
+.error-block h2{
+    color: #fa6868;
+}
+
+.products{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    row-gap: 15px;
+    justify-items: center;
+    align-items: center;
+}
+
+.search-bar{
+    width: 100%;
+    display: flex;
+    margin: 20px auto;
+}
+
+.search-input{
+    padding: 5px 8px;
+    outline: none;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    font-size: 1.2rem;
+    width: 60%;
+    margin: 0 auto;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+.search-input:focus{
+    color: var(--color-1);
+    background: var(--bg-2);
+    box-shadow: 0 10px 15px rgba(255, 99, 71, 0.2);
+}
+
+.card{
+    background: var(--bg-0);
+    width: 250px;
+    height: auto;
+    text-align: center;
+    border-radius: 12px;
+    /* box-shadow: 0 10px 15px rgba(255, 99, 71, 0.2); */
+    margin: 10px 20px;
+    /* border-top: 1px solid #fff; */
+    border : 1px solid var(--bg-2);
+    transition: all 0.3s cubic-bezier(0.57, 0.98, 0.43, 1.68);
+}
+
+.card:hover{
+    box-shadow: 0px 12px 24px rgb(0 0 0 / 16%);
+    transform: translateY(-.5rem);
+    -webkit-transform: translateY(-.5rem);
+}
+
+.card-image{
+    position: relative;
+    /* width: 100%; */
+    /* text-align: center; */
+    border-radius: 8px;
+}
+
+/* image animation  */
+@keyframes imgDive {
+    from{
+        transform: translate(-50%, 10px) rotate(0deg);
+    }
+    to{
+        transform: translate(-50%, 0px) rotate(5deg);
+    }
+}
+
+.card-image img{
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    top: 0px;
+    left: 90px;
+    transform: translate(-50%, 10px);
+    z-index: 1;
+}
+
+.card:hover .card-image img{
+    animation: imgDive 300ms infinite alternate cubic-bezier(0.46, 0.06, 0.58, 1);
+}
+
+.card-details{
+    position: relative;
+    bottom: 0%;
+    /* background: linear-gradient(rgba(255, 255, 255, 0), #fff); */
+    height: auto;
+    padding: 10px 5px;
+    border-radius: 8px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.card-details h3{
+    color: var(--red);
+}
+
+.card-details .item-name{
+    color: var(--color-2);
+}
+
+.card-details .item-price{
+    color: var(--green);
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: -2px;
+}
+
+.card-details .item-seller,
+.card-details .item-seller a{
+    color: var(--color-2);
+}
+
+.card-details .item-seller a:hover{
+    color: var(--color-2);
+}
