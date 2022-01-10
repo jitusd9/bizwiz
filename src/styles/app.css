@@ -9,6 +9,7 @@
     --color-0 : #202020;
     --color-1 : #282b31;
     --color-2 : #3d4149;
+    --blur-bg : rgba(255, 255, 255, 0.5);
 
     --color-primary: #373737;
     --color-secondary: #243133;
@@ -36,6 +37,7 @@
     --color-0 : #fff;
     --color-1 : #c8d0df;
     --color-2 : #8b8b8b;
+    --blur-bg : rgba(0, 0, 0, 0.3);
 
     --color-primary: #373737;
     --color-secondary: #243133;
@@ -137,16 +139,18 @@ a{
     text-decoration: none;
 }
 
-body,
+
 .rootdiv{
     background: var(--bg-1);
     color: var(--color-0);
+    padding-top: 80px;
 }
 
 .container{
     width: 80%;
     padding: 10px;
-    margin: 10px auto;
+    margin: 0 auto;
+    /* padding-top: 80px; */
     background-color: var(--bg-2);
     color: var(--color-2);
     box-shadow: 0 0 5px 2px var(--shadow);
@@ -162,14 +166,17 @@ body,
 
 .loading h1{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 10em;
-    background: var(--bg-0);
+    font-size: 10rem;
+    /* background: var(--bg-0); */
     color: var(--color-1);
 }
 
 @media screen and (max-width: 800px ) {
     .container{
         width: 90%;
+    }
+    .loading h1{
+        font-size: 3rem;
     }
 }
 
@@ -411,7 +418,7 @@ input:focus{
     height: 100%;
     overflow: hidden;
     transition: transform .6s ease-in-out;
-    z-index: 100;
+    z-index: 90;
 }
 
 .overlay {

@@ -1,5 +1,6 @@
 # About BizWiz
 
+
 1. Here you can compare products details and prices from different websites
 
 2. Purpose of this project is to showcase my development skills if not doing actual buisness,
@@ -15,3 +16,7 @@ there will be unnecessory featuers making is over-enginnered site.
 1. Front End built on react and material ui 
 2. Authentication with
 3. fake payment api/system with 
+
+Check It out Live here **[jdbiziwz.netlify.app](https://jdbiz.netlify.app/)**.
+
+![The beautiful Homepage!](src\images\homepage.png "HomePage")

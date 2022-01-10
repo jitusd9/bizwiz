@@ -56,9 +56,6 @@ export default class Navbar extends Component {
     render() {
         const { menuIcon } = this.state;
 
-
-        
-        
         // console.log(theme, setTheme);
 
         // LEARN LIFTING THE STATE UP SO THAT YOU CAN LIFT THEME BUTTON PROPS TO CONTEXT OR WHOLE APP 
@@ -100,8 +97,12 @@ export default class Navbar extends Component {
                                                                 <li className={style["item-link"]}> <Link to="/dashboard"><Button >{context.userEmail}</Button></Link> </li>
                                                                 : null
                                                         }
-                                                        <li className={style["item-link"]}> <Link to="/checkout"><Button >{themecontext.theme}</Button></Link> </li>
-                                                        <li className={`${style["item-link"]} ${style["theme-btn"]}`}> <a href="#"><Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'light' : 'dark'}</span> </Button></a> </li>
+                                                        <li className={style["item-link"]}> <Link to="/checkout"><Button >Checkout</Button></Link> </li>
+                                                        <li className={`${style["item-link"]} ${style["theme-btn"]}`}>
+                                                         <Link to="#">
+                                                         <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'light' : 'dark'}</span> </Button>
+                                                         </Link>
+                                                         </li>
                                                     </ul>
                                                 </div>
                                         </nav>

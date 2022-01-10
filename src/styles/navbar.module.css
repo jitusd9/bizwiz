@@ -1,9 +1,11 @@
 /* Navbar styles */
 
 .navbar{
+    position: fixed;
+    top: 0;
     height: 80px;
     width: 100%;
-    background: var(--bg-0);
+    background: var(--blur-bg);
     /* background: linear-gradient(rgba(va, 0.596), rgb(44, 44, 44)),url("../images/pattern.jpg"); */
     display: flex;
     justify-content: space-evenly;
@@ -11,6 +13,8 @@
     box-shadow: 0 0 10px 10px var(--shadow);
     /* box-shadow: 0 0 10px 10px rgba(219, 219, 219, 0.1); */
     /* box-shadow: 0 0 10px 10px var(--shade); */
+    z-index: 99;
+    backdrop-filter: blur(36px);
 }
 
 /* .navbar > *{
@@ -65,7 +69,7 @@
 }
 
 .theme-btn{
-    background: var(--bg-0);
+    /* background: var(--bg-0); */
 }
 
 
