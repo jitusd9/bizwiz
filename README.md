@@ -19,4 +19,4 @@ there will be unnecessory featuers making is over-enginnered site.
 
 Check It out Live here **[jdbiziwz.netlify.app](https://jdbiz.netlify.app/)**.
 
-![The beautiful Homepage!](src\images\homepage.png "HomePage")
+![The beautiful Homepage!](./src/images/homepage.png "HomePage")

@@ -153,3 +153,37 @@
 .card-details .item-seller a:hover{
     color: var(--color-2);
 }
+
+@media screen and (max-width: 800px ) {
+
+    .products{
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .search-input{
+        width: 100%;
+    }
+
+    .card{
+        width: 150px;
+    }
+
+    .card-image img{
+        width: 100px;
+        height: 100px;
+        left: 50px;
+    }
+    .card-details h3{
+        font-size: 1.1rem;
+    }
+    .card-details .item-name {
+        font-size: 1rem;
+    }
+    .card-details .item-price{
+        font-size: 1.3rem;
+    }
+    .card-details .item-seller, 
+    .card-details .item-seller a{
+        font-size: 0.7rem;
+    } 
+}

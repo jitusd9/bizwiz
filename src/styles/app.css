@@ -139,11 +139,10 @@ a{
     text-decoration: none;
 }
 
-
 .rootdiv{
     background: var(--bg-1);
     color: var(--color-0);
-    padding-top: 80px;
+    padding-top: 100px;
 }
 
 .container{
@@ -257,6 +256,7 @@ a{
 
     .cart-summary{
         width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     .payment-summary{

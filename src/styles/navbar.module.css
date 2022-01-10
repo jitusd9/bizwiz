@@ -3,7 +3,7 @@
 .navbar{
     position: fixed;
     top: 0;
-    height: 80px;
+    height: 100px;
     width: 100%;
     background: var(--blur-bg);
     /* background: linear-gradient(rgba(va, 0.596), rgb(44, 44, 44)),url("../images/pattern.jpg"); */
