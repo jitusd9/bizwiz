@@ -3,7 +3,6 @@ import { Link, Redirect } from 'react-router-dom'
 import style from "../styles/Signup.module.css"
 import AuthContext from '../components/context/AuthContext'
 
-
 import login from "../images/login.svg"
 import signup from "../images/signup.svg"
 import twitter from "../images/twitter.png"
@@ -13,7 +12,6 @@ import google from "../images/google.png"
 import Button from '@mui/material/Button'
 
 import { loginWithEmail , signInWithGoogle, registerWithEmailAndPassword } from "../firebase"
-
 
 export default class Signup extends Component {
 
@@ -65,11 +63,6 @@ export default class Signup extends Component {
     }
 
     handleLogin = async (e) =>{
-
-        // console.log("OnSubmit Clicked");
-
-        // console.log(this.state.email);
-        // console.log(this.state.password);
 
         let start = Date.now()
 

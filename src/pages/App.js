@@ -8,6 +8,7 @@ import Register from './Register'
 import Reset from './Reset'
 import Dashboard from './Dashboard'
 import ContextProvider from '../components/context/ContextProvider'
+import PageNotFound from '../components/PageNotFound'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
@@ -39,6 +40,9 @@ export default class App extends Component {
                                 </Route>
                                 <Route path="/dashboard">
                                     <Dashboard />
+                                </Route>
+                                <Route path="*">
+                                    <PageNotFound />
                                 </Route>
                             </Switch>
                         </main>

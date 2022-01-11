@@ -9,6 +9,7 @@
     --color-0 : #202020;
     --color-1 : #282b31;
     --color-2 : #3d4149;
+    --color-3 : #dadee1;
     --blur-bg : rgba(255, 255, 255, 0.5);
 
     --color-primary: #373737;
@@ -20,6 +21,7 @@
 
     --blue : rgb(0, 102, 255);
     --red : rgb(255, 58, 32);
+    --orange : #ff5f00;
     --green : #00b43c;
     --purple : #b07eff;
     --yellow : rgb(255, 201, 53);
@@ -37,6 +39,7 @@
     --color-0 : #fff;
     --color-1 : #c8d0df;
     --color-2 : #8b8b8b;
+    --color-3 : #7a7a7a;
     --blur-bg : rgba(0, 0, 0, 0.3);
 
     --color-primary: #373737;
@@ -48,6 +51,7 @@
 
     --blue : #00ffa1;
     --red : #ec5a47;
+    --orange : #ff5f00;
     --green : rgb(16, 138, 0);
     --purple : #5933a2;
     --yellow : rgb(255, 201, 53);
@@ -177,6 +181,47 @@ a{
     .loading h1{
         font-size: 3rem;
     }
+}
+
+/* 404 error page  */
+.pageNotFound{
+    height: 50vh;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sorryImage{
+    text-align: center;
+}
+
+.errorText{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorMessage{
+    font-size: 1rem;
+    color: var(--color-0);
+}
+
+.sorryImage h1{
+    font-size: 10rem;
+    color: var(--color-3);
+}
+
+.homeBtn{
+    margin: 10px auto;
+    padding: 10px 30px;
+    border-radius: 5px;
+    color: var(--bg-0);
+    background: var(--orange);
+    box-shadow: 0 9px 18px rgb(253 95 31 / 35%);
 }
 
 /* Checkout page css  */
@@ -376,7 +421,7 @@ input:focus{
     position: absolute;
     top: 0;
     height: 100%;
-    transition: all .6s ease-in-out;
+    transition: transform .6s ease-in-out;
 }
 
 .sign-in-container {

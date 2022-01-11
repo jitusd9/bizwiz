@@ -29,7 +29,7 @@ export default class Card extends Component {
                                 Buy Now
                                 </Button>
                             </Stack> : <Stack spacing={1} direction="column" m={1}>
-                                <Button style={{backgroundColor: '#ec5a47', color: '#000', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>}>Remove Item</Button>
+                                <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>}>Remove Item</Button>
                             </Stack>
                     }
                          
