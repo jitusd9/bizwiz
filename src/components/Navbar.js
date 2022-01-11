@@ -16,16 +16,15 @@ export default class Navbar extends Component {
         }
     }
     
-    // static contextType = ThemeContext;
     
     handleNav = () => {
         const {theme} = this.props
 
         if(theme.theme === 'theme-light'){
-            console.log('new');
+            
             theme.setTheme("theme-dark")
         }else{
-            console.log('old');
+            
             theme.setTheme("theme-light")
         }
 
@@ -89,12 +88,12 @@ export default class Navbar extends Component {
                                                         <li className={`${style["item-link"]} ${style["search"]}`}> <input type="text" placeholder="search items..."/> </li>
                                                         
                                                         {
-                                                        !context.userEmail ? <li className={style["item-link"]}> <Link to="/signup"><Button >Sign In</Button></Link> </li>
+                                                        !context.user ? <li className={style["item-link"]}> <Link to="/signup"><Button >Sign In</Button></Link> </li>
                                                                                 : null
                                                         }
                                                         {
-                                                        context.userEmail ? 
-                                                                <li className={style["item-link"]}> <Link to="/dashboard"><Button >{context.userEmail}</Button></Link> </li>
+                                                        context.user ? 
+                                                                <li className={style["item-link"]}> <Link to="/dashboard"><Button >{context.user.displayName}</Button></Link> </li>
                                                                 : null
                                                         }
                                                         <li className={style["item-link"]}> <Link to="/checkout"><Button >Checkout</Button></Link> </li>

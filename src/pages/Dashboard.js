@@ -36,35 +36,39 @@ function Dashboard(){
         <AuthContext.Consumer>
         {
             context => {
-                const testContext = context;
-                console.log('testContext', testContext.userEmail);
-                return(
-                    <div className={style["dashboard"]}>
-                        <div className={style["dashboard_container"]}>
-                            <div className={style["cover_pic"]}></div>
-                            <div className={style["profile"]}>
-                                <div className={style["profile_pic"]}>
-                                    <img src={cat_pic} alt="profile" />
+                const userContext = context;
+                console.log('testContext', userContext.user);
+                if(userContext.user === null){
+                    history.push('/signup');
+                }else{
+                    return(
+                        <div className={style["dashboard"]}>
+                            <div className={style["dashboard_container"]}>
+                                <div className={style["cover_pic"]}></div>
+                                <div className={style["profile"]}>
+                                    <div className={style["profile_pic"]}>
+                                        <img src={userContext.user.photoURL ? userContext.user.photoURL : cat_pic} alt="profile" />
+                                    </div>
+                                    <div className={style["user_name"]}>
+                                        <h3>{userContext.user.displayName}</h3>
+                                    </div>
+                                    <ul className={style["user_menu"]}>
+                                        <li><a href="#">Your History</a></li>
+                                        <li><a href="#">Shipping Details</a></li>
+                                        <li><a href="#">Account Settings</a></li>
+                                    </ul>
+                                    <p>add stripe like navigation tabs</p>
+                                    <button className={style["dashboard_btn"]} onClick={logout}>
+                                        Logout
+                                    </button>
                                 </div>
-                                <div className={style["user_name"]}>
-                                    <h3>{testContext.userEmail}</h3>
-                                </div>
-                                <ul className={style["user_menu"]}>
-                                    <li><a href="#">Your History</a></li>
-                                    <li><a href="#">Shipping Details</a></li>
-                                    <li><a href="#">Account Settings</a></li>
-                                </ul>
-                                <p>add stripe like navigation tabs</p>
-                                <button className={style["dashboard_btn"]} onClick={logout}>
-                                    Logout
-                                </button>
+                                
+                                {/* <div>{user?.email}</div> */}
+                                
                             </div>
-                            
-                            {/* <div>{user?.email}</div> */}
-                            
                         </div>
-                    </div>
-                )
+                    )
+                }
             }
 
         }

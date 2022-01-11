@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore/lite';
-import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth';
+import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, updateProfile} from '@firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -11,7 +11,6 @@ const firebaseConfig = {
   messagingSenderId: "606677032471",
   appId: "1:606677032471:web:5955719e1ab5dc3e0bc652"
 };
-
 
 
 // Initialize Firebase
@@ -61,7 +60,7 @@ const signInWithGoogle = async () => {
         }
     }catch(err){
         console.error(err);
-        alert(err.message);
+        // alert(err.message);
     }
 }
 
@@ -81,20 +80,26 @@ const loginWithEmail = async (email, password) => {
 
 
 // SIGNUP OR REGISTER NEW USER WITH EMAIL AND PASSWORD 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (username, email, password) => {
     let message;
     try{
         const res = await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log("user : ", user);
+            if(user != null){
+                updateProfile(auth.currentUser, {
+                    displayName : username
+                })
+            }
+            
+            console.log("user : ", user.displayName);
 
-            db.collection("users").add({
-                uid: user.uid,
-                displayName : name,
-                authProvider: "local",
-                email,
-            });
+            // db.collection("users").add({
+            //     uid: user.uid,
+            //     displayName : name,
+            //     authProvider: "local",
+            //     email,
+            // });
         })
         return res;
     }catch(err){
@@ -112,7 +117,7 @@ const sendPasswordResetEmail = async (email) => {
         alert("Password reset link sent!");
     }catch(err){
         console.error(err);
-        alert(err.message);
+        // alert(err.message);
     }
 };
 

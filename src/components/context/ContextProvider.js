@@ -8,12 +8,11 @@ export default function ContextProvider(props) {
     
     const [user, loading] = useAuthState(auth);
     const [theme, setTheme] = useState('theme-light');
+  
+    // const userEmail = user?.email;
 
-    console.log(loading ? "loading...it" : user?.email);  
-    const userEmail = user?.email;
-
+    // console.log('from context provider : ', user.displayName);
     // const theme = 'theme-light';
-    console.log('theme provider : ', theme);
 
     if(loading){
         return(
@@ -24,7 +23,7 @@ export default function ContextProvider(props) {
     }else{
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
-                <AuthContext.Provider value={{userEmail: userEmail}}>
+                <AuthContext.Provider value={{user: user}}>
                     {props.children}
                 </AuthContext.Provider>
             </ThemeContext.Provider>

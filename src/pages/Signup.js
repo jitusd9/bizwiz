@@ -25,7 +25,8 @@ export default class Signup extends Component {
             password : "",
             email : "",
             anyError : null,
-            registrationResponse : null
+            registrationResponse : null,
+            loadingClass : "authLoader"
         }
     }
 
@@ -46,19 +47,20 @@ export default class Signup extends Component {
         e.preventDefault();
         console.log('handleSignup triggered!');
 
+        this.setState({
+            loadingClass : "authLoader loadingstart"
+        })
+
         console.log(this.state.name);
         console.log(this.state.email);
         console.log(this.state.password);
 
-        const registrationResponse = await registerWithEmailAndPassword(this.state.name, this.state.email, this.state.password);
-
-        console.log('registrationResponse', registrationResponse);
+        await registerWithEmailAndPassword(this.state.name, this.state.email, this.state.password);
 
         this.setState({
             name : "",
             email : "",
-            password : "",
-            registrationResponse
+            password : ""
         })
     }
 
@@ -73,6 +75,10 @@ export default class Signup extends Component {
         console.log(loginStatus, last);
 
         this.setState({
+            loadingClass : "authLoader loadingstart"
+        })
+
+        this.setState({
             name : "",
             email : "",
             password : "",
@@ -82,7 +88,7 @@ export default class Signup extends Component {
 
     render() {
 
-        const { classState} = this.state;
+        const { classState, loadingClass} = this.state;
 
         let containerClass = "";
 
@@ -96,8 +102,11 @@ export default class Signup extends Component {
             <AuthContext.Consumer>
             {
                 context => (
-                        context.userEmail ? <Redirect to="/dashboard" /> :
+                        context.user ? <Redirect to="/dashboard" /> :
                             <div className="signup-page">
+                            <div className={loadingClass}>
+                                <p className="spinner">Loading...</p>
+                            </div>
                             <div className={containerClass}>
                                 <div className="form-container sign-up-container">
                                     <form>
@@ -141,7 +150,7 @@ export default class Signup extends Component {
                                             <img className={style['social-icon']} src={facebook} alt="facebook link" />
                                             </div>
                                             <div className="social">
-                                            <img className={style['social-icon']} src={google} alt="google link" />
+                                            <img className={style['social-icon']} src={google} alt="google link" onClick={signInWithGoogle}/>
                                             </div>
                                             </nav>
                                         </div>
