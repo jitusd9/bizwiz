@@ -11,7 +11,7 @@ import google from "../images/google.png"
 
 import Button from '@mui/material/Button'
 
-import { loginWithEmail , signInWithGoogle, registerWithEmailAndPassword } from "../firebase"
+import { loginWithEmail , signInWithGoogle, registerWithEmailAndPassword, addData } from "../firebase"
 
 export default class Signup extends Component {
 
@@ -26,15 +26,17 @@ export default class Signup extends Component {
             email : "",
             anyError : null,
             registrationResponse : null,
-            loadingClass : "authLoader"
+            loadingClass : "authLoader",
+            loading : false
         }
     }
 
     handleClick = () => {
         const { classState } = this.state
-        
+
         this.setState({
             classState : !classState,
+            anyError : null
         })         
     }
 
@@ -45,50 +47,51 @@ export default class Signup extends Component {
 
     handleSignup = async (e) => {
         e.preventDefault();
-        console.log('handleSignup triggered!');
 
         this.setState({
+            loading : true,
             loadingClass : "authLoader loadingstart"
         })
 
-        console.log(this.state.name);
-        console.log(this.state.email);
-        console.log(this.state.password);
-
-        await registerWithEmailAndPassword(this.state.name, this.state.email, this.state.password);
-
-        this.setState({
-            name : "",
-            email : "",
-            password : ""
-        })
-    }
-
-    handleLogin = async (e) =>{
-
-        let start = Date.now()
-
-        const loginStatus = await loginWithEmail(this.state.email, this.state.password);
-        // DO SOMETHING FOR ERR_INTERNET_DISCONNECTED 200 error when users internet is not connected
-        
-        let last = Date.now() - start; 
-        console.log(loginStatus, last);
-
-        this.setState({
-            loadingClass : "authLoader loadingstart"
-        })
+        const loginStatus = await registerWithEmailAndPassword(this.state.name, this.state.email, this.state.password);
 
         this.setState({
             name : "",
             email : "",
             password : "",
-            anyError : loginStatus
+            anyError : loginStatus,
+            loadingClass : "authLoader"
         })
     }
 
+    handleLogin = async (e) =>{
+        e.preventDefault();
+
+        this.setState({
+            loading : true,
+            loadingClass : "authLoader loadingstart"
+        })
+
+        const returnOnlyErrors = await loginWithEmail(this.state.email, this.state.password);
+        // DO SOMETHING FOR ERR_INTERNET_DISCONNECTED 200 error when users internet is not connected
+
+        console.dir(returnOnlyErrors);
+
+        this.setState({
+            name : "",
+            email : "",
+            password : "",
+            anyError : returnOnlyErrors,
+            loading : false,
+            loadingClass : "authLoader"
+        })
+    }
+
+
     render() {
 
-        const { classState, loadingClass} = this.state;
+        const { classState, anyError, loadingClass} = this.state;
+
 
         let containerClass = "";
 
@@ -101,15 +104,17 @@ export default class Signup extends Component {
         return (
             <AuthContext.Consumer>
             {
-                context => (
-                        context.user ? <Redirect to="/dashboard" /> :
-                            <div className="signup-page">
-                            <div className={loadingClass}>
-                                <p className="spinner">Loading...</p>
-                            </div>
+                context => ( 
+                        context.user ? <Redirect to="/dashboard" /> : 
+                        <div className="signup-page">
                             <div className={containerClass}>
                                 <div className="form-container sign-up-container">
-                                    <form>
+                                <div className={loadingClass}>
+                                <span><svg className="spinner" viewBox="0 0 50 50">
+                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                    </svg></span>
+                                </div>
+                                    <form onSubmit={this.handleSignup}>
                                         <h2 className={style['form-title']}>Signup with</h2>
                                         <div className="contact-me">
                                             <nav className="social-container">
@@ -125,21 +130,28 @@ export default class Signup extends Component {
                                             </nav>
                                         </div>
                                         <span>OR</span>
-                                        <input  type="text" placeholder="Name" name="name" value={this.state.name} onChange={ e => this.handleChange(e.target.name, e.target.value)}/>
-                                        <input  type="email" placeholder="Email" name="email" value={this.state.email} onChange={e => this.handleChange(e.target.name, e.target.value)} />
-                                        <input  type="password" placeholder="Password" name="password" value={this.state.password} onChange={e => this.handleChange(e.target.name, e.target.value)} />
+                                        <input required type="text" placeholder="Name" name="name" value={this.state.name} onChange={ e => this.handleChange(e.target.name, e.target.value)}/>
+                                        <input required type="email" placeholder="Email" name="email" value={this.state.email} onChange={e => this.handleChange(e.target.name, e.target.value)} />
+                                        <input required type="password" placeholder="Password" name="password" value={this.state.password} onChange={e => this.handleChange(e.target.name, e.target.value)} />
                                         <div className="big-orange-btn">
-                                            <Button  variant="contained" size="small" value="submit" onClick={this.handleSignup} >Signup</Button>
+                                            <Button  variant="contained" size="small" value="submit" type="submit" >Signup</Button>
                                         </div>
                                         {
-                                            this.state.registrationResponse ? <div className="floating-alert">
-                                                <p>😞 Ouch! : {this.state.registrationResponse}</p>
+                                            this.state.anyError ? <div className="floating-alert">
+                                                <p>😞 Ouch! : {anyError.code}</p>
                                             </div> : null
                                         }
                                     </form>
                                 </div>
                                 <div className="form-container sign-in-container">
-                                    <form onSubmit={this.handleSubmit}>
+                                    <div className={loadingClass}>
+                                    
+                                    <span><svg className="spinner" viewBox="0 0 50 50">
+                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                    </svg></span>
+                                    
+                                    </div>
+                                    <form onSubmit={this.handleLogin}>
                                         <h1 className={style['form-title']}>Login with</h1>
                                         <div className="contact-me">
                                             <nav className="social-container">
@@ -159,13 +171,13 @@ export default class Signup extends Component {
                                         <input type="password" placeholder="Password" required name="password" value={this.state.password} onChange={e => this.handleChange(e.target.name, e.target.value)}/>
                                         
                                         <div className="big-orange-btn">
-                                            <Button variant="contained" size="small" onClick={this.handleLogin}>Login</Button>
+                                            <Button variant="contained" size="small" type="submit">Login</Button>
                                         </div> 
 
                                         <Link to="/reset">forgot password</Link>
                                         {
-                                            this.state.anyError && this.state.anyError !== 200 ? <div className="floating-alert">
-                                                <p>😞 Ouch! : incorrect credentials </p>
+                                            anyError && anyError !== 200 ? <div className="floating-alert">
+                                                <p>😞 Ouch! : {anyError.code} </p>
                                             </div> : null
                                         }
 
@@ -192,9 +204,8 @@ export default class Signup extends Component {
                                 </div>
                             </div>
                         </div>
-                )
-            }
-            
+                        )
+                    }            
             </AuthContext.Consumer>
         )
     }

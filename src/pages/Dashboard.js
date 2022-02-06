@@ -1,44 +1,58 @@
-import React, {useEffect, useState} from "react";
+import React, {useState ,useEffect, useContext} from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useHistory } from "react-router";
 import style from "../styles/dashboard.module.css";
-import { auth, db, logout } from "../firebase";
+import { auth, logout, db } from "../firebase";
+import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
+
 import AuthContext from "../components/context/AuthContext";
 import cat_pic from "../images/boss.png"
+import { Redirect } from 'react-router-dom'
 
 function Dashboard(){
     const [user, loading] = useAuthState(auth);
-    const [name, setName] = useState("");
+    const [userData, setUser] = useState(null);
+
+    // const {fetchUserDetails} = useContext(AuthContext);
+
     const history = useHistory();
-    const fetchUserName = async () => {
+
+    // get logged in user 
+    const fetchUserDetails = async () => {
+        console.log('fetching...');
         try{
-            const query = await db
-                .collection("users")
-                .where("uid", "==", user?.uid)
-                .get();
-            const data = await query.docs[0].data();
-            setName(data.name);
+            //  get data 
+            const docRef = doc(db, 'users', user.uid);
+            const docSnap = await getDoc(docRef);
+
+            if(docSnap.exists()){
+                const snapData = docSnap.data();
+                setUser(snapData);
+                console.log('Document Available :', userData.displayName)
+            }else{
+                console.log('No Such Document');
+            }
+
         }catch(err){
             console.error(err);
-            // alert("An error accured while fetching user data");
         }
     };
+
     useEffect(() => {
         if(loading) return;
         if(!user) return history.replace("/signup");
-        const userName = fetchUserName();
-        // console.log('userName injected via Dashboard.js', userName);
+        fetchUserDetails();
+        
     }, [user, loading]);
-
-    
 
     return(
         <AuthContext.Consumer>
         {
-            context => {
-                const userContext = context;
-                console.log('testContext', userContext.user);
+            userContext => {
+                {/* console.log('userContext :', userContext.user); */}
                 if(userContext.user === null){
+                    console.log('Changing directory...')
                     history.push('/signup');
                 }else{
                     return(
@@ -50,7 +64,7 @@ function Dashboard(){
                                         <img src={userContext.user.photoURL ? userContext.user.photoURL : cat_pic} alt="profile" />
                                     </div>
                                     <div className={style["user_name"]}>
-                                        <h3>{userContext.user.displayName}</h3>
+                                        <h3>{userContext.user.displayName ? userContext.user.displayName : "no_name"}</h3>
                                     </div>
                                     <ul className={style["user_menu"]}>
                                         <li><a href="#">Your History</a></li>
@@ -63,16 +77,15 @@ function Dashboard(){
                                     </button>
                                 </div>
                                 
-                                {/* <div>{user?.email}</div> */}
+                                {/* <div>{user?.displayName}</div> */}
                                 
                             </div>
                         </div>
+                    
                     )
                 }
-            }
-
+            }  
         }
-        
         </AuthContext.Consumer>
     );
 }

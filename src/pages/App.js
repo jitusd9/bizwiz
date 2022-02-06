@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 export default class App extends Component {
     render() {
         return (
+            // both Theme and Auth context are provided in entire app 
             <ContextProvider>
                 <Router>
                     <Layout>

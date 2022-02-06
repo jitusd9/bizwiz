@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore/lite';
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, updateProfile} from '@firebase/auth';
 
 // Your web app's Firebase configuration
@@ -9,7 +10,8 @@ const firebaseConfig = {
   projectId: "bizwiz-3d98c",
   storageBucket: "bizwiz-3d98c.appspot.com",
   messagingSenderId: "606677032471",
-  appId: "1:606677032471:web:5955719e1ab5dc3e0bc652"
+  appId: "1:606677032471:web:5955719e1ab5dc3e0bc652",
+  measurementId: "G-2CDND1SCRZ"
 };
 
 
@@ -17,6 +19,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore(app);
+const analytics = getAnalytics(app);
+
+// adding data to firestore database 
+// const addData = async () => {
+//     try {
+//         const docRef = await addDoc(collection(db, "users"), {
+//           first: "Ada",
+//           last: "Lovelace",
+//           born: 1815
+//         });
+//         console.log("Document written with ID: ", docRef.id);
+//       } catch (e) {
+//         console.error("Error adding document: ", e);
+//       }
+// }
+
 
 // Monitoring Authentication State
 
@@ -46,18 +64,33 @@ const signInWithGoogle = async () => {
     try{
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
-        const query = await db
-            .collection("users")
-            .where("uid", "==", user.id)
-            .get();
-        if(query.docs.length === 0){
-            await db.collection("users").add({
-                uid: user.id,
-                name: user.displayName,
-                authProvider: "google",
-                email: user.email,
-            });
-        }
+        // const query = await db
+        // .collection("users")
+        // .where("uid", "==", user.uid)
+        // .get();
+
+        // const querySnapshot = await getDocs(collection(db, "users"));
+        // console.log(querySnapshot);
+
+        await setDoc(doc(db, "users", user.uid), {
+            displayName: user.displayName,
+            email: user.email,
+            photoURL : user.photoURL,
+        });
+
+        // querySnapshot.forEach((doc) => {
+        //     console.log(`${doc.data()}`);
+        // })
+        
+        // if (querySnapshot.docs.length === 0) {
+        //     await db.collection("users").add({
+        //       uid: user.uid,
+        //       name: user.displayName,
+        //       authProvider: "google",
+        //       email: user.email,
+        //     });
+        //   }
+
     }catch(err){
         console.error(err);
         // alert(err.message);
@@ -69,12 +102,14 @@ const signInWithGoogle = async () => {
 const loginWithEmail = async (email, password) => {
     try{
         console.log('auth-before login : ' , auth.currentUser);
-        const response = signInWithEmailAndPassword(auth, email, password);
-        console.log('auth-after login : ' , response);
-        return 200;
+        const res = await signInWithEmailAndPassword(auth, email, password)
+                .then(data => {
+                    console.log('loginWithEmail ::', data);
+                })
+        return res;
     }catch(err){
         console.log(err);
-        return 500; 
+        return err; 
     }
 }
 
@@ -86,20 +121,15 @@ const registerWithEmailAndPassword = async (username, email, password) => {
         const res = await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            if(user != null){
-                updateProfile(auth.currentUser, {
-                    displayName : username
-                })
-            }
+            console.dir(user);
+            setDoc(doc(db, "users", user.uid), {
+                displayName: username,
+                email: user.email,
+                photoURL : user.photoURL,
+            });
             
             console.log("user : ", user.displayName);
 
-            // db.collection("users").add({
-            //     uid: user.uid,
-            //     displayName : name,
-            //     authProvider: "local",
-            //     email,
-            // });
         })
         return res;
     }catch(err){
@@ -135,5 +165,6 @@ export{
     loginWithEmail,
     registerWithEmailAndPassword,
     sendPasswordResetEmail,
-    logout
+    logout,
+
 }

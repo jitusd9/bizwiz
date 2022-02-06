@@ -10,8 +10,8 @@ export default function Hero() {
         <div className={style["hero-section"]}>
             <div className={style["left-section"]}>
                 <div className={style["hero-content"]}>
-                    <h1>Better when</h1>
-                    <h1>it's on <span className={style["curve-style"]}> one place</span> </h1>
+                    <h1>Better when it's on </h1>
+                    <h1><span className={style["curve-style"]}> one place</span> </h1>
                     <p className={style["tagline"]}>compare variety of products form different sites.</p>
                     <Button variant="contained" size="small">Explore</Button>
                 </div>

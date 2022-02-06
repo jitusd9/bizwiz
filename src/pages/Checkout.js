@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Card from '../components/Card'
 import pic from '../images/shoe.png'
 import ssd from '../images/ssd.png'
+import * as LottiePlayer from "@lottiefiles/lottie-player";
 
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send';
@@ -42,6 +43,20 @@ export default class Checkout extends Component {
                    <div className="big-orange-btn">
                         <Button variant="contained" size="small" endIcon={<SendIcon/>}>Proceed to Pay</Button>
                    </div>
+                </div>
+                <p>line of embarresment</p>
+                <div>
+
+                {/* <LottiePlayer
+                autoplay
+                controls
+                loop
+                mode="normal"
+                src="https://assets3.lottiefiles.com/packages/lf20_UJNc2t.json"
+                style={{"width: 320px"}}
+                >
+                </LottiePlayer> */}
+
                 </div>
             </div>
         )
