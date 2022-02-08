@@ -3,16 +3,76 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useHistory } from "react-router";
 import style from "../styles/dashboard.module.css";
-import { auth, logout, db } from "../firebase";
-import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
+import { auth, logout, db, storage } from "../firebase";
+import { collection, getDocs, query, doc, getDoc, updateDoc } from "firebase/firestore"
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 import AuthContext from "../components/context/AuthContext";
 import cat_pic from "../images/boss.png"
 import { Redirect } from 'react-router-dom'
+import Loader from "../components/Loader";
 
 function Dashboard(){
     const [user, loading] = useAuthState(auth);
     const [userData, setUser] = useState(null);
+
+    // upload file feature
+    const [image, setImage] = useState(' ');
+
+    const upload = () => {
+        if(image === ' ')return;
+
+        //create the file metadata 
+        const metadata = {
+            contentType : 'image/jpeg',
+        }
+
+        // upload file and metadata to the object 'images/mountains.jpg'
+        const storageRef = ref(storage, 'images/' + image.name);
+        const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+
+        // listen for state changes, errors, and completion of the upload. 
+        uploadTask.on('state_changed', 
+            (snapshot) => {
+                // get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded 
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done.');
+                switch (snapshot.state) {
+                    case 'paused' : 
+                    console.log('Upload is paused');
+                    break;
+                    case 'running' : 
+                    console.log('Upload is running');
+                    break;
+                }
+            },
+            (error) => {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        console.log('User does not have permission to access the object');
+                        break;
+                    case 'storage/canceled' :
+                        console.log('User blocked the upload');
+                    case 'storage/unknown':
+                        console.log('Unknown error occurred');
+                }
+            },
+            () => {
+                setImage(' ');
+                // upload completed successfully, now we can get the download URL 
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('will update photoURL');
+                    updateDoc(doc(db, 'users', user.uid), {
+                        photoURL : downloadURL
+                    })
+                }).catch(err => {
+                    console.log('ohh god some errors', err);
+                })
+            }
+        )
+    }
+
+    
 
     // const {fetchUserDetails} = useContext(AuthContext);
 
@@ -61,24 +121,29 @@ function Dashboard(){
                                 <div className={style["cover_pic"]}></div>
                                 <div className={style["profile"]}>
                                     <div className={style["profile_pic"]}>
-                                        <img src={userContext.user.photoURL ? userContext.user.photoURL : cat_pic} alt="profile" />
+                                    {
+                                        userData ? <img src={userData ? userData.photoURL : cat_pic} alt="broken pic" /> :
+                                        <Loader loading="false" />  
+                                    }
                                     </div>
                                     <div className={style["user_name"]}>
-                                        <h3>{userContext.user.displayName ? userContext.user.displayName : "no_name"}</h3>
+                                        <h3>{userData ? userData.displayName : "loading..."}</h3>
                                     </div>
                                     <ul className={style["user_menu"]}>
                                         <li><a href="#">Your History</a></li>
                                         <li><a href="#">Shipping Details</a></li>
                                         <li><a href="#">Account Settings</a></li>
                                     </ul>
+                                    <center>
+                                    <input type="file" onChange={(e) => {setImage(e.target.files[0]);}}/>
+                                    <button onClick={upload}>Upload</button>
+                                    </center>
                                     <p>add stripe like navigation tabs</p>
                                     <button className={style["dashboard_btn"]} onClick={logout}>
                                         Logout
                                     </button>
-                                </div>
-                                
-                                {/* <div>{user?.displayName}</div> */}
-                                
+                                    
+                                </div>                          
                             </div>
                         </div>
                     

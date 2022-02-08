@@ -18,14 +18,15 @@
     --font-color: #ffffff;
     --bg-color : #ffffff;
     --bg-container : #ffffff;
-    --loading : #ff0a5c;
+    --loading : #3f3f3f;
 
     --blue : rgb(0, 102, 255);
     --red : rgb(255, 58, 32);
     --orange : #ff5f00;
     --green : #00b43c;
     --purple : #b07eff;
-    --yellow : rgb(255, 201, 53);
+    /* --yellow : rgb(255, 201, 53); */
+    --yellow : #5435ff;
     --shade : rgba(255, 255, 255, 0.1);
 
     --overlay : linear-gradient(to right, #ff4b2b, #ff416c);
@@ -49,12 +50,12 @@
     --font-color: #ffffff;
     --bg-color : #1c2128;
     --bg-container : #22272e;
-    --loading : #73b0ff;
+    --loading : #5f8fcc;
 
     --blue : #00ffa1;
     --red : #ec5a47;
     --orange : #ff5f00;
-    --green : rgb(16, 138, 0);
+    --green : #0f7d00;
     --purple : #5933a2;
     --yellow : rgb(255, 201, 53);
     --shade : rgba(255, 255, 255, 0.103);
@@ -96,7 +97,6 @@ body{
     padding: 10px;
     border-radius: 5px;
 }
-
 
 *{
     padding: 0;
@@ -205,10 +205,8 @@ a{
     z-index: 110;
     height: 100%;
     width: 100%;
-    background: rgba(255, 255, 255, 0.322);
     border-radius: 5px;
     border: 1px solid var(--bg-0);
-    backdrop-filter: blur(10px);
     transition: all 0.5s;
 }
 .authLoader p{
@@ -406,11 +404,12 @@ button {
 
 
 button {
-    border-radius: 5px;
-    background-color: #db34b1;
+    border: none;
+    border-radius: 2px;
+    background-color: var(--green);
     color: #fff;
-    font-size: 12px;
-    padding: 6px 45px;
+    font-size: 18px;
+    padding: 10px;
     transition: transform 80ms ease-in;
 }
 

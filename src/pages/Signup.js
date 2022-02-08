@@ -110,9 +110,9 @@ export default class Signup extends Component {
                             <div className={containerClass}>
                                 <div className="form-container sign-up-container">
                                 <div className={loadingClass}>
-                                <span><svg className="spinner" viewBox="0 0 50 50">
+                                    <svg className="spinner" viewBox="0 0 50 50">
                                         <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                                    </svg></span>
+                                    </svg>
                                 </div>
                                     <form onSubmit={this.handleSignup}>
                                         <h2 className={style['form-title']}>Signup with</h2>

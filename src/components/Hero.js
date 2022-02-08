@@ -25,8 +25,8 @@ export default function Hero() {
             <div className={style["dynamic-banner"]}>
                             {/* <img src={img} alt="this is not css Its .png file"/> */}
                             <h4>Things To Do In This Project</h4>
-                            <p>1.write data in firebase store as per new firebase v9 </p>
-                            <p>2.remove errors of db.collection and user.uid in firebase.js</p>
+                            <p className="done">1.write data in firebase store as per new firebase v9 </p>
+                            <p className="done">2.remove errors of db.collection and user.uid in firebase.js</p>
                             <p>3.checkout MANAGE USERS in firebase docs for users data and read docs for firestore </p>
                             <p className="done">4.Then publish this mvp into Github b'cos then work will be more and you need git branches to deal with all the functionalities</p>
                             <p><strong>Add stripe for payments methods</strong></p>

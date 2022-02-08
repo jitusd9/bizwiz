@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from "firebase/analytics";
+import { getStorage, ref } from "firebase/storage";
 import { getFirestore, collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, updateProfile} from '@firebase/auth';
 
@@ -19,21 +20,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
+const storage = getStorage(app);
 
-// adding data to firestore database 
-// const addData = async () => {
-//     try {
-//         const docRef = await addDoc(collection(db, "users"), {
-//           first: "Ada",
-//           last: "Lovelace",
-//           born: 1815
-//         });
-//         console.log("Document written with ID: ", docRef.id);
-//       } catch (e) {
-//         console.error("Error adding document: ", e);
-//       }
-// }
+// let do storage things 
+const pathReference = ref(storage, 'images/boss.png');
+
+// Create a reference from a Google Cloud Storage URI
+const gsReference = ref(storage, 'gs://bizwiz-3d98c.appspot.com/images/boss.png');
+
+// Create a reference from an HTTPS URL
+// Note that in the URL, characters are URL escaped!
+const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/bizwiz-3d98c.appspot.com/o/images%2Fboss.png?alt=media&token=0bdc4af5-129f-47dc-9a5b-d13ae03ccafe'); 
+
+console.log(httpsReference);
+
 
 
 // Monitoring Authentication State
@@ -166,5 +166,5 @@ export{
     registerWithEmailAndPassword,
     sendPasswordResetEmail,
     logout,
-
+    storage,
 }
