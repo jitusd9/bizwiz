@@ -282,9 +282,18 @@ a{
 /* Checkout page css  */
 .checkout{
     width: 100%;
-    height: auto;
+    min-height: 50vh;
     display: flex;
     margin: 10px auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.noitemsincart{
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .cart-summary{

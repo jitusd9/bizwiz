@@ -1,17 +1,32 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Card from '../components/Card'
 import pic from '../images/shoe.png'
 import ssd from '../images/ssd.png'
-import * as LottiePlayer from "@lottiefiles/lottie-player";
 
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send';
 
-export default class Checkout extends Component {
-    render() {
+export default function Checkout() {
 
-        let sum = 14927.24;
-         
+    const [items , setItems] = useState(0);
+    
+    const sum = 14927.24;
+
+    if(items === 0){
+        return(
+            <div className='checkout'>
+            <div className='noitemsincart'>
+                <h2>You haven't selected any items.</h2>
+                
+                <Link to="/">
+                    <button>Go For Shopping 🛒</button>
+                </Link>
+            </div>
+                
+            </div>
+        )
+    }else{
         return (
             <div className="checkout">
                 <div className="cart-summary">
@@ -44,21 +59,9 @@ export default class Checkout extends Component {
                         <Button variant="contained" size="small" endIcon={<SendIcon/>}>Proceed to Pay</Button>
                    </div>
                 </div>
-                <p>line of embarresment</p>
-                <div>
-
-                {/* <LottiePlayer
-                autoplay
-                controls
-                loop
-                mode="normal"
-                src="https://assets3.lottiefiles.com/packages/lf20_UJNc2t.json"
-                style={{"width: 320px"}}
-                >
-                </LottiePlayer> */}
-
-                </div>
             </div>
         )
     }
+
+        
 }

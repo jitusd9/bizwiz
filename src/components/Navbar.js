@@ -87,10 +87,10 @@ export default class Navbar extends Component {
                                             }
                                             {
                                             context.user ? 
-                                                    <li className={style["item-link"]}> <Link to="/dashboard"><Button >{context.user.email ? context.user.email : "_Name"}</Button></Link> </li>
+                                                    <li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard"><Button >{context.user.email ? context.user.email : "_Name"}</Button></Link> </li>
                                                     : null
                                             }
-                                            <li className={style["item-link"]}> <Link to="/checkout"><Button >Checkout</Button></Link> </li>
+                                            <li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><Button>Cart</Button></Link> </li>
                                             <li className={`${style["item-link"]} ${style["theme-btn"]}`}>
                                                 <Link to="#">
                                                 <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'light' : 'dark'}</span> </Button>

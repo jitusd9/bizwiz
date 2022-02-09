@@ -72,8 +72,6 @@ function Dashboard(){
         )
     }
 
-    
-
     // const {fetchUserDetails} = useContext(AuthContext);
 
     const history = useHistory();
@@ -89,7 +87,7 @@ function Dashboard(){
             if(docSnap.exists()){
                 const snapData = docSnap.data();
                 setUser(snapData);
-                console.log('Document Available :', userData.displayName)
+                console.log('Document Available :', snapData);
             }else{
                 console.log('No Such Document');
             }
@@ -110,15 +108,18 @@ function Dashboard(){
         <AuthContext.Consumer>
         {
             userContext => {
-                {/* console.log('userContext :', userContext.user); */}
                 if(userContext.user === null){
-                    console.log('Changing directory...')
+                    console.log('Changing directory...');
                     history.push('/signup');
                 }else{
                     return(
                         <div className={style["dashboard"]}>
                             <div className={style["dashboard_container"]}>
-                                <div className={style["cover_pic"]}></div>
+                                <div className={style["cover_pic"]}>
+                                    <p className="done">1.done with reading and writing data in firestore</p>
+                                    <p className="done">2.upadting profile pic by uploading it in storage and connecting through user.uid.</p>
+                                    <p>3.FIX POPUP LOGIN IN MOBILE DEVICES</p>
+                                </div>
                                 <div className={style["profile"]}>
                                     <div className={style["profile_pic"]}>
                                     {

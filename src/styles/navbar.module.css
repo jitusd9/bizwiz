@@ -69,9 +69,32 @@
     text-decoration: none;
 }
 
-.theme-btn{
-    /* background: var(--bg-0); */
+.menu-items .user-link a button{
+    color: var(--yellow);
+    font-weight: bold;
+    background: var(--bg-1);
+    transition: none;
 }
+
+.menu-items .item-link button:disabled{
+    color: var(--bg-1);
+    background: var(--bg-2);
+}
+
+/* .menu-items .cart button::after{
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    content: "2";
+    height: 18px;
+    width: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    background: #02be60;
+} */
 
 
 /* toggel menu  */

@@ -32,6 +32,10 @@
     /* box-shadow: 0 0 10px 10px rgba(0,0,0,0.1); */
 }
 
+.cover_pic p{
+    color: #fefefe;
+}
+
 .profile_pic{
     position: absolute;
     top: 290px;

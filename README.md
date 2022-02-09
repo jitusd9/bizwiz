@@ -7,10 +7,14 @@
 this is full fleged projects lists products and deals from different e-commerce plateform like Flipkart, Amazon, Myntra, etc. and compare prices and reviews about different sellers.
 and will be redirected to official websites.
 
-## Why Authentication System
+## Objective of project
 
-Well You guessed it right, If people aren't purchasing directly from this portal then why there is Authentication or signup system, and the answer is I just wanted to learn Authentication, thats why
-there will be unnecessory featuers making is over-enginnered site.
+This project uses fetching data from APIs and deploy it to front end. this process taught me how to fetch data and handle errors.
+how to search data while recieving
+how to query data with specific query 
+how to connect data with users 
+managing states in react application 
+managing user Authentication
 
 ## Tech Stack Used
 1. Front End built on react and material ui 
