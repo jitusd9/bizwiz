@@ -81,6 +81,15 @@
     background: var(--bg-2);
 }
 
+.menu-items .item-link .itemCount{
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: rgb(0, 204, 68);
+    color: #fff;
+}
+
+
 /* .menu-items .cart button::after{
     position: absolute;
     top: -5px;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from "./context/ContextProvider"
+import { AuthContext, CartContext } from "./context/ContextProvider"
 import Button from '@mui/material/Button'
 
 import style from "../styles/navbar.module.css"
@@ -63,43 +63,49 @@ export default class Navbar extends Component {
             <AuthContext.Consumer>
                 {
                     /* () instead of {} indicates the arrow function is returning whatever inside ()  */
-                    context => (
-                        <header>
-                            <nav className={menuIcon ? `${style["navbar"]} ${style["activeNavbar"]}` : style["navbar"]}>
-                                    {/* grid area brand */}
-                                    <div className={style["brand"]}>
-                                        <Link to="/">
-                                            <h1>BizWiz</h1>
-                                        </Link>
-                                    </div>
-                                    {/* grid area menu icon  */}
-                                    <div onClick={this.toggleMenu} className={`${style["toggle-menu"]} ${style["active"]}`}>
-                                        <div className={style.bar}></div>
-                                    </div>
-                                    {/* grid area menu  */}
-                                    <div className={menuIcon ? `${style["menu"]} ${style["activeMenu"]}` : style["menu"]}>
-                                        <ul className={style["menu-items"]}>
-                                            <li className={`${style["item-link"]} ${style["search"]}`}> <input type="text" placeholder="search items..."/> </li>
-                                            
-                                            {
-                                            !context.user ? <li className={style["item-link"]}> <Link to="/signup"><Button >Sign In</Button></Link> </li>
-                                                                    : null
-                                            }
-                                            {
-                                            context.user ? 
-                                                    <li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard"><Button >{context.user.email ? context.user.email : "_Name"}</Button></Link> </li>
-                                                    : null
-                                            }
-                                            <li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><Button>Cart</Button></Link> </li>
-                                            <li className={`${style["item-link"]} ${style["theme-btn"]}`}>
-                                                <Link to="#">
-                                                <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'dark' : 'light'}</span> </Button>
-                                                </Link>
-                                                </li>
-                                        </ul>
-                                    </div>
-                            </nav>
-                        </header>
+                    userContext => (
+                        <CartContext>
+                            {
+                                cartContext => (
+                                    <header>
+                                        <nav className={menuIcon ? `${style["navbar"]} ${style["activeNavbar"]}` : style["navbar"]}>
+                                                {/* grid area brand */}
+                                                <div className={style["brand"]}>
+                                                    <Link to="/">
+                                                        <h1>BizWiz</h1>
+                                                    </Link>
+                                                </div>
+                                                {/* grid area menu icon  */}
+                                                <div onClick={this.toggleMenu} className={`${style["toggle-menu"]} ${style["active"]}`}>
+                                                    <div className={style.bar}></div>
+                                                </div>
+                                                {/* grid area menu  */}
+                                                <div className={menuIcon ? `${style["menu"]} ${style["activeMenu"]}` : style["menu"]}>
+                                                    <ul className={style["menu-items"]}>
+                                                        <li className={`${style["item-link"]} ${style["search"]}`}> <input type="text" placeholder="search items..."/> </li>
+                                                        
+                                                        {
+                                                        !userContext.user ? <li className={style["item-link"]}> <Link to="/signup"><Button >Sign In</Button></Link> </li>
+                                                                                : null
+                                                        }
+                                                        {
+                                                        userContext.user ? 
+                                                                <li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard"><Button >{userContext.user.email ? userContext.user.email : "_Name"}</Button></Link> </li>
+                                                                : null
+                                                        }
+                                                        <li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><Button>Cart {cartContext.itemCount !== 0 ? <span class={style["itemCount"]}>{cartContext.itemCount}</span> : ""} </Button></Link> </li>
+                                                        <li className={`${style["item-link"]} ${style["theme-btn"]}`}>
+                                                            <Link to="#">
+                                                            <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'dark' : 'light'}</span> </Button>
+                                                            </Link>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                        </nav>
+                                    </header>
+                                )
+                            }
+                        </CartContext>
                     )
                 }   
             </AuthContext.Consumer>

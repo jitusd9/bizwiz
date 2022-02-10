@@ -6,11 +6,15 @@ import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
 
 const ThemeContext = React.createContext();
 const AuthContext = React.createContext();
+const CartContext = React.createContext();
 
 function ContextProvider(props) {
     
     const [theme, setTheme] = useState('theme-light');
     const [user, loading] = useAuthState(auth);
+    const [itemCount, setItemCount] = useState(0);
+
+    const addToCart = (e) => e ? setItemCount(itemCount - 1) : setItemCount(itemCount + 1);
 
     if(loading){
         return(
@@ -24,7 +28,9 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    {props.children}
+                    <CartContext.Provider value={{itemCount ,addToCart}}>
+                        {props.children}
+                    </CartContext.Provider>
                 </AuthContext.Provider>
             </ThemeContext.Provider>
         )
@@ -35,5 +41,6 @@ function ContextProvider(props) {
 export {
     ContextProvider,
     ThemeContext,
-    AuthContext
+    AuthContext,
+    CartContext
 }
