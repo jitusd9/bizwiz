@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import style from "../styles/Signup.module.css"
-import AuthContext from '../components/context/AuthContext'
+import {AuthContext} from '../components/context/ContextProvider'
 
 import login from "../images/login.svg"
 import signup from "../images/signup.svg"

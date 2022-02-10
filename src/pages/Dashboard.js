@@ -7,7 +7,7 @@ import { auth, logout, db, storage } from "../firebase";
 import { collection, getDocs, query, doc, getDoc, updateDoc } from "firebase/firestore"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
-import AuthContext from "../components/context/AuthContext";
+import {AuthContext} from "../components/context/ContextProvider";
 import cat_pic from "../images/boss.png"
 import { Redirect } from 'react-router-dom'
 import Loader from "../components/Loader";

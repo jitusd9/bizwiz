@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
-import AuthContext from './AuthContext'
-import ThemeContext from "./Theme-context"
 import { auth, db, logout } from "../../firebase";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
 
-export default function ContextProvider(props) {
+const ThemeContext = React.createContext();
+const AuthContext = React.createContext();
+
+function ContextProvider(props) {
     
     const [theme, setTheme] = useState('theme-light');
     const [user, loading] = useAuthState(auth);
@@ -31,3 +32,8 @@ export default function ContextProvider(props) {
 
 }
 
+export {
+    ContextProvider,
+    ThemeContext,
+    AuthContext
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import ThemeContext from './context/Theme-context'
+import { ThemeContext } from './context/ContextProvider'
 
 import Navbar from './Navbar'
 import Footer from './Footer'

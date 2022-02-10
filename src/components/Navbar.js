@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import AuthContext from './context/AuthContext'
+import { AuthContext } from "./context/ContextProvider"
 import Button from '@mui/material/Button'
 
 import style from "../styles/navbar.module.css"
@@ -93,7 +93,7 @@ export default class Navbar extends Component {
                                             <li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><Button>Cart</Button></Link> </li>
                                             <li className={`${style["item-link"]} ${style["theme-btn"]}`}>
                                                 <Link to="#">
-                                                <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'light' : 'dark'}</span> </Button>
+                                                <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'dark' : 'light'}</span> </Button>
                                                 </Link>
                                                 </li>
                                         </ul>

@@ -12,12 +12,17 @@ export default class Products extends Component {
 
     constructor(props){
         super(props);
+
         this.state = {
             items : [],
             DataIsLoaded : false,
             err : false,
             errName : null
         }
+    }
+
+    executeScroll = () => {
+        this.myRef.current.scrollIntoView()
     }
 
     componentDidMount(){
@@ -78,8 +83,7 @@ export default class Products extends Component {
             // console.log("data :" + DataIsLoaded);
             // console.log("err :" + err);
             return (
-                <div>
-                    
+                <div ref={this.props.ref}>                    
                     <div className={style["search-bar"]}>
                         <input className={style["search-input"]} type="text" placeholder="search products..."/>
                     </div>
