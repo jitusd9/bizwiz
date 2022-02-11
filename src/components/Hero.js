@@ -52,7 +52,7 @@ export default function Hero() {
                 <p>4.add payments methods vith stripe or razorpay </p>
                 <p>5.load more button for products or scroll and load </p>
                 </div>
-            <Products ref={myRef}/>
+            <Products scrollRef={myRef}/>
         </div>
     )
 }

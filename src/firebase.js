@@ -22,18 +22,6 @@ const auth = getAuth();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// let do storage things 
-const pathReference = ref(storage, 'images/boss.png');
-
-// Create a reference from a Google Cloud Storage URI
-const gsReference = ref(storage, 'gs://bizwiz-3d98c.appspot.com/images/boss.png');
-
-// Create a reference from an HTTPS URL
-// Note that in the URL, characters are URL escaped!
-const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/bizwiz-3d98c.appspot.com/o/images%2Fboss.png?alt=media&token=0bdc4af5-129f-47dc-9a5b-d13ae03ccafe'); 
-
-console.log(httpsReference);
-
 
 
 // Monitoring Authentication State

@@ -35,14 +35,16 @@ export default function Card(props){
                                         <div>
                                         {
                                             added ? 
-                                            <Button data-state={added} onClick={(e) => { handleClick(); context.addToCart(added); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
+                                            <Button data-state={added} data-itemId={props.key} onClick={(e) => { handleClick(); context.addToCart(added); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 
-                                            <Button data-state={added} onClick={(e) => { handleClick(); context.addToCart(added); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
+                                            <Button data-state={added} data-itemId={props.isAdded} onClick={(e) => { handleClick(); context.addToCart(props.isAdded); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
                                             Add
                                             </Button>
                                         }
                                         </div>
+
+                                        {/* Kya sochta hoon kya chahta hoon... cut it from Ajnabi Mujhko itna bta */}
                                         
                                         <Link to="/checkout">
                                             <Button  style={{backgroundColor: '#ff6347', color: '#FFFFFF'}} variant="contained" size="small" >

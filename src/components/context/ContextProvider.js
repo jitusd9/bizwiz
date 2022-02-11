@@ -13,8 +13,18 @@ function ContextProvider(props) {
     const [theme, setTheme] = useState('theme-light');
     const [user, loading] = useAuthState(auth);
     const [itemCount, setItemCount] = useState(0);
+    let itemData = {
+        key : false
+    }
 
-    const addToCart = (e) => e ? setItemCount(itemCount - 1) : setItemCount(itemCount + 1);
+    const addToCart = (e) => {
+        // console.log(e.target.key);
+        e ? setItemCount(itemCount - 1) : setItemCount(itemCount + 1)
+    };
+
+    const test = () => {
+        console.log('so good so far!');
+    }
 
     if(loading){
         return(
@@ -28,7 +38,7 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    <CartContext.Provider value={{itemCount ,addToCart}}>
+                    <CartContext.Provider value={{itemCount ,addToCart, itemData}}>
                         {props.children}
                     </CartContext.Provider>
                 </AuthContext.Provider>

@@ -152,6 +152,42 @@
     box-shadow: 0 10px 15px rgba(255, 99, 71, 0.2);
 }
 
+/* upload data css  */
+
+
+.uploadData{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(-200%);
+    margin: 0 auto;
+    padding: 10px;
+    background: var(--bg-2);
+    border-radius: 2px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    transition: all 0.5s cubic-bezier(0.1, 0.6, 0.6, 1.18);
+}
+
+.collapse{
+    transform: translate(-50%, -50%) translateX(0%);
+}
+
+.cross-btn{
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: rgb(255, 12, 12);
+    border-radius: 50%;
+    color: #fff;
+}
+
+.uploadData label{
+    display: inline-block;
+}
+
+/* car css  */
+
 .card{
     background: var(--bg-1);
     width: 250px;

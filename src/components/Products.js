@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Card from './Card'
+import { CartContext } from './context/ContextProvider'
 
 import shoe from "../images/shoe.png"
 import heals from "../images/diamond.png"
@@ -17,12 +18,34 @@ export default class Products extends Component {
             items : [],
             DataIsLoaded : false,
             err : false,
-            errName : null
+            errName : null,
+            imageFile : "",
+            uploadClass : false
         }
     }
 
     executeScroll = () => {
         this.myRef.current.scrollIntoView()
+    }
+
+    uploadForm = () => {
+        this.setState({
+            uploadClass : !this.state.uploadClass
+        })
+    }
+
+    handleFile = (e) => {
+        console.log('file handled', e.target.files[0]);
+        this.setState({
+            imageFile : e.target.files[0]
+        })
+    }
+
+    upload = () => {
+        console.log('data uploaded');
+        this.setState({
+            uploadClass : !this.state.uploadClass
+        })
     }
 
     componentDidMount(){
@@ -60,7 +83,7 @@ export default class Products extends Component {
 
     render() {
 
-        const { DataIsLoaded, items, err, errName} = this.state;
+        const { DataIsLoaded, items, err, errName, uploadClass} = this.state;
 
         const pics = [shoe, heals, deo, ssd];
 
@@ -83,21 +106,46 @@ export default class Products extends Component {
             // console.log("data :" + DataIsLoaded);
             // console.log("err :" + err);
             return (
-                <div ref={this.props.ref}>                    
-                    <div className={style["search-bar"]}>
-                        <input className={style["search-input"]} type="text" placeholder="search products..."/>
-                    </div>
-                    <div className={style["products"]}>
-                        {   
-                            items.map((item )=> {
-                                let num = Math.floor(Math.random() * 3);
-                                return(
-                                    <Card photo={pics[num]} key={item.id} title={item.name} item={"running shoe"} price="₹8,799" controls="true"/>
-                                )
-                            })
-                        }
-                    </div>
-                </div>
+                <CartContext.Consumer>{
+                    context => (
+                        <div ref={this.props.scrollRef}> 
+                        <center>
+                            <button onClick={this.uploadForm}>Upload Products</button>
+                        </center>                   
+                            
+                            <div className={`${style["uploadData"]} ${style[uploadClass ? "collapse" : ""]}`}>
+                            <button className={style["cross-btn"]} onClick={this.uploadForm}>❌</button>
+                                <center>
+                                <p>Fill Item Details and Upload</p>
+
+                                    <input type="text" name="itemName" placeholder='Item Name'/>
+                                    
+                                    <input type="text" name="itemCategory" placeholder='Item Category i.e. shoes, t-shirt, watch etc.'/>
+                                    <input type="file" onChange={this.handleFile} />
+                                    
+                                    <input type="number" name="price" placeholder='item price in Indian Rupees'/>
+                                    
+                                    <input type="text" name="seller" placeholder='seller Name'/>
+                                    <button onClick={this.upload}>Upload</button>
+                                </center>
+                            </div>
+                            <div className={style["search-bar"]}>
+                                <input className={style["search-input"]} type="text" placeholder="search products..."/>
+                            </div>
+                            <div className={style["products"]}>
+                                {   
+                                    items.map((item )=> {
+                                        let num = Math.floor(Math.random() * 3);
+                                        return(
+                                            <Card theguy={context.addToCart} isAdded={context.itemData.key} photo={pics[num]} key={item.id} title={item.name} item={"running shoe"} price="₹8,799" controls="true"/>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                    )
+                }
+                </CartContext.Consumer>
             )
         }
     }
