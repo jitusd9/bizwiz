@@ -153,20 +153,30 @@
 }
 
 /* upload data css  */
-
+.uploadBtn{
+    display: block;
+    margin: 0 auto;
+}
 
 .uploadData{
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) translateX(-200%);
+    text-align: center;
     margin: 0 auto;
     padding: 10px;
-    background: var(--bg-2);
+    background: var(--blur-bg);
     border-radius: 2px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
     z-index: 10;
-    transition: all 0.5s cubic-bezier(0.1, 0.6, 0.6, 1.18);
+    backdrop-filter: blur(50px);
+    transition: transform 0.5s cubic-bezier(0.1, 0.6, 0.6, 1.18);
+}
+
+.uploadData input{
+    background: transparent;
+    border: 1px solid var(--color-2);
 }
 
 .collapse{
@@ -182,9 +192,6 @@
     color: #fff;
 }
 
-.uploadData label{
-    display: inline-block;
-}
 
 /* car css  */
 
@@ -281,6 +288,16 @@
 
     .search-input{
         width: 100%;
+    }
+
+    .uploadData{
+        width: 90%;
+    }
+
+    .cross-btn{
+        font-size: 0.8rem;
+        top: -16px;
+        right: -16px;
     }
 
     .card{

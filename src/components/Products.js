@@ -9,6 +9,11 @@ import ssd from "../images/ssd.png"
 import img from '../images/placeholder_banner.png'
 import style from "../styles/products.module.css"
 
+// firebase imports 
+import { db, storage } from '../firebase'
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { doc, addDoc, updateDoc, collection } from "firebase/firestore"
+
 export default class Products extends Component {
 
     constructor(props){
@@ -19,8 +24,12 @@ export default class Products extends Component {
             DataIsLoaded : false,
             err : false,
             errName : null,
+            uploadClass : false,
             imageFile : "",
-            uploadClass : false
+            itemName : "",
+            itemCategory : "",
+            price : 0,
+            seller : ""
         }
     }
 
@@ -34,15 +43,82 @@ export default class Products extends Component {
         })
     }
 
-    handleFile = (e) => {
-        console.log('file handled', e.target.files[0]);
-        this.setState({
-            imageFile : e.target.files[0]
-        })
+    handleChange = (e) => {
+        // console.log(e.target.name);
+        if(e.target.name === "image"){
+            this.setState({
+                imageFile : e.target.files[0]
+            })
+        }else{
+            this.setState({
+                [e.target.name] : e.target.value
+            })
+        }
     }
 
     upload = () => {
-        console.log('data uploaded');
+        if(this.state.imageFile === "") return console.log("Can't update coz of no Image.");;
+        console.log('uploading...');
+
+        // upload image 
+        let metadata = {
+            contentType : this.state.imageFile.type
+        }
+
+        // upload file and metadata to the object 'images/FILE_NAME.jpg'
+        const storageRef = ref(storage, 'images/' + this.state.imageFile.name);
+        const uploadTask = uploadBytesResumable(storageRef, this.state.imageFile, metadata);
+
+        // listen for state changes, errors, and completion of the upload. 
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+            // get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded 
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done.');
+                switch (snapshot.state) {
+                    case 'paused' : 
+                    console.log('Upload is paused');
+                    break;
+                    case 'running' : 
+                    console.log('Upload is running');
+                    
+                }
+            },
+            (error) => {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        console.log('User does not have permission to access the object');
+                        break;
+                    case 'storage/canceled' :
+                        console.log('User blocked the upload');
+                        break;
+                    case 'storage/unknown':
+                        console.log('Unknown error occurred');
+                        
+                }
+            },
+            () => {
+                this.setState({
+                    imageFile : ""
+                })
+                // upload completed successfully, now we can get the download URL 
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('photo uploaded at ', downloadURL);
+                    // add other data after photoURL is available 
+                    addDoc(collection(db, "products"), {
+                        itemName: this.state.itemName,
+                        itemCategory: this.state.itemCategory,
+                        itemPrice : this.state.price,
+                        itemSeller: this.state.seller,
+                        itemThumbURL : downloadURL
+                    });
+
+                }).catch(err => {
+                    console.log('ohh god some errors', err);
+                })
+            }
+        )
+
         this.setState({
             uploadClass : !this.state.uploadClass
         })
@@ -109,25 +185,25 @@ export default class Products extends Component {
                 <CartContext.Consumer>{
                     context => (
                         <div ref={this.props.scrollRef}> 
-                        <center>
-                            <button onClick={this.uploadForm}>Upload Products</button>
-                        </center>                   
+                        
+                            <button className={style["uploadBtn"]} onClick={this.uploadForm}>Upload Products</button>
+                                           
                             
                             <div className={`${style["uploadData"]} ${style[uploadClass ? "collapse" : ""]}`}>
                             <button className={style["cross-btn"]} onClick={this.uploadForm}>❌</button>
-                                <center>
+                                
                                 <p>Fill Item Details and Upload</p>
 
-                                    <input type="text" name="itemName" placeholder='Item Name'/>
+                                    <input type="text" onChange={this.handleChange} name="itemName" placeholder='Item Name'/>
                                     
-                                    <input type="text" name="itemCategory" placeholder='Item Category i.e. shoes, t-shirt, watch etc.'/>
-                                    <input type="file" onChange={this.handleFile} />
+                                    <input type="text" onChange={this.handleChange} name="itemCategory" placeholder='Item Category i.e. shoes, t-shirt, watch etc.'/>
+                                    <input type="file" onChange={this.handleChange} name="imageFile" accept="image/png, image/jpeg"/>
                                     
-                                    <input type="number" name="price" placeholder='item price in Indian Rupees'/>
+                                    <input type="number" onChange={this.handleChange} name="price" placeholder='item price in Indian Rupees'/>
                                     
-                                    <input type="text" name="seller" placeholder='seller Name'/>
+                                    <input type="text" onChange={this.handleChange} name="seller" placeholder='seller Name'/>
                                     <button onClick={this.upload}>Upload</button>
-                                </center>
+                                
                             </div>
                             <div className={style["search-bar"]}>
                                 <input className={style["search-input"]} type="text" placeholder="search products..."/>
