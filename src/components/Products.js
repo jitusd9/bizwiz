@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { CartContext } from './context/ContextProvider'
-import ListProducts from './ListProducts'
 import Loader from './Loader'
 import Card from "./Card"
 
@@ -18,7 +17,7 @@ export default class Products extends Component {
 
         this.state = {
             items : [],
-            DataIsLoaded : false,
+            DataIsLoaded : true,
             DataUploaded : false,
             err : false,
             errName : null,
@@ -148,17 +147,15 @@ export default class Products extends Component {
             //get data 
             const querySnapshot = await getDocs(collection(db, "products"));
 
+            let {items} = this.state;
             querySnapshot.forEach((doc) => {
-                let {items} = this.state;
                 items.push(doc.data());
-                this.setState({
-                    items : items
-                })
             })
-
-            this.state.setState({
+            this.setState({
+                items : items,
                 DataIsLoaded : false
             })
+
             
         }catch(err){
             console.error(err);
@@ -166,6 +163,7 @@ export default class Products extends Component {
     };
 
     componentDidMount(){
+        console.log('fetching');
         this.fetchProducts();
     }
 
@@ -174,15 +172,17 @@ export default class Products extends Component {
         const { DataIsLoaded, DataUploaded, items, uploadClass } = this.state;
 
         if(DataIsLoaded){
+            console.log('laoding.....');
             return(
-                <div ref={this.props.scrollRef}>
-                    <Loader loading={!DataIsLoaded} />
+                <div className={style["products"]}>
+                    <Loader loading={DataIsLoaded}/>
                 </div>
             )
         }else{
+            console.log('painting ', items);
             return (     
-                <div ref={this.props.scrollRef}> 
-                
+                <div className={style["listOfItems"]}> 
+                    <p>shift this button to Dashboard page</p>
                     <button className={style["uploadBtn"]} onClick={this.uploadForm}>Upload Products</button>
 
                     <div className={`${style["uploadData"]} ${style[uploadClass ? "collapse" : ""]}`}>

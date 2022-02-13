@@ -60,6 +60,7 @@
     /* background: var(--bg-2); */
 }
 
+
 .menu-items .item-link span,
 .menu-items .item-link a button{
     color: var(--color-1);
@@ -177,6 +178,10 @@
         display: flex;
         transform: translateX(0);
         grid-area: menu;
+    }
+
+    .menu-items .item-link a{
+        width: 100%;
     }
 
     .navbar .menu-items{

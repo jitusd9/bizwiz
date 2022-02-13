@@ -210,9 +210,6 @@ a{
     border: 1px solid var(--bg-0);
     transition: all 0.5s;
 }
-.authLoader p{
-    color: var(--loading);
-}
 
 .spinner {
     -webkit-animation: rotate 2s linear infinite;
