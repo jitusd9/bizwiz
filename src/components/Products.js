@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
-import Card from './Card'
 import { CartContext } from './context/ContextProvider'
+import ListProducts from './ListProducts'
+import Loader from './Loader'
+import Card from "./Card"
 
-import shoe from "../images/shoe.png"
-import heals from "../images/diamond.png"
-import deo from "../images/deodrant.png"
-import ssd from "../images/ssd.png"
-import img from '../images/placeholder_banner.png'
 import style from "../styles/products.module.css"
 
 // firebase imports 
 import { db, storage } from '../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { doc, addDoc, updateDoc, collection } from "firebase/firestore"
+import { doc, addDoc, updateDoc, collection, getDocs} from "firebase/firestore"
 
 export default class Products extends Component {
 
@@ -22,10 +19,11 @@ export default class Products extends Component {
         this.state = {
             items : [],
             DataIsLoaded : false,
+            DataUploaded : false,
             err : false,
             errName : null,
             uploadClass : false,
-            imageFile : "",
+            imageFile : null,
             itemName : "",
             itemCategory : "",
             price : 0,
@@ -39,13 +37,17 @@ export default class Products extends Component {
 
     uploadForm = () => {
         this.setState({
-            uploadClass : !this.state.uploadClass
+            uploadClass : !this.state.uploadClass,
+            itemName : "",
+            itemCategory : "",
+            price : 0,
+            seller : ""
         })
     }
 
     handleChange = (e) => {
         // console.log(e.target.name);
-        if(e.target.name === "image"){
+        if(e.target.name === "imageFile"){
             this.setState({
                 imageFile : e.target.files[0]
             })
@@ -57,16 +59,29 @@ export default class Products extends Component {
     }
 
     upload = () => {
-        if(this.state.imageFile === "") return console.log("Can't update coz of no Image.");;
+        if(this.state.imageFile === null){
+            this.setState({
+                itemName : "",
+                itemCategory : "",
+                price : 0,
+                seller : ""
+            })
+            return;
+        };
+        
+        this.setState({
+            DataUploaded : true
+        })
+        
         console.log('uploading...');
 
         // upload image 
         let metadata = {
             contentType : this.state.imageFile.type
         }
-
+        console.log(this.state.imageFile);
         // upload file and metadata to the object 'images/FILE_NAME.jpg'
-        const storageRef = ref(storage, 'images/' + this.state.imageFile.name);
+        const storageRef = ref(storage, 'products/' + this.state.imageFile.name);
         const uploadTask = uploadBytesResumable(storageRef, this.state.imageFile, metadata);
 
         // listen for state changes, errors, and completion of the upload. 
@@ -81,7 +96,8 @@ export default class Products extends Component {
                     break;
                     case 'running' : 
                     console.log('Upload is running');
-                    
+                    break;
+                    default :
                 }
             },
             (error) => {
@@ -94,13 +110,13 @@ export default class Products extends Component {
                         break;
                     case 'storage/unknown':
                         console.log('Unknown error occurred');
-                        
+                        break;
+                    default :
+
                 }
             },
             () => {
-                this.setState({
-                    imageFile : ""
-                })
+                
                 // upload completed successfully, now we can get the download URL 
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('photo uploaded at ', downloadURL);
@@ -112,116 +128,95 @@ export default class Products extends Component {
                         itemSeller: this.state.seller,
                         itemThumbURL : downloadURL
                     });
-
+                }).then(()=>{
+                    this.setState({
+                        imageFile : null,
+                        DataUploaded : false
+                    })
                 }).catch(err => {
                     console.log('ohh god some errors', err);
                 })
             }
         )
 
-        this.setState({
-            uploadClass : !this.state.uploadClass
-        })
     }
 
-    componentDidMount(){
-            fetch("https://jsonplaceholder.typicode.com/users")
-            .then((res) =>{ 
-                // console.log(res);
-                if(res.ok){
-                    return res.json()
-                }else{
-                    this.setState({
-                        err : true,
-                        DataIsLoaded : false,
-                        errName : res.status
-                    })
-                    // console.log(res);
-                    throw res.status
-                }
-            })
-            .then((json) => {
+    fetchProducts = async () => {
+        
+        console.log('fetching Products...');
+        try{
+            //get data 
+            const querySnapshot = await getDocs(collection(db, "products"));
+
+            querySnapshot.forEach((doc) => {
+                let {items} = this.state;
+                items.push(doc.data());
                 this.setState({
-                    items : json,
-                    DataIsLoaded: true,
-                    err: false
-                });
-            })
-            .catch((err) => {
-                this.setState({
-                    err : true,
-                    DataIsLoaded : false,
-                    errName : err.toString()
+                    items : items
                 })
-                console.log('She told you not to worry about that error, The ERROR :' ,  err);
             })
+
+            this.state.setState({
+                DataIsLoaded : false
+            })
+            
+        }catch(err){
+            console.error(err);
+        }
+    };
+
+    componentDidMount(){
+        this.fetchProducts();
     }
 
     render() {
+        
+        const { DataIsLoaded, DataUploaded, items, uploadClass } = this.state;
 
-        const { DataIsLoaded, items, err, errName, uploadClass} = this.state;
-
-        const pics = [shoe, heals, deo, ssd];
-
-        if(!DataIsLoaded && !err){
-            return (
-                <div>
-                    <h1>please wait products are loading...</h1>
-                </div>
-            )
-        }else if(err){
-            console.log('this executed now err');
+        if(DataIsLoaded){
             return(
-                <div className="error-block">
-                    <h2>She told you not to worry about errors.</h2>
-                    <h1><span> 😬 </span>{errName}</h1>
+                <div ref={this.props.scrollRef}>
+                    <Loader loading={!DataIsLoaded} />
                 </div>
             )
-        }else if(DataIsLoaded){
-            // console.log("items :" + items);
-            // console.log("data :" + DataIsLoaded);
-            // console.log("err :" + err);
-            return (
-                <CartContext.Consumer>{
-                    context => (
-                        <div ref={this.props.scrollRef}> 
-                        
-                            <button className={style["uploadBtn"]} onClick={this.uploadForm}>Upload Products</button>
-                                           
-                            
-                            <div className={`${style["uploadData"]} ${style[uploadClass ? "collapse" : ""]}`}>
-                            <button className={style["cross-btn"]} onClick={this.uploadForm}>❌</button>
-                                
-                                <p>Fill Item Details and Upload</p>
+        }else{
+            return (     
+                <div ref={this.props.scrollRef}> 
+                
+                    <button className={style["uploadBtn"]} onClick={this.uploadForm}>Upload Products</button>
 
-                                    <input type="text" onChange={this.handleChange} name="itemName" placeholder='Item Name'/>
-                                    
-                                    <input type="text" onChange={this.handleChange} name="itemCategory" placeholder='Item Category i.e. shoes, t-shirt, watch etc.'/>
-                                    <input type="file" onChange={this.handleChange} name="imageFile" accept="image/png, image/jpeg"/>
-                                    
-                                    <input type="number" onChange={this.handleChange} name="price" placeholder='item price in Indian Rupees'/>
-                                    
-                                    <input type="text" onChange={this.handleChange} name="seller" placeholder='seller Name'/>
-                                    <button onClick={this.upload}>Upload</button>
+                    <div className={`${style["uploadData"]} ${style[uploadClass ? "collapse" : ""]}`}>
+                    <button className={style["cross-btn"]} onClick={this.uploadForm}>❌</button>
+
+                    {/* <Loader loading={!DataUploaded}/> */}
+                    <div>
+                        <p>Fill Item Details and Upload</p>
+
+                        <input type="text" onChange={this.handleChange} name="itemName" value={this.state.itemName} placeholder='Item Name'/>
+                        
+                        <input type="text" onChange={this.handleChange} name="itemCategory" value={this.state.itemCategory} placeholder='Item Category i.e. shoes, t-shirt, watch etc.'/>
+                        <input type="file" onChange={this.handleChange} name="imageFile" accept="image/png, image/jpeg"/>
+                        
+                        <input type="number" onChange={this.handleChange} name="price" value={this.state.itemPrice} placeholder='item price in Indian Rupees'/>
+                        
+                        <input type="text" onChange={this.handleChange} name="seller" value={this.state.itemSeller} placeholder='seller Name'/>
+                        <button onClick={this.upload}>Upload</button>
+                    </div>
                                 
-                            </div>
-                            <div className={style["search-bar"]}>
-                                <input className={style["search-input"]} type="text" placeholder="search products..."/>
-                            </div>
-                            <div className={style["products"]}>
-                                {   
-                                    items.map((item )=> {
-                                        let num = Math.floor(Math.random() * 3);
-                                        return(
-                                            <Card theguy={context.addToCart} isAdded={context.itemData.key} photo={pics[num]} key={item.id} title={item.name} item={"running shoe"} price="₹8,799" controls="true"/>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
-                    )
-                }
-                </CartContext.Consumer>
+                    </div>
+                    <div className={style["search-bar"]}>
+                        <input className={style["search-input"]} type="text" placeholder="search products..."/>
+                    </div>
+                    <div className={style["products"]}>                                       
+                    {
+                        items.map((item, i) => {
+                            
+                            return    <Card key={i} photo={item.itemThumbURL} title={item.itemName} item={item.itemCategory} price={item.itemPrice} seller={item.itemSeller} controls="true"/>
+                            
+                        })
+                    }
+                    </div>
+                </div>
             )
         }
     }

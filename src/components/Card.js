@@ -22,17 +22,17 @@ export default function Card(props){
                 context => (
                     <div className={style["card"]}>
                         <div className={style["card-image"]}>
-                            <img src={props.photo} alt="just a shoe" />
+                            <img src={props.photo} alt="product thumbnail" />
                         </div>
                         <div className={style["card-details"]}>
                             <h3>{props.title}</h3>
                             <p className={style["item-name"]}>{props.item}</p>
                             <p className={style["item-price"]}>{props.price}</p>
-                            <p className={style["item-seller"]} >sold by  <span> <a href="http://localhost:3000/barat-store">baratStore</a></span> </p>
+                            <p className={style["item-seller"]} >sold by  <span> <a href="http://localhost:3000/barat-store">{props.seller}</a></span> </p>
                             
                             {   
                                 props.controls ? <Stack spacing={1} direction="row" m={1} justifyContent="center">
-                                        <div>
+                                        
                                         {
                                             added ? 
                                             <Button data-state={added} data-itemId={props.key} onClick={(e) => { handleClick(); context.addToCart(added); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
@@ -42,9 +42,6 @@ export default function Card(props){
                                             Add
                                             </Button>
                                         }
-                                        </div>
-
-                                        {/* Kya sochta hoon kya chahta hoon... cut it from Ajnabi Mujhko itna bta */}
                                         
                                         <Link to="/checkout">
                                             <Button  style={{backgroundColor: '#ff6347', color: '#FFFFFF'}} variant="contained" size="small" >
