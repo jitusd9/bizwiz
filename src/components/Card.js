@@ -10,12 +10,12 @@ import style from "../styles/products.module.css"
 
 export default function Card(props){
 
-        const [added, setAdded] = useState(false);
+    const [button, setButton] = useState(false);
 
-        const handleClick = () => {
-            setAdded(!added);
-        }
-
+    const handleBtn = () => {
+        setButton(!button);
+    }
+    
         return (
             <CartContext.Consumer>
             {
@@ -34,11 +34,11 @@ export default function Card(props){
                                 props.controls ? <Stack spacing={1} direction="row" m={1} justifyContent="center">
                                         
                                         {
-                                            added ? 
-                                            <Button data-state={added} data-itemId={props.key} onClick={(e) => { handleClick(); context.addToCart(added); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
+                                            button ? 
+                                            <Button data-state="add" data-itemid={props.key} onClick={(e) => {  context.addToCart(e.target.dataset.state, props.id); handleBtn(); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 
-                                            <Button data-state={added} data-itemId={props.isAdded} onClick={(e) => { handleClick(); context.addToCart(props.isAdded); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
+                                            <Button data-state="remove" data-itemid={props.key} onClick={(e) => { context.addToCart(e.target.dataset.state, props.id); handleBtn(); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
                                             Add
                                             </Button>
                                         }
@@ -49,7 +49,7 @@ export default function Card(props){
                                             </Button>
                                         </Link>
                                     </Stack> : <Stack spacing={1} direction="column" m={1}>
-                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>}>Remove Item</Button>
+                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.item} onClick={(e) => { context.removeFromCart(e.target.dataset.itemkey); }} >Remove Item</Button>
                                     </Stack>
                             }
                                 

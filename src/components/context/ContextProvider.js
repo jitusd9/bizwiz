@@ -3,28 +3,56 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
 import { auth, db, logout } from "../../firebase";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
+import { addItemToCart, removeItemFromCart } from './cart-context';
 
 const ThemeContext = React.createContext();
 const AuthContext = React.createContext();
 const CartContext = React.createContext();
 
+
 function ContextProvider(props) {
     
     const [theme, setTheme] = useState('theme-light');
     const [user, loading] = useAuthState(auth);
+
+    // context for cart 
     const [itemCount, setItemCount] = useState(0);
+    const [itemArr, setItemArr] = useState([]);
+    const [itemId, setItemid] = useState();
+
+    const [added, setAdded] = useState(false);
+
     let itemData = {
         key : false
     }
 
-    const addToCart = (e) => {
-        // console.log(e.target.key);
-        e ? setItemCount(itemCount - 1) : setItemCount(itemCount + 1)
+    const addToCart = (isAdded,itemKey) => {
+        // console.log(isAdded);
+        let item = {
+            key : itemKey
+        }
+        itemArr.push(item);
+
+        addItemToCart(item);
+        // console.log(itemArr);
+        if(isAdded === 'add'){
+            // console.log('isAdded true');
+            setItemCount(itemCount - 1)
+        }else{
+            // console.log('isAdded false');
+            setItemCount(itemCount + 1)
+        }       
+        // setAdded(!added);
     };
 
-    const test = () => {
-        console.log('so good so far!');
+    const removeFromCart = (key) => {
+        console.log('remove item', key);
+        // removeFromCart(key);
     }
+
+    // useEffect(() => {
+
+    // },[isAdded])
 
     if(loading){
         return(
@@ -38,7 +66,7 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    <CartContext.Provider value={{itemCount ,addToCart, itemData}}>
+                    <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemArr, removeFromCart}}>
                         {props.children}
                     </CartContext.Provider>
                 </AuthContext.Provider>

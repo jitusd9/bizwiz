@@ -7,6 +7,7 @@ import Login from './Login'
 import Register from './Register'
 import Reset from './Reset'
 import Dashboard from './Dashboard'
+import Test from './test'
 import { ContextProvider } from '../components/context/ContextProvider'
 import PageNotFound from '../components/PageNotFound'
 
@@ -41,6 +42,9 @@ export default class App extends Component {
                                 </Route>
                                 <Route path="/dashboard">
                                     <Dashboard />
+                                </Route>
+                                <Route path="/test">
+                                    <Test />
                                 </Route>
                                 <Route path="*">
                                     <PageNotFound />

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext} from 'react';
-import { CartContext } from './context/ContextProvider';
+import { CartContext } from '../context/ContextProvider';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db , logout, storage} from "../firebase";
+import { auth, db , logout, storage} from "../../firebase";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import Card from "./Card"
+import Card from "../Card"
 
 import style from "../styles/products.module.css"
 import ssd from "../images/ssd.png"

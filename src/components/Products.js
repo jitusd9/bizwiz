@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
-import { CartContext } from './context/ContextProvider'
+import { CartContext, AuthContext } from './context/ContextProvider'
 import Loader from './Loader'
 import Card from "./Card"
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 import style from "../styles/products.module.css"
 
+
 // firebase imports 
-import { db, storage } from '../firebase'
+import { db, storage, } from '../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { doc, addDoc, updateDoc, collection, getDocs} from "firebase/firestore"
+import { doc, addDoc, updateDoc, collection, getDocs, getDoc} from "firebase/firestore"
+
+
+const auth = getAuth();
+
 
 export default class Products extends Component {
+
+    static contextType = CartContext;
 
     constructor(props){
         super(props);
@@ -26,7 +34,9 @@ export default class Products extends Component {
             itemName : "",
             itemCategory : "",
             price : 0,
-            seller : ""
+            seller : "",
+            flagAdded : false,
+            idFromUser : []
         }
     }
 
@@ -140,17 +150,75 @@ export default class Products extends Component {
 
     }
 
+    // Fetch Current User If he have saved any items previousely in The CART
+    fetchCurrentUser = async () => {
+        console.log('fetching current User...');
+            let user = auth.currentUser;
+            // console.log(user.uid);
+            if(user){
+                const docRef = doc(db, 'users', user.uid);
+                
+                const docSnap = await getDocs(collection(docRef, 'userCart'));
+
+                if(docSnap){
+                    // find the list of products User added to cart
+                    let { idFromUser } = this.state; 
+                    docSnap.docs.forEach(element => {
+                        // console.log(element.data().itemID);
+                        let thisisdata = element.data()
+                        // let againObj = {
+                        //     itemId : element.data().itemID
+                        // }
+                        idFromUser.push(thisisdata);
+                    });
+
+                    this.setState({
+                        idFromUser : idFromUser
+                    })
+
+                }else{
+                    console.log('No Such Document');
+                }
+                }else{
+                    console.log('User Not Logged IN...');
+                }
+       
+    };
+
     fetchProducts = async () => {
         
-        console.log('fetching Products...');
+        console.log('fetching user carts...', this.state.idFromUser);
         try{
             //get data 
             const querySnapshot = await getDocs(collection(db, "products"));
 
-            let {items} = this.state;
+            const {items, idFromUser} = this.state;
+            // console.log(idFromUser);
             querySnapshot.forEach((doc) => {
-                items.push(doc.data());
+
+                // PSEUDOCODE check if no of IDs user has give 
+                console.log('pseudocode should work');
+                
+                // console.log(idFromUser[0].itemId);
+
+                if(idFromUser.includes(doc.id)){
+                    console.log('yes');
+                }
+
+                console.log('no it din');
+                
+
+                let itemObj = {
+                    itemId : doc.id,
+                    itemData : doc.data(),
+                    flagAdded : this.state.flagAdded
+                }
+                items.push(itemObj);
+                // this.setState({
+                //     flagItem : false
+                // })
             })
+
             this.setState({
                 items : items,
                 DataIsLoaded : false
@@ -164,13 +232,14 @@ export default class Products extends Component {
 
     componentDidMount(){
         console.log('fetching');
+        this.fetchCurrentUser();
         this.fetchProducts();
     }
 
     render() {
         
         const { DataIsLoaded, DataUploaded, items, uploadClass } = this.state;
-
+        // console.log(items);
         if(DataIsLoaded){
             console.log('laoding.....');
             return(
@@ -179,10 +248,10 @@ export default class Products extends Component {
                 </div>
             )
         }else{
-            console.log('painting ', items);
+            // console.log('painting ', items);
             return (     
                 <div className={style["listOfItems"]}> 
-                    <p>shift this button to Dashboard page</p>
+                    <p className="comment"> <span> shift upload item button to Dashboard page</span></p>
                     <button className={style["uploadBtn"]} onClick={this.uploadForm}>Upload Products</button>
 
                     <div className={`${style["uploadData"]} ${style[uploadClass ? "collapse" : ""]}`}>
@@ -209,10 +278,9 @@ export default class Products extends Component {
                     </div>
                     <div className={style["products"]}>                                       
                     {
-                        items.map((item, i) => {
+                        items.map((item) => {
                             
-                            return    <Card key={i} photo={item.itemThumbURL} title={item.itemName} item={item.itemCategory} price={item.itemPrice} seller={item.itemSeller} controls="true"/>
-                            
+                            return  <Card key={item.itemId} thisIsInCart={this.context.added} id={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} seller={item.itemData.itemSeller} controls="true"/>
                         })
                     }
                     </div>
