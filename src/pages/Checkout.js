@@ -34,7 +34,7 @@ export default function Checkout() {
                                 <div className="cart-summary">
                                     {
                                         context.itemArr.map((item) => {
-                                            return <Card photo="" title="Nike" item={item.key} price="₹8,799"/>
+                                            return <Card key={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
                                         })
                                     }
                                 </div>

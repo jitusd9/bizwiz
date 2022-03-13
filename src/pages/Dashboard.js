@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useHistory } from "react-router";
 import style from "../styles/dashboard.module.css";
+import styles from "../styles/products.module.css"
 import { auth, logout, db, storage } from "../firebase";
 import { collection, getDocs, query, doc, getDoc, updateDoc } from "firebase/firestore"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
@@ -11,13 +12,22 @@ import {AuthContext} from "../components/context/ContextProvider";
 import cat_pic from "../images/boss.png"
 import { Redirect } from 'react-router-dom'
 import Loader from "../components/Loader";
+import AddItem from "../components/Products/AddItem";
+import { Add } from "@mui/icons-material";
 
 function Dashboard(){
     const [user, loading] = useAuthState(auth);
     const [userData, setUser] = useState(null);
+    const [formClass, setFormClass] = useState(false);
 
     // upload file feature
     const [image, setImage] = useState(' ');
+
+
+    const uploadForm = () => {
+       setFormClass(!formClass);
+       console.log('wait! till we call upload modal');
+    }
 
     const upload = () => {
         if(image === ' ')return;
@@ -137,7 +147,14 @@ function Dashboard(){
                                     <input type="file" onChange={(e) => {setImage(e.target.files[0]);}}/>
                                     <button onClick={upload}>Upload</button>
                                     </center>
-                                    <p>add stripe like navigation tabs</p>
+                                        {/* upload any product  */}
+                                    <button className={styles["uploadBtn"]} onClick={uploadForm}>Upload Products</button>
+                                    <div className={`${styles["uploadData"]} ${styles[formClass ? "collapse" : ""]}`}>
+                                        <button className={styles["cross-btn"]} onClick={uploadForm}>❌</button>    
+                                        <AddItem />
+                                    </div>
+
+                                    <p className="comment">add stripe like navigation tabs</p>
                                     <button className={style["dashboard_btn"]} onClick={logout}>
                                         Logout
                                     </button>

@@ -34,7 +34,7 @@ export default function Card(props){
                                 props.controls ? <Stack spacing={1} direction="row" m={1} justifyContent="center">
                                         
                                         {
-                                            button ? 
+                                            props.thisIsInCart ? 
                                             <Button data-state="add" data-itemid={props.key} onClick={(e) => {  context.addToCart(e.target.dataset.state, props.id); handleBtn(); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 

@@ -1,14 +1,22 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useContext } from 'react'
 import Products from "../components/Products"
 import style from "../styles/products.module.css"
 import Button from '@mui/material/Button'
 import shopping_girl from "../images/shopping.png"
+
+import { ProductContext } from './context/ContextProvider'
 
 const useMountEffect = fun => useEffect(fun, []);
 
 export default function Hero() {
 
     const myRef = useRef(null);
+
+    const {products} = useContext(ProductContext);
+
+    // products.forEach(e => {
+    //     console.log(e.data());
+    // });
 
     const executeScroll = () => {
         
@@ -17,6 +25,9 @@ export default function Hero() {
     }
     // useMountEffect(executeScroll);
     // console.log(window.scrollTo(0, 100));
+    // useEffect(()=>{
+
+    // },[ProductContext])
 
     return (
         <div>

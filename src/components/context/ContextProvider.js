@@ -4,16 +4,22 @@ import { useHistory } from "react-router";
 import { auth, db, logout } from "../../firebase";
 import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
 import { addItemToCart, removeItemFromCart } from './cart-context';
+import { test } from './Allproducts';
 
 const ThemeContext = React.createContext();
 const AuthContext = React.createContext();
 const CartContext = React.createContext();
+
+const ProductContext = React.createContext();
 
 
 function ContextProvider(props) {
     
     const [theme, setTheme] = useState('theme-light');
     const [user, loading] = useAuthState(auth);
+
+    // all products 
+    const [products, setProducts] = useState([]);
 
     // context for cart 
     const [itemCount, setItemCount] = useState(0);
@@ -26,14 +32,19 @@ function ContextProvider(props) {
         key : false
     }
 
+
     const addToCart = (isAdded,itemKey) => {
         // console.log(isAdded);
-        let item = {
-            key : itemKey
-        }
-        itemArr.push(item);
+        // let item = {
+        //     key : itemKey
+        // }
+        products.forEach(item => {
+            if(item.itemId === itemKey){
+                itemArr.push(item);
+            }
+        });
 
-        addItemToCart(item);
+        // addItemToCart(item);
         // console.log(itemArr);
         if(isAdded === 'add'){
             // console.log('isAdded true');
@@ -50,9 +61,32 @@ function ContextProvider(props) {
         // removeFromCart(key);
     }
 
-    // useEffect(() => {
+    // fetching all products and storing them in array which can be accessed via context in app 
+    async function FetchAllProducts() {  
+        var itemData = [];
+        try{
+            const querySnapshot = await getDocs(collection(db, "products"));
+            querySnapshot.forEach((doc) => {
+               console.log(doc.id);
+               
+               let itemObj = {
+                    itemId : doc.id,
+                    itemData : doc.data()
+                }
+                itemData.push(itemObj);
+            })
 
-    // },[isAdded])
+            setProducts(itemData);
+            
+        }catch(err){
+            console.error(err);
+            return err;
+        }
+    }
+
+    useEffect(() => {
+        FetchAllProducts();
+    },[])
 
     if(loading){
         return(
@@ -66,9 +100,11 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemArr, removeFromCart}}>
-                        {props.children}
-                    </CartContext.Provider>
+                    <ProductContext.Provider value={{products}}>
+                        <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemArr, removeFromCart}}>
+                            {props.children}
+                        </CartContext.Provider>
+                    </ProductContext.Provider>
                 </AuthContext.Provider>
             </ThemeContext.Provider>
         )
@@ -80,5 +116,6 @@ export {
     ContextProvider,
     ThemeContext,
     AuthContext,
-    CartContext
+    CartContext,
+    ProductContext
 }
