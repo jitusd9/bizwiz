@@ -45,6 +45,7 @@ export default class Products extends Component {
 
                 if(docSnap){
                     // find the list of products User added to cart
+                    // PUSH THIS LOGIN IN CONTEXT COMPONENT SO THAT AVAILABLE IN CHECKOUT PAGE AS WELL
                     let { idFromUser } = this.state; 
                     docSnap.docs.forEach(element => {
                         // console.log(element.data().itemID);
@@ -52,7 +53,7 @@ export default class Products extends Component {
                         // let againObj = {
                         //     itemId : element.data().itemID
                         // }
-                        idFromUser.push(thisisdata.itemID);
+                        idFromUser.push(thisisdata.itemId);
                     });
 
                     this.setState({
@@ -100,7 +101,7 @@ export default class Products extends Component {
                             {
                                 productContext.products.map((item) => {
                                     let carted = this.context.added;
-
+                                    console.log(this.state.idFromUser)
                                     if(this.state.idFromUser.includes(item.itemId)){
                                         carted = true;
                                     }

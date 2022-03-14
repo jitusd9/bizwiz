@@ -49,7 +49,8 @@ export default function Card(props){
                                             </Button>
                                         </Link>
                                     </Stack> : <Stack spacing={1} direction="column" m={1}>
-                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.item} onClick={(e) => { context.removeFromCart(e.target.dataset.itemkey); }} >Remove Item</Button>
+                                        <label>Quantity <input type="number" min="1" />  </label>
+                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.docId} onClick={(e) => { context.removeFromCart(e.target.dataset.itemkey); }} >Remove Item</Button>
                                     </Stack>
                             }
                                 

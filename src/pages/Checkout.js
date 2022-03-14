@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext } from '../components/context/ContextProvider'
+// firebase imports 
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { db, storage, } from '../firebase'
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { doc, addDoc, updateDoc, collection, getDocs, getDoc, setDoc} from "firebase/firestore"
 
 import Card from '../components/Card'
 import pic from '../images/shoe.png'
@@ -9,9 +14,47 @@ import ssd from '../images/ssd.png'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send';
 
+const auth = getAuth();
+
 export default function Checkout() {
 
-    
+    const [userCartItem, setUserCartItem] = useState([]);
+
+       // Fetch Current User If he have saved any items previousely in The CART
+       const fetchCurrentUser = async () => {
+
+            let user = auth.currentUser;
+            if(user){
+                const docRef = doc(db, 'users', user.uid);
+                
+                const docSnap = await getDocs(collection(docRef, 'userCart'));
+
+                let items = []
+                if(docSnap){
+                    docSnap.docs.forEach(element => {
+                        // let thisisdata = element.data();
+
+                        let dataObj = {
+                            itemData : element.data().itemData,
+                            itemKey : element.id
+                        }
+
+                        items.push(dataObj);
+                    });
+                    setUserCartItem(items);
+                    
+                }else{
+                    console.log('No Such Document');
+                }
+            }else{
+                console.log('User Not Logged IN...');
+            }
+            
+    };
+
+    useEffect(()=>{
+        fetchCurrentUser();
+    },[])
 
         return (            
             <CartContext.Consumer>
@@ -33,8 +76,9 @@ export default function Checkout() {
                             <div className="checkout">
                                 <div className="cart-summary">
                                     {
-                                        context.itemArr.map((item) => {
-                                            return <Card key={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
+                                        userCartItem.map((item) => {
+                                            console.log(item.itemData)
+                                            return <Card key={item.itemId} docId={item.itemKey} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
                                         })
                                     }
                                 </div>

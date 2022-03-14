@@ -22,7 +22,7 @@ function ContextProvider(props) {
     const [products, setProducts] = useState([]);
 
     // context for cart 
-    const [itemCount, setItemCount] = useState(0);
+    const [itemCount, setItemCount] = useState(1);
     const [itemArr, setItemArr] = useState([]);
     const [itemId, setItemid] = useState();
 
@@ -38,13 +38,16 @@ function ContextProvider(props) {
         // let item = {
         //     key : itemKey
         // }
+
+
+
         products.forEach(item => {
             if(item.itemId === itemKey){
-                itemArr.push(item);
+                // itemArr.push(item);
+                addItemToCart(item);
             }
         });
 
-        // addItemToCart(item);
         // console.log(itemArr);
         if(isAdded === 'add'){
             // console.log('isAdded true');
@@ -58,7 +61,7 @@ function ContextProvider(props) {
 
     const removeFromCart = (key) => {
         console.log('remove item', key);
-        // removeFromCart(key);
+        removeItemFromCart(key);
     }
 
     // fetching all products and storing them in array which can be accessed via context in app 
