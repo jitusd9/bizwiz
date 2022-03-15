@@ -37,11 +37,6 @@ function ContextProvider(props) {
 
     const addToCart = (isAdded,itemKey) => {
         // console.log(isAdded);
-        // let item = {
-        //     key : itemKey
-        // }
-
-
 
         products.forEach(item => {
             if(item.itemId === itemKey){
@@ -61,9 +56,9 @@ function ContextProvider(props) {
         // setAdded(!added);
     };
 
-    const removeFromCart = (key) => {
-        console.log('remove item', key);
-        removeItemFromCart(key);
+    const removeFromCart = (itemId) => {
+        console.log('removing item', itemId);
+        removeItemFromCart(itemId);
     }
 
         // Fetch Current User If he have saved any items previousely in The CART
@@ -78,14 +73,14 @@ function ContextProvider(props) {
                 let items = []
                 if(docSnap){
                     docSnap.docs.forEach(element => {
-                        // let thisisdata = element.data();
+                        let thisisdata = element.data();
 
-                        let dataObj = {
-                            productId : element.data().itemId,
-                            itemKey : element.id
+                        let itemdObj = {
+                            productId : thisisdata.itemId,
+                            itemId : element.id
                         }
 
-                        items.push(dataObj);
+                        items.push(itemdObj);
                     });
                     setItemInCart(items);
                     
@@ -122,7 +117,7 @@ function ContextProvider(props) {
     }
 
     useEffect(() => {
-        fetchUserCart();
+        
         FetchAllProducts();
     },[])
 
@@ -138,7 +133,7 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    <ProductContext.Provider value={{products, itemInCart}}>
+                    <ProductContext.Provider value={{products, itemInCart, fetchUserCart}}>
                         <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemInCart, itemArr, removeFromCart}}>
                             {props.children}
                         </CartContext.Provider>
@@ -155,5 +150,5 @@ export {
     ThemeContext,
     AuthContext,
     CartContext,
-    ProductContext
+    ProductContext,
 }

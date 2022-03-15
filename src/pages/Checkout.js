@@ -22,47 +22,50 @@ export default function Checkout() {
 
     const [cartedItem, setCartedItem] = useState([]);
 
-    const { products, itemInCart } = useContext(ProductContext);
+    const { products, itemInCart, fetchUserCart } = useContext(ProductContext);
 
-       // Fetch Current User If he have saved any items previousely in The CART
-       const fetchCurrentUser = async () => {
+    
 
-            let user = auth.currentUser;
-            if(user){
-                const docRef = doc(db, 'users', user.uid);
+    //    // Fetch Current User If he have saved any items previousely in The CART
+    //    const fetchCurrentUser = async () => {
+
+    //         let user = auth.currentUser;
+    //         if(user){
+    //             const docRef = doc(db, 'users', user.uid);
                 
-                const docSnap = await getDocs(collection(docRef, 'userCart'));
+    //             const docSnap = await getDocs(collection(docRef, 'userCart'));
 
-                let items = []
-                if(docSnap){
-                    docSnap.docs.forEach(element => {
-                        let thisisdata = element.data();
+    //             let items = []
+    //             if(docSnap){
+    //                 docSnap.docs.forEach(element => {
+    //                     let thisisdata = element.data();
 
-                        let itemdObj = {
-                            productId : thisisdata.itemId,
-                            itemId : element.id
-                        }
+    //                     let itemdObj = {
+    //                         productId : thisisdata.itemId,
+    //                         itemId : element.id
+    //                     }
 
-                        items.push(itemdObj);
-                    });
-                    setUserCartItem(items);
+    //                     items.push(itemdObj);
+    //                 });
+    //                 setUserCartItem(items);
                     
-                }else{
-                    console.log('No Such Document');
-                }
-            }else{
-                console.log('User Not Logged IN...');
-            }
+    //             }else{
+    //                 console.log('No Such Document');
+    //             }
+    //         }else{
+    //             console.log('User Not Logged IN...');
+    //         }
             
-        };
+    //     };
 
         const filterProducts = () => {
             const filteredItems = products.filter((item) => {
-                console.log(userCartItem);
+                console.log(itemInCart);
+                // console.log(userCartItem);
                
                 let count = 0;
 
-                userCartItem.forEach((checkItem) => {
+                itemInCart.forEach((checkItem) => {
                     if(checkItem.productId === item.itemId){
                         count += 1;
                     }
@@ -72,17 +75,16 @@ export default function Checkout() {
 
                 console.log(item.count);
 
-                return userCartItem.some(cartItem => cartItem.productId === item.itemId);
+                return itemInCart.some(cartItem => cartItem.productId === item.itemId);
             })
-
-
 
             console.log(filteredItems);
             setCartedItem(filteredItems);
         }
 
     useEffect(()=>{
-        fetchCurrentUser();
+        // fetchCurrentUser();
+        fetchUserCart();
         filterProducts();
     },[])
 
@@ -108,7 +110,7 @@ export default function Checkout() {
                                     {
                                         cartedItem.map((item) => {
                                             console.log(item)
-                                            return <Card key={item.itemId} docId={item.itemKey} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
+                                            return <Card key={item.itemId} docId={item.itemId} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
                                         })
                                     }
                                 </div>

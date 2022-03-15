@@ -101,10 +101,10 @@ export default class Products extends Component {
                             <div className={style["products"]}>                                       
                             {
                                 productContext.products.map((item) => {
-                                    let carted = this.context.added;
-                                    console.log(this.state.idFromUser)
+                                    let carted = false;
+                                    console.log(productContext.itemInCart)
 
-                                    carted = this.state.idFromUser.some(cartItem => cartItem.productId === item.itemId);
+                                    carted = productContext.itemInCart.some(cartItem => cartItem.productId === item.itemId);
 
                                     return  <Card key={item.itemId} thisIsInCart={carted} id={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} seller={item.itemData.itemSeller} controls="true"/>
                                 })

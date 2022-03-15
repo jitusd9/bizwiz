@@ -13,11 +13,12 @@ export default function Card(props){
     const [button, setButton] = useState(false);
 
     const handleQty = (e) => {
-        console.log(typeof e.target.value);
+        console.log(e.target.value);
     }
 
-    const handleBtn = () => {
+    const handleBtn = (e) => {
         setButton(!button);
+        console.log(e.target.dataset.state);
     }
     
         return (
@@ -42,11 +43,11 @@ export default function Card(props){
                                 props.controls ? <Stack spacing={1} direction="row" m={1} justifyContent="center">
                                         
                                         {
-                                            props.thisIsInCart || button ? 
-                                            <Button data-state="add" data-itemid={props.key} onClick={(e) => {  context.addToCart(e.target.dataset.state, props.id); handleBtn(); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
+                                            props.thisIsInCart ? 
+                                            <Button data-state="add" data-itemid={props.key} onClick={(e) => {  context.addToCart(e.target.dataset.state, props.id); handleBtn(e); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 
-                                            <Button data-state="remove" data-itemid={props.key} onClick={(e) => { context.addToCart(e.target.dataset.state, props.id); handleBtn(); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
+                                            <Button data-state="remove" data-itemid={props.docId} onClick={(e) => { context.removeFromCart(props.docId); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
                                             Add
                                             </Button>
                                         }
@@ -58,7 +59,7 @@ export default function Card(props){
                                         </Link>
                                     </Stack> : <Stack spacing={1} direction="column" m={1}>
                                         <p className={style["quantity"]}>Quantity  <span>{props.count}</span>  </p>
-                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.docId} onClick={(e) => { context.removeFromCart(e.target.dataset.itemkey); }} >Remove Item</Button>
+                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.docId} onClick={(e) => { context.removeFromCart(props.docId); }} >Remove Item</Button>
                                     </Stack>
                             }
                                 
