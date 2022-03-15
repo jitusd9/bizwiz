@@ -20,6 +20,8 @@ function ContextProvider(props) {
 
     // all products 
     const [products, setProducts] = useState([]);
+    // userCart products
+    const [itemInCart, setItemInCart] = useState([]);
 
     // context for cart 
     const [itemCount, setItemCount] = useState(1);
@@ -64,6 +66,38 @@ function ContextProvider(props) {
         removeItemFromCart(key);
     }
 
+        // Fetch Current User If he have saved any items previousely in The CART
+    async function fetchUserCart() {
+        console.log('FETCHING CART PRODUCTS');
+            let user = auth.currentUser;
+            if(user){
+                const docRef = doc(db, 'users', user.uid);
+                
+                const docSnap = await getDocs(collection(docRef, 'userCart'));
+
+                let items = []
+                if(docSnap){
+                    docSnap.docs.forEach(element => {
+                        // let thisisdata = element.data();
+
+                        let dataObj = {
+                            productId : element.data().itemId,
+                            itemKey : element.id
+                        }
+
+                        items.push(dataObj);
+                    });
+                    setItemInCart(items);
+                    
+                }else{
+                    console.log('No Such Document');
+                }
+            }else{
+                console.log('User Not Logged IN...');
+            }
+           
+        };
+
     // fetching all products and storing them in array which can be accessed via context in app 
     async function FetchAllProducts() {  
         var itemData = [];
@@ -88,6 +122,7 @@ function ContextProvider(props) {
     }
 
     useEffect(() => {
+        fetchUserCart();
         FetchAllProducts();
     },[])
 
@@ -103,8 +138,8 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    <ProductContext.Provider value={{products}}>
-                        <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemArr, removeFromCart}}>
+                    <ProductContext.Provider value={{products, itemInCart}}>
+                        <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemInCart, itemArr, removeFromCart}}>
                             {props.children}
                         </CartContext.Provider>
                     </ProductContext.Provider>

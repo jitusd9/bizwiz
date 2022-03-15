@@ -50,10 +50,11 @@ export default class Products extends Component {
                     docSnap.docs.forEach(element => {
                         // console.log(element.data().itemID);
                         let thisisdata = element.data()
-                        // let againObj = {
-                        //     itemId : element.data().itemID
-                        // }
-                        idFromUser.push(thisisdata.itemId);
+                        let itemdObj = {
+                            productId : thisisdata.itemId,
+                            itemId : element.id
+                        }
+                        idFromUser.push(itemdObj);
                     });
 
                     this.setState({
@@ -102,9 +103,9 @@ export default class Products extends Component {
                                 productContext.products.map((item) => {
                                     let carted = this.context.added;
                                     console.log(this.state.idFromUser)
-                                    if(this.state.idFromUser.includes(item.itemId)){
-                                        carted = true;
-                                    }
+
+                                    carted = this.state.idFromUser.some(cartItem => cartItem.productId === item.itemId);
+
                                     return  <Card key={item.itemId} thisIsInCart={carted} id={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} seller={item.itemData.itemSeller} controls="true"/>
                                 })
                             }

@@ -46,8 +46,6 @@ export default function Hero() {
                 </div>
             </div>
         </div>
-        <p className="comment"><span>1. DO NOT RENDER every products when click on button.</span></p>
-        <p className="comment"><span>2. only after this go for fetch data and store added in firestore.</span></p>
         <div ref={myRef}>
             <Products />
         </div>

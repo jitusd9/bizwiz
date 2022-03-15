@@ -12,6 +12,10 @@ export default function Card(props){
 
     const [button, setButton] = useState(false);
 
+    const handleQty = (e) => {
+        console.log(typeof e.target.value);
+    }
+
     const handleBtn = () => {
         setButton(!button);
     }
@@ -28,13 +32,17 @@ export default function Card(props){
                             <h3>{props.title}</h3>
                             <p className={style["item-name"]}>{props.item}</p>
                             <p className={style["item-price"]}>{props.price}</p>
-                            <p className={style["item-seller"]} >sold by  <span> <a href="http://localhost:3000/barat-store">{props.seller}</a></span> </p>
+                            {
+                                props.seller ? 
+                                <p className={style["item-seller"]} >sold by  <span> <a href="http://localhost:3000/barat-store">{props.seller}</a></span> </p>
+                                : ""
+                            }
                             
                             {   
                                 props.controls ? <Stack spacing={1} direction="row" m={1} justifyContent="center">
                                         
                                         {
-                                            props.thisIsInCart ? 
+                                            props.thisIsInCart || button ? 
                                             <Button data-state="add" data-itemid={props.key} onClick={(e) => {  context.addToCart(e.target.dataset.state, props.id); handleBtn(); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 
@@ -49,7 +57,7 @@ export default function Card(props){
                                             </Button>
                                         </Link>
                                     </Stack> : <Stack spacing={1} direction="column" m={1}>
-                                        <label>Quantity <input type="number" min="1" />  </label>
+                                        <p className={style["quantity"]}>Quantity  <span>{props.count}</span>  </p>
                                         <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.docId} onClick={(e) => { context.removeFromCart(e.target.dataset.itemkey); }} >Remove Item</Button>
                                     </Stack>
                             }

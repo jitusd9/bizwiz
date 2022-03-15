@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { CartContext } from '../components/context/ContextProvider'
+import { CartContext, ProductContext } from '../components/context/ContextProvider'
 // firebase imports 
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { db, storage, } from '../firebase'
@@ -20,6 +20,10 @@ export default function Checkout() {
 
     const [userCartItem, setUserCartItem] = useState([]);
 
+    const [cartedItem, setCartedItem] = useState([]);
+
+    const { products, itemInCart } = useContext(ProductContext);
+
        // Fetch Current User If he have saved any items previousely in The CART
        const fetchCurrentUser = async () => {
 
@@ -32,14 +36,14 @@ export default function Checkout() {
                 let items = []
                 if(docSnap){
                     docSnap.docs.forEach(element => {
-                        // let thisisdata = element.data();
+                        let thisisdata = element.data();
 
-                        let dataObj = {
-                            itemData : element.data().itemData,
-                            itemKey : element.id
+                        let itemdObj = {
+                            productId : thisisdata.itemId,
+                            itemId : element.id
                         }
 
-                        items.push(dataObj);
+                        items.push(itemdObj);
                     });
                     setUserCartItem(items);
                     
@@ -50,10 +54,36 @@ export default function Checkout() {
                 console.log('User Not Logged IN...');
             }
             
-    };
+        };
+
+        const filterProducts = () => {
+            const filteredItems = products.filter((item) => {
+                console.log(userCartItem);
+               
+                let count = 0;
+
+                userCartItem.forEach((checkItem) => {
+                    if(checkItem.productId === item.itemId){
+                        count += 1;
+                    }
+                })
+
+                item.count = count
+
+                console.log(item.count);
+
+                return userCartItem.some(cartItem => cartItem.productId === item.itemId);
+            })
+
+
+
+            console.log(filteredItems);
+            setCartedItem(filteredItems);
+        }
 
     useEffect(()=>{
         fetchCurrentUser();
+        filterProducts();
     },[])
 
         return (            
@@ -76,9 +106,9 @@ export default function Checkout() {
                             <div className="checkout">
                                 <div className="cart-summary">
                                     {
-                                        userCartItem.map((item) => {
-                                            console.log(item.itemData)
-                                            return <Card key={item.itemId} docId={item.itemKey} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
+                                        cartedItem.map((item) => {
+                                            console.log(item)
+                                            return <Card key={item.itemId} docId={item.itemKey} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
                                         })
                                     }
                                 </div>

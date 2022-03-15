@@ -136,6 +136,7 @@
     align-items: center;
 }
 
+
 .search-bar{
     width: 100%;
     display: flex;
@@ -288,6 +289,17 @@
 
 .card-details .item-seller a:hover{
     color: var(--color-2);
+}
+
+.card .quantity{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.card .quantity span{
+    font-weight: bold;
+    color: var(--blue);
 }
 
 @media screen and (max-width: 800px ) {

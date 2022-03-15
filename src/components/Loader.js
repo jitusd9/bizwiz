@@ -8,7 +8,7 @@ export default function Loader(props) {
 
 
   useEffect(() => {
-      console.log(props.loading);
+    //   console.log(props.loading);
     setLoad(props.loading);
 
     if(load){
