@@ -32,7 +32,7 @@ export default function Card(props){
                         <div className={style["card-details"]}>
                             <h3>{props.title}</h3>
                             <p className={style["item-name"]}>{props.item}</p>
-                            <p className={style["item-price"]}>{props.price}</p>
+                            <p className={style["item-price"]}><span className={style["rupee-sign"]}>₹</span> {props.price}/-</p>
                             {
                                 props.seller ? 
                                 <p className={style["item-seller"]} >sold by  <span> <a href="http://localhost:3000/barat-store">{props.seller}</a></span> </p>
@@ -44,10 +44,10 @@ export default function Card(props){
                                         
                                         {
                                             props.thisIsInCart ? 
-                                            <Button data-state="add" data-itemid={props.key} onClick={(e) => {  context.addToCart(e.target.dataset.state, props.id); handleBtn(e); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
+                                            <Button data-state="add" data-itemid={props.id} onClick={(e) => {  context.removeFromCart(props.id); handleBtn(e); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 
-                                            <Button data-state="remove" data-itemid={props.docId} onClick={(e) => { context.removeFromCart(props.docId); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
+                                            <Button data-state="remove" data-itemid={props.id} onClick={(e) => { context.addToCart(props.id); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
                                             Add
                                             </Button>
                                         }

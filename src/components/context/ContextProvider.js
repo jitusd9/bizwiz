@@ -35,7 +35,7 @@ function ContextProvider(props) {
     }
 
 
-    const addToCart = (isAdded,itemKey) => {
+    const addToCart = (itemKey) => {
         // console.log(isAdded);
 
         products.forEach(item => {
@@ -44,21 +44,37 @@ function ContextProvider(props) {
                 addItemToCart(item);
             }
         });
+        setItemCount(itemCount + 1)
 
-        // console.log(itemArr);
-        if(isAdded === 'add'){
-            // console.log('isAdded true');
-            setItemCount(itemCount - 1)
-        }else{
-            // console.log('isAdded false');
-            setItemCount(itemCount + 1)
-        }       
-        // setAdded(!added);
     };
-
+    
     const removeFromCart = (itemId) => {
+        setItemCount(itemCount - 1)
         console.log('removing item', itemId);
         removeItemFromCart(itemId);
+    }
+
+    // CALCULATE THE BILL OF ADDED ITEMS 
+    const calculateInvoice = function(cartedItem) {
+        let basePrice = 0;
+        cartedItem.forEach(item => {
+           console.log(item.itemData.itemPrice); 
+        //    item price 
+           basePrice = basePrice + (item.itemData.itemPrice * item.count)
+        });
+
+        // calclulateGST/TAX 
+        let tax = Math.floor((basePrice * 12) / 100);
+        let afterTAX = basePrice + tax;
+
+        // Discount 
+        let discount = Math.floor((afterTAX * 5) / 100); 
+        let afterDiscount = afterTAX - discount;
+
+        // FLAT150OFF
+        let payableAmount = afterDiscount - 199;
+
+        return {payableAmount, basePrice, tax, discount};
     }
 
         // Fetch Current User If he have saved any items previousely in The CART
@@ -83,6 +99,7 @@ function ContextProvider(props) {
                         items.push(itemdObj);
                     });
                     setItemInCart(items);
+                    setItemCount(items.length);
                     
                 }else{
                     console.log('No Such Document');
@@ -133,7 +150,7 @@ function ContextProvider(props) {
         return (
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
-                    <ProductContext.Provider value={{products, itemInCart, fetchUserCart}}>
+                    <ProductContext.Provider value={{products, itemInCart, fetchUserCart, calculateInvoice}}>
                         <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemInCart, itemArr, removeFromCart}}>
                             {props.children}
                         </CartContext.Provider>

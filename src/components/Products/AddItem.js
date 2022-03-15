@@ -8,7 +8,7 @@ function AddItem() {
 
     const [itemName, setitemName] = useState("");
     const [itemCategory, setitemCategory] = useState("");
-    const [itemPrice, setitemPrice] = useState("");
+    const [itemPrice, setitemPrice] = useState(0);
     const [itemSeller, setitemSeller] = useState("");
     const [imageFile, setimageFile] = useState(null);
 

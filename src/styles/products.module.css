@@ -282,6 +282,11 @@
     letter-spacing: -2px;
 }
 
+.card-details .item-price .rupee-sign{
+    color: var(--color-2);
+    font-weight: lighter;
+}
+
 .card-details .item-seller,
 .card-details .item-seller a{
     color: var(--color-2);

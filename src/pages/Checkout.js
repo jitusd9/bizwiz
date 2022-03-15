@@ -8,7 +8,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { doc, addDoc, updateDoc, collection, getDocs, getDoc, setDoc} from "firebase/firestore"
 
 import Card from '../components/Card'
-import pic from '../images/shoe.png'
+import pic from '../images/icon/cart.svg'
 import ssd from '../images/ssd.png'
 
 import Button from '@mui/material/Button'
@@ -18,74 +18,45 @@ const auth = getAuth();
 
 export default function Checkout() {
 
-    const [userCartItem, setUserCartItem] = useState([]);
-
     const [cartedItem, setCartedItem] = useState([]);
 
-    const { products, itemInCart, fetchUserCart } = useContext(ProductContext);
+    const [invoice, setInvoice] = useState(null);
 
-    
+    const { products, itemInCart, fetchUserCart, calculateInvoice } = useContext(ProductContext);
 
-    //    // Fetch Current User If he have saved any items previousely in The CART
-    //    const fetchCurrentUser = async () => {
 
-    //         let user = auth.currentUser;
-    //         if(user){
-    //             const docRef = doc(db, 'users', user.uid);
-                
-    //             const docSnap = await getDocs(collection(docRef, 'userCart'));
-
-    //             let items = []
-    //             if(docSnap){
-    //                 docSnap.docs.forEach(element => {
-    //                     let thisisdata = element.data();
-
-    //                     let itemdObj = {
-    //                         productId : thisisdata.itemId,
-    //                         itemId : element.id
-    //                     }
-
-    //                     items.push(itemdObj);
-    //                 });
-    //                 setUserCartItem(items);
-                    
-    //             }else{
-    //                 console.log('No Such Document');
-    //             }
-    //         }else{
-    //             console.log('User Not Logged IN...');
-    //         }
+    const filterProducts = () => {
+        const filteredItems = products.filter((item) => {
+            console.log(itemInCart);
+            // console.log(userCartItem);
             
-    //     };
+            let count = 0;
 
-        const filterProducts = () => {
-            const filteredItems = products.filter((item) => {
-                console.log(itemInCart);
-                // console.log(userCartItem);
-               
-                let count = 0;
-
-                itemInCart.forEach((checkItem) => {
-                    if(checkItem.productId === item.itemId){
-                        count += 1;
-                    }
-                })
-
-                item.count = count
-
-                console.log(item.count);
-
-                return itemInCart.some(cartItem => cartItem.productId === item.itemId);
+            itemInCart.forEach((checkItem) => {
+                if(checkItem.productId === item.itemId){
+                    count += 1;
+                }
             })
 
-            console.log(filteredItems);
-            setCartedItem(filteredItems);
-        }
+            item.count = count
+
+            console.log(item.count);
+
+            return itemInCart.some(cartItem => cartItem.productId === item.itemId);
+        })
+
+        console.log(filteredItems);
+        setCartedItem(filteredItems);
+        let invoiceData = calculateInvoice(filteredItems);
+        console.log(invoiceData);
+        setInvoice(invoiceData);
+    }
 
     useEffect(()=>{
         // fetchCurrentUser();
         fetchUserCart();
         filterProducts();
+
     },[])
 
         return (            
@@ -110,37 +81,45 @@ export default function Checkout() {
                                     {
                                         cartedItem.map((item) => {
                                             console.log(item)
-                                            return <Card key={item.itemId} docId={item.itemId} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice}/>
+                                            return <Card key={item.itemId} docId={item.itemId} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} />
                                         })
                                     }
                                 </div>
-                                <div className="payment-summary">
+                                {
+                                    invoice !== null ?
+                                    <div className="payment-summary">
                                     <h3>Payments summary</h3>
-                                    <p>No of Items Added : {context.itemCount}</p>
+                                    <p>(for convenience numbers are rounded)</p>
                                     <table className="checkout-list">
                                         <tbody>
                                             <tr className="checkout-item">
+                                                <td>No of Items</td>
+                                                <td>{context.itemCount}</td>
+                                            </tr>
+                                            <tr className="checkout-item">
                                                 <td>Items cost</td>
-                                                <td>₹ 14298.00</td>
+                                                <td>₹ <span>{invoice.basePrice}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
-                                                <td>GST/Tax (11%)</td>
-                                                <td>₹ 1572.78</td>
+                                                <td>GST/Tax (12%)</td>
+                                                <td>₹ <span>{invoice.tax}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
-                                                <td>Discount/Coupon</td>
-                                                <td>5% + FLAT150OFF</td>
+                                                <td>Discount(5%)/Coupon</td>
+                                                <td>₹ <span>{invoice.discount}</span> + FLAT199OFF</td>
                                             </tr>
                                             <tr className="checkout-item total">
                                                 <th>Total</th>
-                                                <th>₹ 14927.24</th>
+                                                <th>₹ <span>{invoice.payableAmount}</span></th>
                                             </tr>
                                         </tbody>
                                     </table>
-                                <div className="big-orange-btn">
-                                        <Button variant="contained" size="small" endIcon={<SendIcon/>}>Proceed to Pay</Button>
-                                </div>
-                                </div>
+                                    <div className="big-orange-btn">
+                                            <Button variant="contained" size="small" endIcon={<SendIcon/>}>Proceed to Pay</Button>
+                                    </div>
+                                    </div> : "lol"
+                                }
+                                
                             </div>
                         )
                     }
