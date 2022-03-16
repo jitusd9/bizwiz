@@ -296,15 +296,39 @@
     color: var(--color-2);
 }
 
+.card-details .card-btns{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px;
+}
+
 .card .quantity{
+    width: 80px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 .card .quantity span{
     font-weight: bold;
     color: var(--blue);
+    /* display: flex;
+    align-items: center;
+    justify-content: space-around; */
+}
+
+.card .quantity span.btn{
+    user-select: none;
+    cursor: pointer;
+    background: var(--bg-3);
+    padding: 0 5px;
+    border-radius: 2px;
+}
+
+.card .quantity span.btn:active{
+    color: var(--bg-1);
+    background: var(--color-1);
 }
 
 @media screen and (max-width: 800px ) {
@@ -329,6 +353,7 @@
 
     .card{
         width: 150px;
+        margin: 0  ;
         box-shadow: 0px 2px 3px rgb(0 0 0 / 16%);
     }
 
@@ -358,4 +383,14 @@
     .card-details .item-seller a{
         font-size: 0.7rem;
     } 
+    .card-details .quantity{
+        width: 100px;
+    }
+    .card-details .card-btns{
+        flex-direction: column;
+        margin: 5px;
+    }
+    .card-details .card-btns button{
+        margin: 5px auto;
+    }
 }
