@@ -29,6 +29,7 @@ export default function Card(props){
                         <div className={style["card-image"]}>
                             <img src={props.photo} alt="product thumbnail" />
                         </div>
+                        
                         <div className={style["card-details"]}>
                             <h3>{props.title}</h3>
                             <p className={style["item-name"]}>{props.item}</p>
@@ -44,10 +45,10 @@ export default function Card(props){
                                         
                                         {
                                             props.thisIsInCart ? 
-                                            <Button data-state="add" data-itemid={props.id} onClick={(e) => {  context.removeFromCart(props.id); handleBtn(e); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
+                                            <Button data-state="remove" data-itemid={props.id} onClick={(e) => {  context.removeFromCart(props.id); handleBtn(e); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
                                             Remove
                                             </Button> : 
-                                            <Button data-state="remove" data-itemid={props.id} onClick={(e) => { context.addToCart(props.id); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
+                                            <Button data-state="add" data-itemid={props.id} onClick={(e) => { context.addToCart(props.id); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
                                             Add
                                             </Button>
                                         }

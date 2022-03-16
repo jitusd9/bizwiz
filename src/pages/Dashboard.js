@@ -88,7 +88,7 @@ function Dashboard(){
 
     // get logged in user 
     const fetchUserDetails = async () => {
-        console.log('fetching...');
+        // console.log('fetching...');
         try{
             //  get data 
             const docRef = doc(db, 'users', user.uid);
@@ -97,7 +97,7 @@ function Dashboard(){
             if(docSnap.exists()){
                 const snapData = docSnap.data();
                 setUser(snapData);
-                console.log('Document Available :', snapData);
+                // console.log('Document Available :', snapData);
             }else{
                 console.log('No Such Document');
             }

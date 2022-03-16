@@ -24,9 +24,8 @@ function ContextProvider(props) {
     const [itemInCart, setItemInCart] = useState([]);
 
     // context for cart 
-    const [itemCount, setItemCount] = useState(1);
+    const [itemCount, setItemCount] = useState(0);
     const [itemArr, setItemArr] = useState([]);
-    const [itemId, setItemid] = useState();
 
     const [added, setAdded] = useState(false);
 
@@ -36,19 +35,25 @@ function ContextProvider(props) {
 
 
     const addToCart = (itemKey) => {
-        // console.log(isAdded);
 
-        products.forEach(item => {
-            if(item.itemId === itemKey){
-                // itemArr.push(item);
-                addItemToCart(item);
-            }
-        });
-        setItemCount(itemCount + 1)
+        if(user){
+            products.forEach(item => {
+                if(item.itemId === itemKey){
+                    // itemArr.push(item);
+                    addItemToCart(item);
+                }
+            });
+            setItemCount(itemCount + 1)
+        }else{
+            alert('You need to login first');
+        }
+
+       
 
     };
     
     const removeFromCart = (itemId) => {
+
         setItemCount(itemCount - 1)
         console.log('removing item', itemId);
         removeItemFromCart(itemId);
@@ -58,7 +63,6 @@ function ContextProvider(props) {
     const calculateInvoice = function(cartedItem) {
         let basePrice = 0;
         cartedItem.forEach(item => {
-           console.log(item.itemData.itemPrice); 
         //    item price 
            basePrice = basePrice + (item.itemData.itemPrice * item.count)
         });
@@ -80,7 +84,6 @@ function ContextProvider(props) {
         // Fetch Current User If he have saved any items previousely in The CART
     async function fetchUserCart() {
         console.log('FETCHING CART PRODUCTS');
-            let user = auth.currentUser;
             if(user){
                 const docRef = doc(db, 'users', user.uid);
                 
@@ -116,7 +119,6 @@ function ContextProvider(props) {
         try{
             const querySnapshot = await getDocs(collection(db, "products"));
             querySnapshot.forEach((doc) => {
-               console.log(doc.id);
                
                let itemObj = {
                     itemId : doc.id,

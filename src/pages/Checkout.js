@@ -27,9 +27,7 @@ export default function Checkout() {
 
     const filterProducts = () => {
         const filteredItems = products.filter((item) => {
-            console.log(itemInCart);
-            // console.log(userCartItem);
-            
+
             let count = 0;
 
             itemInCart.forEach((checkItem) => {
@@ -40,15 +38,13 @@ export default function Checkout() {
 
             item.count = count
 
-            console.log(item.count);
-
             return itemInCart.some(cartItem => cartItem.productId === item.itemId);
         })
 
-        console.log(filteredItems);
+
         setCartedItem(filteredItems);
         let invoiceData = calculateInvoice(filteredItems);
-        console.log(invoiceData);
+
         setInvoice(invoiceData);
     }
 
@@ -80,7 +76,6 @@ export default function Checkout() {
                                 <div className="cart-summary">
                                     {
                                         cartedItem.map((item) => {
-                                            console.log(item)
                                             return <Card key={item.itemId} docId={item.itemId} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} />
                                         })
                                     }

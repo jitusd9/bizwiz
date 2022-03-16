@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { CartContext, AuthContext, ProductContext } from './context/ContextProvider'
 import Loader from './Loader'
 import Card from "./Card"
@@ -41,7 +42,6 @@ export default class Products extends Component {
                    productContext => {
                        return(
                         <div className={style["listOfItems"]}> 
-
                             <div className={style["search-bar"]}>
                                 <input className={style["search-input"]} type="text" placeholder="search products..."/>
                             </div>
