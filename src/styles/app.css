@@ -363,6 +363,10 @@ a{
     color: var(--green);
 }
 
+.payment-summary .itemCost{
+    font-weight: bold;
+}
+
 .checkout-list{
     margin-top: 10px;
     border-collapse: collapse;

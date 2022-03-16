@@ -91,13 +91,17 @@ export default function Checkout() {
                                                 <td>No of Items</td>
                                                 <td>{context.itemCount}</td>
                                             </tr>
-                                            <tr className="checkout-item">
+                                            <tr className="checkout-item itemCost">
                                                 <td>Items cost</td>
+                                                <td>₹ <span>{invoice.itemCost}</span></td>
+                                            </tr>
+                                            <tr className="checkout-item">
+                                                <td>Base price</td>
                                                 <td>₹ <span>{invoice.basePrice}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
-                                                <td>GST/Tax (12%)</td>
-                                                <td>₹ <span>{invoice.tax}</span></td>
+                                                <td>GST/Tax (inluded)</td>
+                                                <td>₹ <span>{invoice.totalTAX}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
                                                 <td>Discount(5%)/Coupon</td>

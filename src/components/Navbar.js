@@ -64,7 +64,7 @@ export default class Navbar extends Component {
                 {
                     /* () instead of {} indicates the arrow function is returning whatever inside ()  */
                     userContext => (
-                        <CartContext>
+                        <CartContext.Consumer>
                             {
                                 cartContext => (
                                     <header>
@@ -93,7 +93,7 @@ export default class Navbar extends Component {
                                                                 <li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard"><Button >{userContext.user.email ? userContext.user.email : "_Name"}</Button></Link> </li>
                                                                 : null
                                                         }
-                                                        <li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><Button>Cart {cartContext.itemCount !== 0 ? <span class={style["itemCount"]}>{cartContext.itemCount}</span> : ""} </Button></Link> </li>
+                                                        <li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><Button>Cart {cartContext.itemCount !== 0 ? <span className={style["itemCount"]}>{cartContext.itemCount}</span> : ""} </Button></Link> </li>
                                                         <li className={`${style["item-link"]} ${style["theme-btn"]}`}>
                                                             <Link to="#">
                                                             <Button onClick={this.handleNav}> <span role="img">{this.state.theme ? 'dark' : 'light'}</span> </Button>
@@ -105,7 +105,7 @@ export default class Navbar extends Component {
                                     </header>
                                 )
                             }
-                        </CartContext>
+                        </CartContext.Consumer>
                     )
                 }   
             </AuthContext.Consumer>

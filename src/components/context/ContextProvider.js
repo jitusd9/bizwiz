@@ -62,14 +62,23 @@ function ContextProvider(props) {
     // CALCULATE THE BILL OF ADDED ITEMS 
     const calculateInvoice = function(cartedItem) {
         let basePrice = 0;
+        let totalTAX = 0;
+        let itemCost = 0;
         cartedItem.forEach(item => {
-        //    item price 
-           basePrice = basePrice + (item.itemData.itemPrice * item.count)
+        
+        let tax = Math.floor((item.itemData.itemPrice * 12) / 100);
+        let withoutTAX = item.itemData.itemPrice - tax;
+
+        totalTAX = totalTAX + tax;
+
+        itemCost += (item.itemData.itemPrice * item.count)
+
+        // item price 
+           basePrice = basePrice + (withoutTAX * item.count)
         });
 
         // calclulateGST/TAX 
-        let tax = Math.floor((basePrice * 12) / 100);
-        let afterTAX = basePrice + tax;
+        let afterTAX = basePrice + totalTAX;
 
         // Discount 
         let discount = Math.floor((afterTAX * 5) / 100); 
@@ -78,7 +87,7 @@ function ContextProvider(props) {
         // FLAT150OFF
         let payableAmount = afterDiscount - 199;
 
-        return {payableAmount, basePrice, tax, discount};
+        return {payableAmount,itemCost, basePrice, totalTAX, discount};
     }
 
         // Fetch Current User If he have saved any items previousely in The CART
@@ -144,7 +153,7 @@ function ContextProvider(props) {
         return(
             <div className="authLoader loadingstart">
                 <svg className="spinner" viewBox="0 0 50 50">
-                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                    <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
                 </svg>
             </div>
         )

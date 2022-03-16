@@ -52,7 +52,7 @@ export default class Products extends Component {
                                     
                                     carted = productContext.itemInCart.some(cartItem => cartItem.productId === item.itemId);
 
-                                    return  <Card key={item.id} thisIsInCart={carted} id={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} seller={item.itemData.itemSeller} controls="true"/>
+                                    return  <Card key={item.itemId} thisIsInCart={carted} id={item.itemId} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} seller={item.itemData.itemSeller} controls="true"/>
                                 })
                             }
                             </div>

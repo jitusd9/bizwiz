@@ -41,7 +41,7 @@ export default function Card(props){
                             }
                             
                             {   
-                                props.controls ? <Stack spacing={1} direction="row" m={1} justifyContent="center">
+                                props.controls ? <Stack spacing={1} direction={{ xs: 'column', sm: 'row' }} m={1} justifyContent="center">
                                         
                                         {
                                             props.thisIsInCart ? 
