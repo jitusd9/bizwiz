@@ -21,15 +21,6 @@ export default class Products extends Component {
 
     static contextType = CartContext;
 
-    // constructor(props){
-    //     super(props);
-
-    //     this.state = {
-    //         DataIsLoaded : false,
-    //         idFromUser : []
-    //     }
-    // }
-
     executeScroll = () => {
         this.myRef.current.scrollIntoView();
     }

@@ -20,12 +20,12 @@ export default function Card(props){
             setProductQty(productQty + 1)
             console.log('increase');
         }else{
-            if(itemQty === 1){
+            if(itemQty === 1 || productQty === 1){
                 setItemQty(1);
                 setProductQty(1);
             }else{
                 setItemQty(itemQty - 1);
-                setProductQty(productQty + 1);
+                setProductQty(productQty - 1);
             }
             console.log('decrease');
         }
@@ -60,7 +60,7 @@ export default function Card(props){
                                         
                                         {
                                             props.thisIsInCart ? 
-                                            <div className={style["quantity"]}><span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={handleQty}>-</span> <span>{productQty}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={handleQty}>+</span></div>
+                                            <div className={style["quantity"]}><span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={handleQty}>-</span> <span>{productQty}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={(e) => { context.addToCart(props.id); handleQty(e);}}>+</span></div>
                                              : 
                                              <div>
                                             <Button data-state="add" data-itemid={props.id} onClick={(e) => { context.addToCart(props.id); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
