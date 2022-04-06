@@ -1,9 +1,7 @@
-import React from 'react'
 // firebase imports 
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { db, storage, } from '../../firebase'
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { doc, addDoc, updateDoc, collection, query, where, getDocs, getDoc, setDoc, deleteDoc} from "firebase/firestore"
+import { getAuth } from 'firebase/auth'
+import { db } from '../../firebase'
+import { doc, addDoc, collection, query, where, getDocs, deleteDoc} from "firebase/firestore"
 
 const auth = getAuth();
 

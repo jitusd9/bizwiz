@@ -1,19 +1,17 @@
-import React, {useState ,useEffect, useContext} from "react";
+import React, {useState ,useEffect} from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { onAuthStateChanged } from "firebase/auth";
 import { useHistory } from "react-router";
 import style from "../styles/dashboard.module.css";
 import styles from "../styles/products.module.css"
 import { auth, logout, db, storage } from "../firebase";
-import { collection, getDocs, query, doc, getDoc, updateDoc } from "firebase/firestore"
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 import {AuthContext} from "../components/context/ContextProvider";
 import cat_pic from "../images/boss.png"
-import { Redirect } from 'react-router-dom'
 import Loader from "../components/Loader";
 import AddItem from "../components/Products/AddItem";
-import { Add } from "@mui/icons-material";
+
 
 function Dashboard(){
     const [user, loading] = useAuthState(auth);
@@ -132,7 +130,7 @@ function Dashboard(){
                                     <div className={style["profile_pic"]}>
                                     {
                                         userData ? <img src={userData ? userData.photoURL : cat_pic} alt="broken pic" /> :
-                                        <Loader loading="false" />  
+                                        <Loader />  
                                     }
                                     </div>
                                     <div className={style["user_name"]}>

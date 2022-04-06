@@ -1,8 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics";
-import { getStorage, ref } from "firebase/storage";
-import { getFirestore, collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, updateProfile} from '@firebase/auth';
+import { getStorage } from "firebase/storage";
+import { getFirestore, setDoc, doc } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged} from '@firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {

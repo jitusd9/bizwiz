@@ -1,20 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext, ProductContext } from '../components/context/ContextProvider'
-// firebase imports 
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { db, storage, } from '../firebase'
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { doc, addDoc, updateDoc, collection, getDocs, getDoc, setDoc} from "firebase/firestore"
+
 
 import Card from '../components/Card'
-import pic from '../images/icon/cart.svg'
-import ssd from '../images/ssd.png'
 
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send';
 
-const auth = getAuth();
 
 export default function Checkout() {
 

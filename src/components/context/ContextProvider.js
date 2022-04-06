@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useHistory } from "react-router";
-import { auth, db, logout } from "../../firebase";
-import { collection, getDocs, query, doc, getDoc } from "firebase/firestore"
+import { auth, db } from "../../firebase";
+import { collection, getDocs, doc, } from "firebase/firestore"
 import { addItemToCart, removeItemFromCart } from './cart-context';
-import { test } from './Allproducts';
+import Loader from "../Loader";
 
 const ThemeContext = React.createContext();
 const AuthContext = React.createContext();
@@ -151,10 +150,13 @@ function ContextProvider(props) {
 
     if(loading){
         return(
-            <div className="authLoader loadingstart">
-                <svg className="spinner" viewBox="0 0 50 50">
+            <div>
+                {/* <svg className="spinner" viewBox="0 0 50 50">
                     <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
                 </svg>
+                <h1>first context</h1> */}
+                <Loader />
+                <h1>from context</h1>
             </div>
         )
     }else{

@@ -1,6 +1,6 @@
 // firebase imports 
 import { db } from '../../firebase'
-import { doc, addDoc, updateDoc, collection, getDocs, getDoc} from "firebase/firestore"
+import { collection, getDocs} from "firebase/firestore"
 
 async function FetchAllProducts() {  
     var itemData = [];

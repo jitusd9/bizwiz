@@ -1,21 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { CartContext, AuthContext, ProductContext } from './context/ContextProvider'
-import Loader from './Loader'
+import { CartContext, ProductContext } from './context/ContextProvider'
 import Card from "./Card"
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 import style from "../styles/products.module.css"
 
-
-// firebase imports 
-import { db, storage, } from '../firebase'
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { doc, addDoc, updateDoc, collection, getDocs, getDoc} from "firebase/firestore"
-
-import { FetchAllProducts } from './context/Allproducts'
-
-const auth = getAuth();
 
 export default class Products extends Component {
 

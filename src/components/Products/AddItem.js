@@ -2,7 +2,7 @@ import { useState } from "react";
 // firebase imports 
 import { db, storage, } from '../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { doc, addDoc, updateDoc, collection, getDocs, getDoc} from "firebase/firestore"
+import { addDoc, collection} from "firebase/firestore"
 
 function AddItem() {
 

@@ -88,8 +88,3 @@ export default function Card(props){
             </CartContext.Consumer>
         )
 }
-
-
-{/* <Button data-state="remove" data-itemid={props.id} onClick={(e) => {  context.removeFromCart(props.id); handleBtn(e); }} style={{backgroundColor: '#fd1a1a', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<DeleteIcon/>}>
-                                            Remove
-                                            </Button> */}
