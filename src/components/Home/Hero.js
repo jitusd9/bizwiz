@@ -1,14 +1,13 @@
 import React from 'react'
-import Products from "../components/Products"
-import style from "../styles/products.module.css"
+import Products from "../Products/Products"
+import style from "../../styles/products.module.css"
 import Button from '@mui/material/Button'
-import shopping_girl from "../images/shopping.png"
+import shopping_girl from "../../images/shopping.png"
 
 
 export default function Hero() {
 
     
-
     return (
         <div>
         <div className={style["hero-section"]} >

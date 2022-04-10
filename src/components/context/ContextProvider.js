@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
-import { collection, getDocs, doc, } from "firebase/firestore"
+import { collection, getDocs, doc, onSnapshot } from "firebase/firestore"
 import { addItemToCart, removeItemFromCart } from './cart-context';
-import Loader from "../Loader";
+import Loader from "../Utils/Loader";
 
 const ThemeContext = React.createContext();
 const AuthContext = React.createContext();
@@ -90,30 +90,27 @@ function ContextProvider(props) {
     }
 
         // Fetch Current User If he have saved any items previousely in The CART
-    async function fetchUserCart() {
-        console.log('FETCHING CART PRODUCTS');
+    function fetchUserCart(snapshot) {
+        console.log('FETCHING PRODUCTS IN CART');
             if(user){
-                const docRef = doc(db, 'users', user.uid);
-                
-                const docSnap = await getDocs(collection(docRef, 'userCart'));
-
+               
                 let items = []
-                if(docSnap){
-                    docSnap.docs.forEach(element => {
-                        let thisisdata = element.data();
+                if(snapshot){
+                    console.log('got the snapshot');
+                    snapshot.forEach(doc => {
+                        let thisisdata = doc.data();
 
                         let itemdObj = {
                             productId : thisisdata.itemId,
-                            itemId : element.id
+                            itemId : doc.id
                         }
 
                         items.push(itemdObj);
                     });
+                    console.log('item in cart changed');
                     setItemInCart(items);
                     setItemCount(items.length);
                     
-                }else{
-                    console.log('No Such Document');
                 }
             }else{
                 console.log('User Not Logged IN...');
@@ -121,12 +118,23 @@ function ContextProvider(props) {
            
         };
 
+    useEffect(()=>{
+        if(user){
+            const docRef = doc(db, 'users', user.uid);
+                
+            const unsub = onSnapshot(collection(docRef, 'userCart'), (querySnapshot) => {
+                console.log("Change in cartData");
+                fetchUserCart(querySnapshot);
+            })
+        }
+        
+    },[user])
+
     // fetching all products and storing them in array which can be accessed via context in app 
-    async function FetchAllProducts() {  
+    function FetchAllProducts(snapshot) {  
         var itemData = [];
         try{
-            const querySnapshot = await getDocs(collection(db, "products"));
-            querySnapshot.forEach((doc) => {
+            snapshot.forEach((doc) => {
                
                let itemObj = {
                     itemId : doc.id,
@@ -144,17 +152,19 @@ function ContextProvider(props) {
     }
 
     useEffect(() => {
-        
-        FetchAllProducts();
+        // FetchAllProducts();
+
+        const unsub = onSnapshot(collection(db, "products"), (querySnapshot) => {
+            console.log("Current data: ", querySnapshot);
+            FetchAllProducts(querySnapshot);
+        });
+       
+
     },[])
 
     if(loading){
         return(
             <div>
-                {/* <svg className="spinner" viewBox="0 0 50 50">
-                    <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                </svg>
-                <h1>first context</h1> */}
                 <Loader />
                 <h1>from context</h1>
             </div>

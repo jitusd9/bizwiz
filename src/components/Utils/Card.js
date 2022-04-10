@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CartContext } from './context/ContextProvider'
+import { CartContext } from '../context/ContextProvider'
 
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import DeleteIcon from '@mui/icons-material/Delete';
-import style from "../styles/products.module.css"
+import style from "../../styles/products.module.css"
 
 export default function Card(props){
 

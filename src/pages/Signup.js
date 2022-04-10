@@ -10,7 +10,7 @@ import facebook from "../images/facebook.png"
 import google from "../images/google.png"
 
 import Button from '@mui/material/Button'
-
+// eslint-disable-next-line
 import { loginWithEmail , signInWithGoogle, registerWithEmailAndPassword, addData } from "../firebase"
 
 export default class Signup extends Component {

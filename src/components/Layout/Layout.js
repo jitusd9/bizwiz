@@ -1,9 +1,9 @@
 import React from 'react'
-import { ThemeContext } from './context/ContextProvider'
+import { ThemeContext } from '../context/ContextProvider'
 
-import Navbar from './Navbar'
+import Navbar from '../Layout/Navbar'
 import Footer from './Footer'
-import '../styles/app.css'
+import '../../styles/app.css'
 
 export default function Layout(props) {
     return (

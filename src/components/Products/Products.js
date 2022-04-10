@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { CartContext, ProductContext } from './context/ContextProvider'
-import Card from "./Card"
+import { CartContext, ProductContext } from '../context/ContextProvider'
+import Card from "../Utils/Card"
 
-import style from "../styles/products.module.css"
+import style from "../../styles/products.module.css"
 
 
 export default class Products extends Component {
@@ -17,7 +17,7 @@ export default class Products extends Component {
         
             return (  
                 <ProductContext.Consumer>  
-               {
+                {
                    productContext => {
                        return(
                         <div className={style["listOfItems"]}> 
@@ -37,7 +37,7 @@ export default class Products extends Component {
                             </div>
                         </div>
                    )}
-               }
+                }
                 </ProductContext.Consumer> 
             )
     }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext, CartContext } from "./context/ContextProvider"
+import { AuthContext, CartContext } from "../context/ContextProvider"
 import Button from '@mui/material/Button'
 
-import style from "../styles/navbar.module.css"
+import style from "../../styles/navbar.module.css"
 
 export default class Navbar extends Component {
     

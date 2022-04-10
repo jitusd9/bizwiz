@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Layout from '../components/Layout'
+import Layout from '../components/Layout/Layout'
 import Checkout from './Checkout'
-import Hero from "../components/Hero"
+import Hero from "../components/Home/Hero"
 import Signup from '../pages/Signup'
 import Login from './Login'
 import Register from './Register'
@@ -9,7 +9,7 @@ import Reset from './Reset'
 import Dashboard from './Dashboard'
 import Test from './test'
 import { ContextProvider } from '../components/context/ContextProvider'
-import PageNotFound from '../components/PageNotFound'
+import PageNotFound from '../components/Utils/PageNotFound'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { CartContext, ProductContext } from '../components/context/ContextProvider'
 
 
-import Card from '../components/Card'
+import Card from '../components/Utils/Card'
 
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send';
@@ -42,11 +42,10 @@ export default function Checkout() {
     }
 
     useEffect(()=>{
-        // fetchCurrentUser();
         fetchUserCart();
         filterProducts();
 
-    },[])
+    },[itemInCart])
 
         return (            
             <CartContext.Consumer>

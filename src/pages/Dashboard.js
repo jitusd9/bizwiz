@@ -9,7 +9,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 import {AuthContext} from "../components/context/ContextProvider";
 import cat_pic from "../images/boss.png"
-import Loader from "../components/Loader";
+import Loader from "../components/Utils/Loader";
 import AddItem from "../components/Products/AddItem";
 
 
@@ -137,9 +137,9 @@ function Dashboard(){
                                         <h3>{userData ? userData.displayName : "loading..."}</h3>
                                     </div>
                                     <ul className={style["user_menu"]}>
-                                        <li><a href="#">Your History</a></li>
-                                        <li><a href="#">Shipping Details</a></li>
-                                        <li><a href="#">Account Settings</a></li>
+                                        <li>Your History</li>
+                                        <li>Shipping Details</li>
+                                        <li>Account Settings</li>
                                     </ul>
                                     <center>
                                     <input type="file" onChange={(e) => {setImage(e.target.files[0]);}}/>
