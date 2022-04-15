@@ -12,24 +12,24 @@ export default function Card(props){
 
     const [button, setButton] = useState(false);
     const [itemQty, setItemQty] = useState(props.count);
-    const [productQty, setProductQty] = useState(1);
 
     const handleQty = (e) => {
         if(e.target.dataset.plus){
             setItemQty(itemQty + 1);
-            setProductQty(productQty + 1)
+            
             console.log('increase');
         }else{
-            if(itemQty === 1 || productQty === 1){
+            if(itemQty === 1 ){
                 setItemQty(1);
-                setProductQty(1);
+                
             }else{
-                setItemQty(itemQty - 1);
-                setProductQty(productQty - 1);
+                setItemQty(itemQty - 1);                
             }
+
             console.log('decrease');
         }
     }
+
 
     const handleBtn = (e) => {
         setButton(!button);
@@ -60,10 +60,14 @@ export default function Card(props){
                                         
                                         {
                                             props.thisIsInCart ? 
-                                            <div className={style["quantity"]}><span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={handleQty}>-</span> <span>{productQty}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={(e) => { context.addToCart(props.id); handleQty(e);}}>+</span></div>
+                                                                                        
+                                            <button className={style["added-to-cart"]} >
+                                            ✔ Added
+                                            </button>
+
                                              : 
                                              <div>
-                                            <Button data-state="add" data-itemid={props.id} onClick={(e) => { context.addToCart(props.id); handleBtn(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
+                                            <Button data-state="add" data-itemid={props.id} onClick={(e) => { context.addToCart(props.id, props.count); handleQty(e); }} style={{backgroundColor: '#ffa919', color: '#FFFFFF'}} variant="contained" size="small" startIcon={<AddShoppingCartIcon/>}>
                                             Add
                                             </Button>
                                              </div>
@@ -75,9 +79,10 @@ export default function Card(props){
                                             Buy Now
                                             </Button>
                                         </Link>
-                                    </div> : <Stack spacing={1} direction="column" m={1}>
-                                        <div className={style["quantity"]}>Quantity <span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={handleQty}>-</span> <span>{itemQty}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={handleQty}>+</span></div>
-                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.docId} onClick={(e) => { context.removeFromCart(props.docId); }}>Remove</Button>
+                                    </div> : 
+                                    <Stack spacing={1} direction="column" m={1}>
+                                        <div className={style["quantity"]}>Quantity <span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={(e) => { context.removeFromCart(props.id); handleQty(e);}}>-</span> <span>{props.count}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={(e) => { context.addToCart(props.id); handleQty(e);}}>+</span></div>
+                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.id} onClick={(e) => { context.removeFromCart(props.id); }}>Remove</Button>
                                     </Stack>
                             }
                                 
@@ -88,3 +93,5 @@ export default function Card(props){
             </CartContext.Consumer>
         )
 }
+
+ {/* <div className={style["quantity"]}><span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={(e) => { context.removeFromCart(props.id); handleQty(e);}}>-</span> <span>{itemQty}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={(e) => { context.addToCart(props.id); handleQty(e);}}>+</span></div> */}

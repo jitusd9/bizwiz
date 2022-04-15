@@ -1,45 +1,76 @@
 // firebase imports 
 import { getAuth } from 'firebase/auth'
 import { db } from '../../firebase'
-import { doc, addDoc, collection, query, where, getDocs, deleteDoc} from "firebase/firestore"
+import { doc, setDoc, addDoc, collection, query, where, getDocs, deleteDoc} from "firebase/firestore"
 
 const auth = getAuth();
 
 // add item to cart in firebase userCart 
-async function addItemToCart(item){
-let user = auth.currentUser;
+async function addItemToCart(product, count=1){
+  
+  // adding item first time 
+
+  console.log(product);
+
+  if(count === 0) count = 1;
+
+  let user = auth.currentUser;
 
   const docRef = doc(db, 'users', user.uid);
                 
-  const docSnap = await addDoc(collection(docRef, 'userCart'), item);
+  const docSnap = await setDoc(doc(docRef, 'userCart', product.itemId), {
+    data : product.itemData,
+    quantity : count ,
+    id : product.itemId
+  });
 
-  console.log('item added to user cart', docSnap.id);
+  // updating item count 
+  // await updateDoc(docRef, {
+  //   quantity: quantity + 1;
+  // });
+
+  console.log('item added to user cart');
 }
 
 // remove item from userCart 
 async function removeItemFromCart(itemId){
 
+  console.log(itemId);
+
   const user = auth.currentUser;
   const docRef = doc(db, 'users', user.uid);
 
-  const q = query(collection(docRef, 'userCart'), where("itemId", "==", itemId));
+  // if Items are removed via minus button 
 
-  const querySnapshot = await getDocs(q);
-  let deleteThem = [];
-  querySnapshot.forEach((doc) => {
-    deleteThem.push(doc.id);
-    console.log(doc.id, '=>', doc.data());
-  });
+  // const q = query(doc(docRef, 'userCart', itemId));
 
-  deleteThem.forEach(async (deleteIt) => {
-    console.log('Deleting...', deleteIt);
+  // const querySnapshot = await getDocs(q);
+  // let deleteThem = [];
+  // querySnapshot.forEach((doc) => {
+  //   deleteThem.push(doc.id);
+  //   console.log(doc.id, '=>', doc.data());
+  // });
 
-    await deleteDoc(doc(docRef, 'userCart', deleteIt))
+  // deleteThem.forEach(async (deleteIt) => {
+  //   console.log('Deleting...', deleteIt);
 
-  })
+  //   await deleteDoc(doc(docRef, 'userCart', deleteIt))
+
+  // })
 
 
-  console.log('item removed from cart');
+  // if entire Item card if removed 
+  console.log('deleting...');
+
+  // const snap = await getDocs(doc(docRef, 'userCart', itemId));
+
+  // snap.forEach(q => {
+  //   console.log(q.data());
+  // })
+
+  await deleteDoc(doc(docRef, 'userCart', itemId));
+
+  console.log('item removed from cart', );
 }
 
 // export default function CartContext() {

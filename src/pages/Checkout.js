@@ -11,40 +11,14 @@ import SendIcon from '@mui/icons-material/Send';
 
 export default function Checkout() {
 
-    const [cartedItem, setCartedItem] = useState([]);
 
-    const [invoice, setInvoice] = useState(null);
+    const { itemInCart, calculateInvoice } = useContext(ProductContext);
 
-    const { products, itemInCart, fetchUserCart, calculateInvoice } = useContext(ProductContext);
-
-
-    const filterProducts = () => {
-        const filteredItems = products.filter((item) => {
-
-            let count = 0;
-
-            itemInCart.forEach((checkItem) => {
-                if(checkItem.productId === item.itemId){
-                    count += 1;
-                }
-            })
-
-            item.count = count
-
-            return itemInCart.some(cartItem => cartItem.productId === item.itemId);
-        })
-
-
-        setCartedItem(filteredItems);
-        let invoiceData = calculateInvoice(filteredItems);
-
-        setInvoice(invoiceData);
-    }
 
     useEffect(()=>{
-        fetchUserCart();
-        filterProducts();
 
+        calculateInvoice();
+        
     },[itemInCart])
 
         return (            
@@ -67,13 +41,14 @@ export default function Checkout() {
                             <div className="checkout">
                                 <div className="cart-summary">
                                     {
-                                        cartedItem.map((item) => {
-                                            return <Card key={item.itemId} docId={item.itemId} count={item.count} photo={item.itemData.itemThumbURL} title={item.itemData.itemName} item={item.itemData.itemCategory} price={item.itemData.itemPrice} />
+                                        context.itemInCart.map((item) => {
+                                            console.log(item)
+                                            return <Card key={item.id} id={item.id} count={item.quantity} photo={item.data.itemThumbURL} title={item.data.itemName} item={item.data.itemCategory} price={item.data.itemPrice} />
                                         })
                                     }
                                 </div>
                                 {
-                                    invoice !== null ?
+                                    context.invoice !== null ?
                                     <div className="payment-summary">
                                     <h3>Payments summary</h3>
                                     <p>(for convenience numbers are rounded)</p>
@@ -85,23 +60,23 @@ export default function Checkout() {
                                             </tr>
                                             <tr className="checkout-item itemCost">
                                                 <td>Items cost</td>
-                                                <td>₹ <span>{invoice.itemCost}</span></td>
+                                                <td>₹ <span>{context.invoice.itemCost}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
                                                 <td>Base price</td>
-                                                <td>₹ <span>{invoice.basePrice}</span></td>
+                                                <td>₹ <span>{context.invoice.basePrice}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
                                                 <td>GST/Tax (inluded)</td>
-                                                <td>₹ <span>{invoice.totalTAX}</span></td>
+                                                <td>₹ <span>{context.invoice.totalTAX}</span></td>
                                             </tr>
                                             <tr className="checkout-item">
                                                 <td>Discount(5%)/Coupon</td>
-                                                <td>₹ <span>{invoice.discount}</span> + FLAT199OFF</td>
+                                                <td>₹ <span>{context.invoice.discount}</span> + FLAT199OFF</td>
                                             </tr>
                                             <tr className="checkout-item total">
                                                 <th>Total</th>
-                                                <th>₹ <span>{invoice.payableAmount}</span></th>
+                                                <th>₹ <span>{context.invoice.payableAmount}</span></th>
                                             </tr>
                                         </tbody>
                                     </table>

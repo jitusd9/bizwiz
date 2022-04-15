@@ -22,8 +22,10 @@ function ContextProvider(props) {
     // userCart products
     const [itemInCart, setItemInCart] = useState([]);
 
+    const [invoice ,setInvoice] = useState(null);
+
     // context for cart 
-    const [itemCount, setItemCount] = useState(0);
+    const [itemCount, setItemCount] = useState(1);
     const [itemArr, setItemArr] = useState([]);
 
     const [added, setAdded] = useState(false);
@@ -33,47 +35,62 @@ function ContextProvider(props) {
     }
 
 
-    const addToCart = (itemKey) => {
-
+    const addToCart = (itemKey, quantity) => {
+        // console.log('itemCount', quantity);
         if(user){
-            products.forEach(item => {
+            setItemCount(itemCount + 1)
+            products.forEach((item) => {
                 if(item.itemId === itemKey){
-                    // itemArr.push(item);
-                    addItemToCart(item);
+                   addItemToCart(item, quantity);
                 }
             });
-            setItemCount(itemCount + 1)
         }else{
             alert('You need to login first');
         }
-
-       
 
     };
     
     const removeFromCart = (itemId) => {
 
-        setItemCount(itemCount - 1)
-        console.log('removing item', itemId);
-        removeItemFromCart(itemId);
+        console.log('trying to remove things', itemId);
+        
+        if(user){
+            console.log('removing item', itemId);
+            removeItemFromCart(itemId);
+            // itemInCart.forEach(item => {
+            //     if(itemId === item.productId){
+            //         removeItemFromCart(itemId);
+            //         setItemCount(itemCount - 1);
+            //         return;
+            //     }
+            // })
+        }else{
+            alert('You need to login first');
+        }
     }
 
     // CALCULATE THE BILL OF ADDED ITEMS 
-    const calculateInvoice = function(cartedItem) {
+    const calculateInvoice = function() {
+        console.log(itemInCart);
         let basePrice = 0;
         let totalTAX = 0;
         let itemCost = 0;
-        cartedItem.forEach(item => {
+        itemInCart.forEach(item => {
         
-        let tax = Math.floor((item.itemData.itemPrice * 12) / 100);
-        let withoutTAX = item.itemData.itemPrice - tax;
+        let itemPrice = Number(item.data.itemPrice);
+        // console.log('itemPrice :', itemPrice);
+
+        let tax = Math.floor((itemPrice * 12) / 100);
+        let withoutTAX = itemPrice - tax;
 
         totalTAX = totalTAX + tax;
 
-        itemCost += (item.itemData.itemPrice * item.count)
+        itemCost += (itemPrice * item.quantity)
+        // console.log('itemCost :', itemCost);
 
         // item price 
-           basePrice = basePrice + (withoutTAX * item.count)
+           basePrice = basePrice + (withoutTAX * item.quantity)
+        //    console.log('itemCost :', itemCost);
         });
 
         // calclulateGST/TAX 
@@ -86,30 +103,39 @@ function ContextProvider(props) {
         // FLAT150OFF
         let payableAmount = afterDiscount - 199;
 
-        return {payableAmount,itemCost, basePrice, totalTAX, discount};
+        console.table({payableAmount,itemCost, basePrice, totalTAX, discount});
+
+        setInvoice({payableAmount,itemCost, basePrice, totalTAX, discount});
+
+        console.log('invoice generated');
     }
 
-        // Fetch Current User If he have saved any items previousely in The CART
+    // Fetch Current User If he have saved any items previousely in The CART
     function fetchUserCart(snapshot) {
-        console.log('FETCHING PRODUCTS IN CART');
+        
             if(user){
                
-                let items = []
+                let items = [];
+                let noOfItems = 0;
                 if(snapshot){
-                    console.log('got the snapshot');
+                    
                     snapshot.forEach(doc => {
                         let thisisdata = doc.data();
 
                         let itemdObj = {
-                            productId : thisisdata.itemId,
-                            itemId : doc.id
+                            data : thisisdata.data,
+                            quantity : thisisdata.quantity,
+                            id : thisisdata.id
                         }
+
+                        noOfItems += thisisdata.quantity
 
                         items.push(itemdObj);
                     });
-                    console.log('item in cart changed');
+                    
                     setItemInCart(items);
-                    setItemCount(items.length);
+                    setItemCount(noOfItems);
+                    console.log('Got new data : ',items);
                     
                 }
             }else{
@@ -125,6 +151,7 @@ function ContextProvider(props) {
             const unsub = onSnapshot(collection(docRef, 'userCart'), (querySnapshot) => {
                 console.log("Change in cartData");
                 fetchUserCart(querySnapshot);
+                
             })
         }
         
@@ -166,7 +193,6 @@ function ContextProvider(props) {
         return(
             <div>
                 <Loader />
-                <h1>from context</h1>
             </div>
         )
     }else{
@@ -174,7 +200,7 @@ function ContextProvider(props) {
             <ThemeContext.Provider value={{theme, setTheme}}>
                 <AuthContext.Provider value={{user}}>
                     <ProductContext.Provider value={{products, itemInCart, fetchUserCart, calculateInvoice}}>
-                        <CartContext.Provider value={{itemCount ,addToCart, added, itemData, itemInCart, itemArr, removeFromCart}}>
+                        <CartContext.Provider value={{itemCount ,addToCart, invoice, added, itemData, itemInCart, itemArr, removeFromCart}}>
                             {props.children}
                         </CartContext.Provider>
                     </ProductContext.Provider>
