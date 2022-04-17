@@ -20,7 +20,7 @@ async function addItemToCart(product, count=1){
                 
   const docSnap = await setDoc(doc(docRef, 'userCart', product.itemId), {
     data : product.itemData,
-    quantity : count ,
+    quantity : count,
     id : product.itemId
   });
 
@@ -60,7 +60,6 @@ async function removeItemFromCart(itemId){
 
 
   // if entire Item card if removed 
-  console.log('deleting...');
 
   // const snap = await getDocs(doc(docRef, 'userCart', itemId));
 
@@ -70,7 +69,6 @@ async function removeItemFromCart(itemId){
 
   await deleteDoc(doc(docRef, 'userCart', itemId));
 
-  console.log('item removed from cart', );
 }
 
 // export default function CartContext() {

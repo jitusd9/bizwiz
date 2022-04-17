@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext, ProductContext } from '../components/context/ContextProvider'
 
@@ -42,7 +42,6 @@ export default function Checkout() {
                                 <div className="cart-summary">
                                     {
                                         context.itemInCart.map((item) => {
-                                            console.log(item)
                                             return <Card key={item.id} id={item.id} count={item.quantity} photo={item.data.itemThumbURL} title={item.data.itemName} item={item.data.itemCategory} price={item.data.itemPrice} />
                                         })
                                     }

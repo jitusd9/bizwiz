@@ -81,8 +81,18 @@ export default function Card(props){
                                         </Link>
                                     </div> : 
                                     <Stack spacing={1} direction="column" m={1}>
-                                        <div className={style["quantity"]}>Quantity <span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={(e) => { context.removeFromCart(props.id); handleQty(e);}}>-</span> <span>{props.count}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={(e) => { context.addToCart(props.id); handleQty(e);}}>+</span></div>
-                                        <Button style={{backgroundColor: '#fd150f', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.id} onClick={(e) => { context.removeFromCart(props.id); }}>Remove</Button>
+                                        <div className={style["quantity"]}>
+                                            Quantity 
+                                            <span className={`${style["btn"]} ${style["minus"]}`}
+                                                data-minus onClick={(e) => {handleQty(e); context.addToCart(props.id, itemQty - 1); }}>-</span>
+                                            <span>{itemQty}</span> 
+                                            <span className={`${style["btn"]} ${style["plus"]}`} 
+                                                data-plus onClick={(e) => { handleQty(e); context.addToCart(props.id, itemQty + 1); }}>+</span>
+                                        </div>
+
+                                        <Button style={{backgroundColor: '#e2201b', color: '#fff', border: 'none'}} variant="outlined" size="small" startIcon={<DeleteIcon/>} data-itemkey={props.id} onClick={(e) => { context.removeFromCart(props.id); }}>
+                                        Remove
+                                        </Button>
                                     </Stack>
                             }
                                 
@@ -93,5 +103,3 @@ export default function Card(props){
             </CartContext.Consumer>
         )
 }
-
- {/* <div className={style["quantity"]}><span className={`${style["btn"]} ${style["minus"]}`} data-minus onClick={(e) => { context.removeFromCart(props.id); handleQty(e);}}>-</span> <span>{itemQty}</span>  <span className={`${style["btn"]} ${style["plus"]}`} data-plus onClick={(e) => { context.addToCart(props.id); handleQty(e);}}>+</span></div> */}

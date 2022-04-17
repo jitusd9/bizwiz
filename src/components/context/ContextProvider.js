@@ -25,7 +25,7 @@ function ContextProvider(props) {
     const [invoice ,setInvoice] = useState(null);
 
     // context for cart 
-    const [itemCount, setItemCount] = useState(1);
+    const [itemCount, setItemCount] = useState(0);
     const [itemArr, setItemArr] = useState([]);
 
     const [added, setAdded] = useState(false);
@@ -38,7 +38,7 @@ function ContextProvider(props) {
     const addToCart = (itemKey, quantity) => {
         // console.log('itemCount', quantity);
         if(user){
-            setItemCount(itemCount + 1)
+            // setItemCount(itemCount + 1)
             products.forEach((item) => {
                 if(item.itemId === itemKey){
                    addItemToCart(item, quantity);
@@ -51,19 +51,11 @@ function ContextProvider(props) {
     };
     
     const removeFromCart = (itemId) => {
-
-        console.log('trying to remove things', itemId);
         
         if(user){
-            console.log('removing item', itemId);
+            
             removeItemFromCart(itemId);
-            // itemInCart.forEach(item => {
-            //     if(itemId === item.productId){
-            //         removeItemFromCart(itemId);
-            //         setItemCount(itemCount - 1);
-            //         return;
-            //     }
-            // })
+
         }else{
             alert('You need to login first');
         }
@@ -71,7 +63,7 @@ function ContextProvider(props) {
 
     // CALCULATE THE BILL OF ADDED ITEMS 
     const calculateInvoice = function() {
-        console.log(itemInCart);
+        
         let basePrice = 0;
         let totalTAX = 0;
         let itemCost = 0;
@@ -103,11 +95,9 @@ function ContextProvider(props) {
         // FLAT150OFF
         let payableAmount = afterDiscount - 199;
 
-        console.table({payableAmount,itemCost, basePrice, totalTAX, discount});
-
+        
         setInvoice({payableAmount,itemCost, basePrice, totalTAX, discount});
 
-        console.log('invoice generated');
     }
 
     // Fetch Current User If he have saved any items previousely in The CART
@@ -135,7 +125,6 @@ function ContextProvider(props) {
                     
                     setItemInCart(items);
                     setItemCount(noOfItems);
-                    console.log('Got new data : ',items);
                     
                 }
             }else{
@@ -149,7 +138,7 @@ function ContextProvider(props) {
             const docRef = doc(db, 'users', user.uid);
                 
             const unsub = onSnapshot(collection(docRef, 'userCart'), (querySnapshot) => {
-                console.log("Change in cartData");
+                
                 fetchUserCart(querySnapshot);
                 
             })
@@ -179,10 +168,9 @@ function ContextProvider(props) {
     }
 
     useEffect(() => {
-        // FetchAllProducts();
 
         const unsub = onSnapshot(collection(db, "products"), (querySnapshot) => {
-            console.log("Current data: ", querySnapshot);
+            
             FetchAllProducts(querySnapshot);
         });
        
