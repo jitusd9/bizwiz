@@ -136,23 +136,7 @@ function Dashboard(){
                                     <div className={style["user_name"]}>
                                         <h3>{userData ? userData.displayName : "loading..."}</h3>
                                     </div>
-                                    <ul className={style["user_menu"]}>
-                                        <li>Your History</li>
-                                        <li>Shipping Details</li>
-                                        <li>Account Settings</li>
-                                    </ul>
-                                    <center>
-                                    <input type="file" onChange={(e) => {setImage(e.target.files[0]);}}/>
-                                    <button onClick={upload}>Upload</button>
-                                    </center>
-                                        {/* upload any product  */}
-                                    <button className={styles["uploadBtn"]} onClick={uploadForm}>Upload Products</button>
-                                    <div className={`${styles["uploadData"]} ${styles[formClass ? "collapse" : ""]}`}>
-                                        <button className={styles["cross-btn"]} onClick={uploadForm}>❌</button>    
-                                        <AddItem />
-                                    </div>
-
-                                    <p className="comment">add stripe like navigation tabs</p>
+                                    <br />
                                     <button className={style["dashboard_btn"]} onClick={logout}>
                                         Logout
                                     </button>

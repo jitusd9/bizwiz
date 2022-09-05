@@ -25,12 +25,12 @@
     --orange : #ff5f00;
     --green : #00b43c;
     --purple : #b07eff;
-    /* --yellow : rgb(255, 201, 53); */
-    --yellow : #5435ff;
+    --yellow : rgb(255, 201, 53);
+    /* --yellow : #5435ff; */
     --shade : rgba(255, 255, 255, 0.1);
-
     --overlay : linear-gradient(to right, #ff4b2b, #ff416c);
     --shadow : rgba(180, 180, 180, 0.1);
+    --delete : rgb(245, 1, 1);
 }
 
 .theme-dark {
@@ -59,7 +59,7 @@
     --purple : #5933a2;
     --yellow : rgb(255, 201, 53);
     --shade : rgba(255, 255, 255, 0.103);
-
+    --delete : rgb(183, 3, 3);
     --overlay : linear-gradient(to right, var(--bg-2), var(--bg-0));
     --shadow : rgba(0, 0, 0, 0.2);
 }
@@ -331,6 +331,42 @@ a{
     text-align: center;
 }
 
+.payment-modal{
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    min-width: 300px;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.option-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 1em;
+    border-radius: 8px;
+    transform: translate(-50%,-50%);
+    background-color: var(--bg-3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .4);
+}
+
+.option-box > button{
+    position: absolute;
+    top: -30px;
+    right: -50px;
+}
+
+.option-box > div{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1em;
+}
+
+.payment-btn{
+    
+}
+
 .cart-summary{
     width: 70%;
     /* border: 1px dotted var(--bg-2); */
@@ -453,12 +489,17 @@ button {
 
 button {
     border: none;
-    border-radius: 2px;
-    background-color: var(--green);
-    color: #fff;
-    font-size: 18px;
-    padding: 10px;
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid grey;
+    color: var(--color-1);
+    font-size: 1em;
+    padding: 0.2rem 0.8rem;
     transition: transform 80ms ease-in;
+}
+
+button:hover{
+    background-color: var(--bg-3);
 }
 
 .btn-reg {

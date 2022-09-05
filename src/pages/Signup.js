@@ -9,7 +9,6 @@ import twitter from "../images/twitter.png"
 import facebook from "../images/facebook.png"
 import google from "../images/google.png"
 
-import Button from '@mui/material/Button'
 // eslint-disable-next-line
 import { loginWithEmail , signInWithGoogle, registerWithEmailAndPassword, addData } from "../firebase"
 
@@ -134,7 +133,7 @@ export default class Signup extends Component {
                                         <input required type="email" placeholder="Email" name="email" value={this.state.email} onChange={e => this.handleChange(e.target.name, e.target.value)} />
                                         <input required type="password" placeholder="Password" name="password" value={this.state.password} onChange={e => this.handleChange(e.target.name, e.target.value)} />
                                         <div className="big-orange-btn">
-                                            <Button  variant="contained" size="small" value="submit" type="submit" >Signup</Button>
+                                            <button >Signup</button>
                                         </div>
                                         {
                                             this.state.anyError ? <div className="floating-alert">
@@ -171,7 +170,7 @@ export default class Signup extends Component {
                                         <input type="password" placeholder="Password" required name="password" value={this.state.password} onChange={e => this.handleChange(e.target.name, e.target.value)}/>
                                         
                                         <div className="big-orange-btn">
-                                            <Button variant="contained" size="small" type="submit">Login</Button>
+                                            <button variant="contained" size="small" type="submit">Login</button>
                                         </div> 
 
                                         <Link to="/reset">forgot password</Link>
