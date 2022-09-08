@@ -45,11 +45,12 @@ function ContextProvider(props) {
 		}
 	}
     
-	const removeFromCart = async (id) => {   
+	async function removeFromCart(id){   
 		if(user){ 
 			const user = auth.currentUser;
   		const docRef = doc(db, 'users', user.uid);
   		await deleteDoc(doc(docRef, 'userCart', id));
+			fetchCartFromUser(user.uid);
 		}else{
 			alert('You need to login first');
 		}

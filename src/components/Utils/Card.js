@@ -27,9 +27,6 @@ export default function Card(props){
 		})
 	}
 
-	function decrease(){
-
-	}
 
 	return (
 		<div className={`${style["card"]} ${disable ? style["disabled"] : ""}`}>
@@ -52,7 +49,7 @@ export default function Card(props){
 								<button className={style["add-btn"]} onClick={() => increase('+')}> 🛒 Add</button>
 						</div>		
 						<Link to="/checkout">
-								<button className={style["buy-btn"]} onClick={() => increase('+')}> 🤑 Buy Now</button>
+								<button className={style["buy-btn"]} onClick={() => increase('+')}> Buy Now</button>
 						</Link>
 					</div> : 
 					<div className={style["card-btns"]}>
@@ -65,7 +62,7 @@ export default function Card(props){
 									onClick={() => increase('+')}
 								>+</button>
 						</div>
-					<button className={style["remove-btn"]}> 🗑️ Remove</button>
+					<button className={style["remove-btn"]} onClick={() => cartContext.removeFromCart(props.id)}> 🗑️ Remove</button>
 					</div>
 					}   
 				</div>
