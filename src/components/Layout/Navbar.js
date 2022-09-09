@@ -4,6 +4,11 @@ import { AuthContext, CartContext } from "../context/ContextProvider"
 
 import style from "../../styles/navbar.module.css"
 
+import profileIcon from "../../images/icon/profile.svg"
+import darkIcon from "../../images/icon/moon.svg"
+import lightIcon from "../../images/icon/sun.svg"
+import loginIcon from "../../images/icon/login.svg"
+
 export default class Navbar extends Component {
     
 	constructor(props){
@@ -79,18 +84,36 @@ export default class Navbar extends Component {
 												<li className={`${style["item-link"]} ${style["search"]}`}> <input type="text" placeholder="search items..."/> </li>
 												
 												{
-												!userContext.user ? <li className={style["item-link"]}> <Link to="/signup"><button >Sign In</button></Link> </li>
+												!userContext.user ? <li className={style["item-link"]}> <Link to="/signup">
+												<button >
+												<img src={loginIcon} alt="" />
+												Sign In
+												</button>
+												</Link> </li>
 																								: null
 												}
 												{
 												userContext.user ? 
-													<li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard"><button >{userContext.user.email ? userContext.user.email : "_Name"}</button></Link> </li>
+													<li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard">
+													<button >
+														<img src={profileIcon} alt="" />
+														{userContext.user.email ? userContext.user.email : "_Name"}
+													</button>
+													</Link> </li>
 													: null
 												}
-												<li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><button>Cart {cartContext.itemCount !== 0 ? <div className={style["itemCount"]}>{cartContext.itemCount}</div> : ""} </button></Link> </li>
+												<li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><button>Your Cart {cartContext.itemCount !== 0 ? <div className={style["itemCount"]}>{cartContext.itemCount}</div> : ""} </button></Link> </li>
 												<li className={`${style["item-link"]} ${style["theme-btn"]}`}>
 													<Link to="#">
-													<button title={this.state.theme ? "Dark Mode" : "Light Mode"} onClick={this.handleNav}> {this.state.theme ? '🌑' : '☀️'} </button>
+													<button title={this.state.theme ? "Dark Mode" : "Light Mode"} onClick={this.handleNav}> 
+													
+													{this.state.theme ? 
+													 <img src={darkIcon} alt="dark icon" />
+													 : 
+													 <img src={lightIcon} alt="light icon" />
+													 } 
+													
+													</button>
 													</Link>
 												</li>
 											</ul>

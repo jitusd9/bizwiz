@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { CartContext } from '../context/ContextProvider'
 import style from "../../styles/products.module.css"
 
+import cartIcon from "../../images/icon/cart3.svg"
+import deleteIcon from "../../images/icon/delete.svg"
+
 export default function Card(props){
 
 	const cartContext = useContext(CartContext);
@@ -46,7 +49,10 @@ export default function Card(props){
 					props.controls && !props.added? 
 					<div className={style["card-btns"]}>							
 						<div>
-								<button className={style["add-btn"]} onClick={() => increase('+')}> 🛒 Add</button>
+								<button className={style["add-btn"]} onClick={() => increase('+')}> 
+								 <img src={cartIcon} alt="cart-icon" />
+								 Add
+								</button>
 						</div>		
 						<Link to="/checkout">
 								<button className={style["buy-btn"]} onClick={() => increase('+')}> Buy Now</button>
@@ -62,7 +68,10 @@ export default function Card(props){
 									onClick={() => increase('+')}
 								>+</button>
 						</div>
-					<button className={style["remove-btn"]} onClick={() => cartContext.removeFromCart(props.id)}> 🗑️ Remove</button>
+					<button className={style["remove-btn"]} onClick={() => cartContext.removeFromCart(props.id)}>
+						<img src={deleteIcon} alt="delete icon" />
+						Remove
+					</button>
 					</div>
 					}   
 				</div>

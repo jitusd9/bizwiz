@@ -34,9 +34,11 @@
 
 .navbar .menu-items{
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
     list-style: none;
 }
+
 
 .search input{
     font-size: 0.9em;
@@ -52,6 +54,7 @@
 
 .search input:focus{
     outline: none;
+    border: 2px solid var(--orange);
 }
 
 .menu-items .item-link{
@@ -64,6 +67,7 @@
 .menu-items .item-link span,
 .menu-items .item-link a button{
     color: var(--color-1);
+    border: 1px solid green;
 }
 
 .item-link a{
@@ -101,23 +105,26 @@
     background: rgb(0, 204, 68);
     color: #fff;
     font-size: 0.9em;
+    margin-left: 4px;
 }
 
+.item-link a button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+}
 
-/* .menu-items .cart button::after{
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    content: "2";
-    height: 18px;
-    width: 18px;
-    font-size: 12px;
-    line-height: 18px;
-    text-align: center;
-    border-radius: 50%;
-    color: #fff;
-    background: #02be60;
-} */
+.item-link a button img{
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-right: 4px;
+}
+
+.menu-items .theme-btn a button{
+    border: none;
+}
 
 
 /* toggel menu  */

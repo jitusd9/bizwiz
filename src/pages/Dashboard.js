@@ -11,6 +11,7 @@ import {AuthContext} from "../components/context/ContextProvider";
 import cat_pic from "../images/boss.png"
 import Loader from "../components/Utils/Loader";
 import AddItem from "../components/Products/AddItem";
+import logoutIcon from "../images/icon/logout.svg"
 
 
 function Dashboard(){
@@ -138,6 +139,7 @@ function Dashboard(){
                                     </div>
                                     <br />
                                     <button className={style["dashboard_btn"]} onClick={logout}>
+                                        <img src={logoutIcon} alt="icon" />
                                         Logout
                                     </button>
                                     

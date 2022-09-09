@@ -117,9 +117,17 @@
     border: none;
     border-radius: 2px;
     color: white;
-    background-color: #058e95;
+    background-color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.dashboard_btn img{
+    height: 1.4rem;
+    width: auto;
+    margin-right: 4px;
+}
 
 @media screen and (max-width: 800px ) {
     .cover_pic{
