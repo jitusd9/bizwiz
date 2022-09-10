@@ -120,6 +120,53 @@
     color: #fa6868;
 }
 
+/* hero banner  */
+
+.hero-banner{
+    width: 100%;
+    min-height: 100px;
+    margin-inline: auto;
+    background-color: var(--banner-bg);
+    display: flex;
+    align-items: stretch;
+    border-radius: 4px;
+}
+
+.hero-banner > div{
+    flex: 1;
+    padding: 0.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-banner div:nth-child(2){
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.hero-banner > div img{
+    position: relative;
+    height: 3.2em;
+    margin-right: 0.2em;
+}
+
+.hero-banner > div p{
+    color: black;
+    font-size: 1.1em;
+}
+
+@media screen and (max-width : 800px) {
+    .hero-banner{
+        width: 100%;
+    }
+
+    .hero-banner > div{
+        flex-direction: column;
+    }
+
+}
+
 /* products section css  */
 .listOfItems{
     min-height: 100px;

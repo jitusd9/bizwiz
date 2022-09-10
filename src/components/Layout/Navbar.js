@@ -86,12 +86,14 @@ export default class Navbar extends Component {
 												!userContext.user ? 
 												<li className={style["menu-item"]}> 
 													<Link to="/signup" className={style["menu-link"]}>
-														<button >
+														
 														<div className={style["icon"]}>
 															<img src={loginIcon} alt="" />
 														</div>
-														Sign In
-														</button>
+														<div className={style["text"]}>
+															Sign In
+														</div>
+														
 													</Link> 
 												</li>
 													: null

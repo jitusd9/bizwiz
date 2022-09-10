@@ -19,6 +19,7 @@
     --bg-color : #ffffff;
     --bg-container : #ffffff;
     --loading : #3f3f3f;
+    --banner-bg : #efefef;
 
     --blue : rgb(0, 102, 255);
     --red : rgb(255, 58, 32);
@@ -51,6 +52,7 @@
     --bg-color : #1c2128;
     --bg-container : #22272e;
     --loading : #5f8fcc;
+    --banner-bg : #545a6a;
 
     --blue : #00ffa1;
     --red : #ec5a47;
