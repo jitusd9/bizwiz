@@ -81,14 +81,7 @@ export default class Navbar extends Component {
 										</div>
 										{/* grid area menu  */}
 										<div className={menuIcon ? `${style["menu"]} ${style["activeMenu"]}` : style["menu"]}>
-											<ul className={style["menu-bar"]}>
-												<li className={`${style["menu-item"]} ${style["search"]}`}> 
-													<div className={style["icon"]}>
-														<img src={searchIcon} alt="" />
-													</div>
-													<input type="text" placeholder="search items..."/> 
-												</li>
-												
+											<ul className={style["menu-bar"]}>												
 												{
 												!userContext.user ? 
 												<li className={style["menu-item"]}> 
