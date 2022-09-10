@@ -24,7 +24,7 @@
 
 .brand h1{
     font-size: 2rem;
-    color: var(--red);
+    color: var(--orange);
     text-shadow: 0 2px 5px rgba(255, 51, 0, 0.3);
 }
 
@@ -32,100 +32,88 @@
     display: block;
 }
 
-.navbar .menu-items{
+/* ul  */
+.navbar .menu-bar{
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-evenly;
     list-style: none;
 }
 
-
-.search input{
-    font-size: 0.9em;
-    padding: 6px 8px;
-    height: auto;
-    width: auto;
-    background: var(--bg-2);
-    border: none;
-    border-radius: 3px;
-    color: var(--color-0);
-    margin: 0;
-}
-
-.search input:focus{
-    outline: none;
-    border: 2px solid var(--orange);
-}
-
-.menu-items .item-link{
-    margin: 10px;
+/* li  */
+.menu-item{
+    margin-inline: 0.5rem;
     text-decoration: none;
-    /* background: var(--bg-2); */
-}
-
-
-.menu-items .item-link span,
-.menu-items .item-link a button{
     color: var(--color-1);
-    border: 1px solid green;
+    border-radius: 4px;
+    display: flex;
+    align-items: stretch;
+    border-radius: 4px;
+    border: 1px solid var(--yellow);
 }
 
-.item-link a{
+
+/* a  */
+.menu-link{
     text-decoration: none;
+    padding: 0;
+    margin: 0; 
+    display: flex;
+    align-items: stretch; 
 }
 
-.theme-btn a{
+.icon{
+    background-color: var(--yellow);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 4px;
 }
 
-.theme-btn button{
-    font-size: 1em;
-    /* border: 1px solid red; */
-}
-
-.menu-items .user-link a button{
-    color: white;
-    background-color: var(--green);
-    transition: none;
-    border-color: transparent;
-}
-
-.menu-items .item-link button:disabled{
-    color: var(--bg-1);
-    background: var(--bg-2);
-}
-
-.menu-items .item-link .itemCount{
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: rgb(0, 204, 68);
-    color: #fff;
-    font-size: 0.9em;
-    margin-left: 4px;
-}
-
-.item-link a button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: transparent;
-}
-
-.item-link a button img{
+.icon img{
     height: 1.2rem;
     width: 1.2rem;
     margin-right: 4px;
 }
 
-.menu-items .theme-btn a button{
+.search input{
+    font-size: 1em;
+    padding: 4px 8px;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: var(--color-0);
+    margin: 0;
+}
+
+.search input::placeholder{
+    color: var(--color-1);
+}
+
+.search input:focus{
+    outline: none;
+}
+
+.text{
+    display: flex;
+    align-items: center;
+    color: var(--color-0);
+    font-size: 1em;
+    padding-inline: 0.5rem;
+}
+
+.theme-btn{
     border: none;
 }
 
+.theme-btn:hover button{
+    background-color: var(--yellow);
+}
+
+.theme-btn .icon{
+    border: none;
+}
 
 /* toggel menu  */
 .toggle-menu{
@@ -190,21 +178,18 @@
     }
     .menu{
         display: none;
-        justify-self: start;
-        transform: translateX(150%);
-        transition: all 600ms ease-in-out;
+        justify-self: stretch;
     }
     .activeMenu{
-        display: flex;
-        transform: translateX(0);
+        display: block;
         grid-area: menu;
     }
 
-    .menu-items .item-link a{
-        width: 100%;
+    .menu-bar .menu-item{
+        margin-block: 0.4rem;
     }
 
-    .navbar .menu-items{
+    .navbar .menu-bar{
         flex-direction: column;
     }
     .toggle-menu{

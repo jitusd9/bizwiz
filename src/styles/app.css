@@ -23,14 +23,14 @@
     --blue : rgb(0, 102, 255);
     --red : rgb(255, 58, 32);
     --orange : #ff5f00;
-    --green : #00b43c;
+    --green : rgb(0, 204, 68);
     --purple : #b07eff;
     --yellow : rgb(255, 201, 53);
     /* --yellow : #5435ff; */
     --shade : rgba(255, 255, 255, 0.1);
     --overlay : linear-gradient(to right, #ff4b2b, #ff416c);
     --shadow : rgba(180, 180, 180, 0.1);
-    --delete : rgb(245, 1, 1);
+    --delete : #f92d2d;
 }
 
 .theme-dark {
@@ -55,11 +55,11 @@
     --blue : #00ffa1;
     --red : #ec5a47;
     --orange : #ff5f00;
-    --green : #0f7d00;
+    --green : rgb(0, 204, 68);
     --purple : #5933a2;
     --yellow : rgb(255, 201, 53);
     --shade : rgba(255, 255, 255, 0.103);
-    --delete : rgb(183, 3, 3);
+    --delete : #f92d2d;
     --overlay : linear-gradient(to right, var(--bg-2), var(--bg-0));
     --shadow : rgba(0, 0, 0, 0.2);
 }

@@ -40,11 +40,6 @@ export default function Card(props){
 				<h3>{props.title}</h3>
 				<p className={style["item-name"]}>{props.item}</p>
 				<p className={style["item-price"]}><span className={style["rupee-sign"]}>₹</span> {props.price}/-</p>
-				{
-					props.seller ? 
-					<p className={style["item-seller"]} >sold by {props.seller}</p>
-					: ""
-				}
 				{   
 					props.controls && !props.added? 
 					<div className={style["card-btns"]}>							

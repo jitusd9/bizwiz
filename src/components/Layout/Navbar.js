@@ -8,6 +8,8 @@ import profileIcon from "../../images/icon/profile.svg"
 import darkIcon from "../../images/icon/moon.svg"
 import lightIcon from "../../images/icon/sun.svg"
 import loginIcon from "../../images/icon/login.svg"
+import cartIcon from "../../images/icon/cart2.svg"
+import searchIcon from "../../images/icon/search.svg"
 
 export default class Navbar extends Component {
     
@@ -18,7 +20,6 @@ export default class Navbar extends Component {
 			menuIcon : false
 		}
 	}
-    
     
   handleNav = () => {
     // Inheriting theme state and method from context as props from layout component which renders
@@ -45,7 +46,7 @@ export default class Navbar extends Component {
 
   componentDidMount(){
     //User click any link navbar collapse applicable on smaller devices
-  	const navbarLinks = document.querySelectorAll(`.${style["item-link"]} a`);
+  	const navbarLinks = document.querySelectorAll(`.${style["menu-item"]}`);
 		navbarLinks.forEach(e => {
 			e.addEventListener('click', () => {
 				this.setState({
@@ -61,7 +62,7 @@ export default class Navbar extends Component {
 	return(
 		<AuthContext.Consumer>
 			{
-					/* () instead of {} indicates the arrow function is returning whatever inside ()  */
+				/* () instead of {} indicates the arrow function is returning whatever inside ()  */
 				userContext => (
 					<CartContext.Consumer>
 						{
@@ -80,32 +81,57 @@ export default class Navbar extends Component {
 										</div>
 										{/* grid area menu  */}
 										<div className={menuIcon ? `${style["menu"]} ${style["activeMenu"]}` : style["menu"]}>
-											<ul className={style["menu-items"]}>
-												<li className={`${style["item-link"]} ${style["search"]}`}> <input type="text" placeholder="search items..."/> </li>
+											<ul className={style["menu-bar"]}>
+												<li className={`${style["menu-item"]} ${style["search"]}`}> 
+													<div className={style["icon"]}>
+														<img src={searchIcon} alt="" />
+													</div>
+													<input type="text" placeholder="search items..."/> 
+												</li>
 												
 												{
-												!userContext.user ? <li className={style["item-link"]}> <Link to="/signup">
-												<button >
-												<img src={loginIcon} alt="" />
-												Sign In
-												</button>
-												</Link> </li>
-																								: null
+												!userContext.user ? 
+												<li className={style["menu-item"]}> 
+													<Link to="/signup" className={style["menu-link"]}>
+														<button >
+														<div className={style["icon"]}>
+															<img src={loginIcon} alt="" />
+														</div>
+														Sign In
+														</button>
+													</Link> 
+												</li>
+													: null
 												}
 												{
 												userContext.user ? 
-													<li className={`${style["item-link"]} ${style["user-link"]}`}> <Link to="/dashboard">
-													<button >
-														<img src={profileIcon} alt="" />
-														{userContext.user.email ? userContext.user.email : "_Name"}
-													</button>
-													</Link> </li>
+													<li className={`${style["menu-item"]} ${style["user-link"]}`}> 
+														<Link to="/dashboard" className={style["menu-link"]}>
+															<div className={style["icon"]}>
+																<img src={profileIcon} alt="" />
+															</div>
+															<div className={style["text"]}>
+																{userContext.user.email ? userContext.user.email : "_Name"}
+															</div>
+														</Link> 
+													</li>
 													: null
 												}
-												<li className={`${style["item-link"]} ${style["cart"]}`}> <Link to="/checkout"><button>Your Cart {cartContext.itemCount !== 0 ? <div className={style["itemCount"]}>{cartContext.itemCount}</div> : ""} </button></Link> </li>
-												<li className={`${style["item-link"]} ${style["theme-btn"]}`}>
-													<Link to="#">
-													<button title={this.state.theme ? "Dark Mode" : "Light Mode"} onClick={this.handleNav}> 
+												<li className={`${style["menu-item"]} ${style["cart"]}`}> 
+													<Link title='your cart' to="/checkout" className={style["menu-link"]}>
+															<div className={style["icon"]}>
+																<img src={cartIcon} alt="" />
+															</div>
+														 	{cartContext.itemCount !== 0 ? 
+															<div className={style["text"]}>
+																<div className={style["itemCount"]}>{cartContext.itemCount}</div>
+															</div>
+															 : null}
+													</Link>
+												</li>
+												<li className={`${style["menu-item"]} ${style["theme-btn"]}`}>
+													
+													<button className={style["icon"]} title={this.state.theme ? "Dark Mode" : "Light Mode"} onClick={this.handleNav}> 
 													
 													{this.state.theme ? 
 													 <img src={darkIcon} alt="dark icon" />
@@ -114,7 +140,7 @@ export default class Navbar extends Component {
 													 } 
 													
 													</button>
-													</Link>
+											
 												</li>
 											</ul>
 										</div>

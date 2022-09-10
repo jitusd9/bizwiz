@@ -146,7 +146,7 @@
 .search-input{
     padding: 5px 8px;
     outline: none;
-    border: 1px solid rgb(204, 204, 204);
+    border: 2px solid var(--yellow);
     border-radius: 5px;
     font-size: 1.2rem;
     width: 60%;
@@ -157,7 +157,6 @@
 
 .search-input:focus{
     color: var(--color-1);
-    background: var(--bg-2);
     border: 2px solid var(--orange);
     outline: none;
 }
@@ -213,14 +212,15 @@
     height: auto;
     text-align: center;
     border-radius: 12px;
-    /* box-shadow: 0 10px 15px rgba(255, 99, 71, 0.2); */
     margin: 10px 20px;
-    border : 0.5px solid var(--bg-3);
+    /* border : 0.5px solid var(--bg-3); */
+    box-shadow: 0 0 0 1px var(--bg-3);
+    border: 2px solid transparent;
     transition: transform 0.3s cubic-bezier(0.57, 0.98, 0.43, 1.68);
 }
 
 .card:hover{
-    box-shadow: 0px 12px 24px rgb(0 0 0 / 16%);
+    box-shadow: 0 0px 20px rgba(255, 99, 71, 0.3), 0 0 10px rgba(255, 99, 71, 0.2)inset;
     transform: translateY(-.5rem);
     -webkit-transform: translateY(-.5rem);
     border: 2px solid var(--orange);
@@ -355,6 +355,7 @@
 .card .quantity button{
     font-weight: bold;
     color: var(--blue);
+    border: 2px solid grey;
 }
 
 .card .quantity button:active{
@@ -379,12 +380,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid transparent;
 }
 
 .card button img{
     height: 1.3rem;
     width: 1.3rem;
     margin-right: 4px;
+}
+
+.card button:hover{
+    border: 2px solid var(--color-0);
 }
 
 .card .buy-btn{
