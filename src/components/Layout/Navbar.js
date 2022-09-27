@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext, CartContext } from "../context/ContextProvider"
-
+import { loginAnonymously } from '../../firebase'
 import style from "../../styles/navbar.module.css"
 
 import profileIcon from "../../images/icon/profile.svg"
@@ -9,7 +9,7 @@ import darkIcon from "../../images/icon/moon.svg"
 import lightIcon from "../../images/icon/sun.svg"
 import loginIcon from "../../images/icon/login.svg"
 import cartIcon from "../../images/icon/cart2.svg"
-import searchIcon from "../../images/icon/search.svg"
+
 
 export default class Navbar extends Component {
     
@@ -17,7 +17,8 @@ export default class Navbar extends Component {
 		super(props)
 		this.state={
 			theme : true,
-			menuIcon : false
+			menuIcon : false,
+			loader : false,
 		}
 	}
     
@@ -85,15 +86,41 @@ export default class Navbar extends Component {
 												{
 												!userContext.user ? 
 												<li className={style["menu-item"]}> 
+													{
+														this.state.loader ? <button className={style["menu-link"]}>
+														<div className={style["icon"]}>
+															<img src={loginIcon} alt="" />
+														</div>
+														<div className={style["text"]}>
+														 Wait...
+														</div>
+													</button> : <button className={style["menu-link"]}
+													onClick={async (e) => {
+														this.setState({
+															loader : true
+														});
+														await loginAnonymously().then(res => {
+															this.setState({
+																loader : true
+															});
+														}).catch(err => console.log(err))
+													}}
+													>
+														<div className={style["icon"]}>
+															<img src={loginIcon} alt="" />
+														</div>
+														<div className={style["text"]}>
+														 Anonymous Login
+														</div>
+													</button> 
+													}
 													<Link to="/signup" className={style["menu-link"]}>
-														
 														<div className={style["icon"]}>
 															<img src={loginIcon} alt="" />
 														</div>
 														<div className={style["text"]}>
 															Sign In
 														</div>
-														
 													</Link> 
 												</li>
 													: null
@@ -106,7 +133,7 @@ export default class Navbar extends Component {
 																<img src={profileIcon} alt="" />
 															</div>
 															<div className={style["text"]}>
-																{userContext.user.email ? userContext.user.email : "_Name"}
+																{userContext.user.email ? userContext.user.email : "Anonymous"}
 															</div>
 														</Link> 
 													</li>

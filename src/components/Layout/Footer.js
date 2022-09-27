@@ -26,7 +26,7 @@ export default function Footer() {
 				</div>
 			</div>
 				<hr />
-				<p className="copyright">Copyright claim © 2021 | made with <span>☕</span>  and <span>❤</span> by <a href='http://chaiwalacoder.com' target="_blank" rel="noreferrer">Jitendra</a></p>
+				<p className="copyright">Copyright claim © 2021 | made with <span>☕</span>  and <span>❤</span> by <a href='https://jitusd9.github.io' target="_blank" rel="noreferrer">Jitendra</a></p>
 		</div>
 	)
 }

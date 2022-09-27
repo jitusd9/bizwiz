@@ -1,7 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage } from "firebase/storage";
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged} from '@firebase/auth';
+import { 
+    getAuth, 
+    GoogleAuthProvider, 
+    createUserWithEmailAndPassword, 
+    signInWithPopup, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged,
+    signInAnonymously
+} from '@firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -138,6 +146,21 @@ const sendPasswordResetEmail = async (email) => {
     }
 };
 
+const loginAnonymously = async () => {
+
+    await signInAnonymously(auth).then(response => {
+        console.log(response);
+        setDoc(doc(db, "users", response.user.uid), {
+            displayName: 'Anonymous',
+            email: 'anonymouse@mail.com',
+            photoURL : null,
+        });
+    }).catch(err => {
+        console.log(err)
+    });
+
+}
+
 // LOGOUT BUTTON 
 const logout = () => {
     auth.signOut();
@@ -153,5 +176,6 @@ export{
     registerWithEmailAndPassword,
     sendPasswordResetEmail,
     logout,
+    loginAnonymously,
     storage,
 }
