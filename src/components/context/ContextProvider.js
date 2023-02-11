@@ -13,7 +13,7 @@ const ProductContext = React.createContext();
 
 function ContextProvider(props) {
     
-	const [theme, setTheme] = useState('theme-light');
+	const [theme, setTheme] = useState('theme-dark');
 	const [user, loading] = useAuthState(auth);
 	// all products 
 	const [products, setProducts] = useState([]);
